@@ -1,39 +1,39 @@
-var Role = require('../objects/Role');
+var User = require('../objects/User');
 
 const connection = require('../modules/conn').getConnection();
 connection.connect();
 
-var RoleDB = module.exports = {
+var UserDB = module.exports = {
     /**
-     * Permet d'ajouter un role à la base de données
-     * @param {Role} role
-     * @return {Promise<Role>}
+     * Permet d'ajouter un user à la base de données
+     * @param {User} user
+     * @return {Promise<User>}
      */
-    add(role) {
+    add(user) {
         return new Promise((resolve, reject) => {
             connection.query(
-                'INSERT INTO `role`(`name`) VALUES (?)',
-                [role.name],
+                'INSERT INTO `user`(`idRole`, `pseudo`, `password`, `email`, `changePass`, `idZone`) VALUES (?, ?, ?, ?, ?, ?)',
+                [user.idRole, user.pseudo, user.email, user.changePass, user.idZone],
                 function (error, results, fields) {
                     if (error) {
                         return reject(error);
                     }
-                    role.id = results.insertId
-                    resolve(role);
+                    user.id = results.insertId
+                    resolve(user);
                 }
             );
         })
     },
     /**
-     * Permet d'ajouter plusieurs roles
-     * @param {Role[]} roles 
-     * @return {Promise<Role[]>}
+     * Permet d'ajouter plusieurs user
+     * @param {User[]} user 
+     * @return {Promise<User[]>}
      */
-    addMultiple(role) {
+    addMultiple(user) {
         return new Promise((resolve, reject) => {
             var tab = []
-            for (var i = 0; i < role.length; i++){
-                tab.push(RoleDB.add(role[i]));
+            for (var i = 0; i < user.length; i++){
+                tab.push(UserDB.add(user[i]));
             }
             Promise.all(tab).then((res) =>{
                 resolve(res);
@@ -41,12 +41,12 @@ var RoleDB = module.exports = {
         })
     },
     /**
-     * Permet de supprimer un role de la base de données
+     * Permet de supprimer un user de la base de données
      * @param {Number} id 
      */
     delete(id) {
         return new Promise((resolve, reject) => {
-            connection.query('DELETE FROM role WHERE id = ?', [id], (error, results, fields) => {
+            connection.query('DELETE FROM user WHERE id = ?', [id], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
@@ -56,18 +56,18 @@ var RoleDB = module.exports = {
     },
     /**
      * Permet de lister tous les éléments présents dans la base de données
-     * @return {Promise<Role[]>}
+     * @return {Promise<User[]>}
      */
     getAll() {
         return new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM role', [], (error, results, fields) => {
+            connection.query('SELECT * FROM user', [], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
                 var res = [];
                 for (var i = 0; i < results.length; i++) {
                     var current = results[i];
-                    var temp = new Role(current.id, current.name);
+                    var temp = new User(current.id, current.idRole, current.pseudo, current.password, current.email, current.changePass, current.idZone);
                     res.push(temp);
                 }
                 resolve(res);
@@ -80,12 +80,12 @@ var RoleDB = module.exports = {
      */
     get(id) {
         return new Promise((resolve, reject) => {
-            connection.query("SELECT * FROM role WHERE id=?", [id], (error, results, fields) => {
+            connection.query("SELECT * FROM user WHERE id=?", [id], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
                 var current = results[0];
-                var temp = new Role(current.id, current.name);
+                    var temp = new User(current.id, current.idRole, current.pseudo, current.password, current.email, current.changePass, current.idZone);
                 resolve(temp);
             })
         })

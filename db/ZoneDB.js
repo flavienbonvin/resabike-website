@@ -1,39 +1,39 @@
-var Role = require('../objects/Role');
+var Zone = require('../objects/Zone');
 
 const connection = require('../modules/conn').getConnection();
 connection.connect();
 
-var RoleDB = module.exports = {
+var ZoneDB = module.exports = {
     /**
-     * Permet d'ajouter un role à la base de données
-     * @param {Role} role
-     * @return {Promise<Role>}
+     * Permet d'ajouter unu zone à la base de données
+     * @param {Zone} zone
+     * @return {Promise<Zone>}
      */
-    add(role) {
+    add(zone) {
         return new Promise((resolve, reject) => {
             connection.query(
-                'INSERT INTO `role`(`name`) VALUES (?)',
-                [role.name],
+                'INSERT INTO `zone`(`name`) VALUES (?)',
+                [zone.name],
                 function (error, results, fields) {
                     if (error) {
                         return reject(error);
                     }
-                    role.id = results.insertId
-                    resolve(role);
+                    zone.id = results.insertId
+                    resolve(zone);
                 }
             );
         })
     },
     /**
-     * Permet d'ajouter plusieurs roles
-     * @param {Role[]} roles 
-     * @return {Promise<Role[]>}
+     * Permet d'ajouter plusieurs zone
+     * @param {Zone[]} zone 
+     * @return {Promise<Zone[]>}
      */
-    addMultiple(role) {
+    addMultiple(zone) {
         return new Promise((resolve, reject) => {
             var tab = []
-            for (var i = 0; i < role.length; i++){
-                tab.push(RoleDB.add(role[i]));
+            for (var i = 0; i < zone.length; i++){
+                tab.push(ZoneDB.add(zone[i]));
             }
             Promise.all(tab).then((res) =>{
                 resolve(res);
@@ -41,12 +41,12 @@ var RoleDB = module.exports = {
         })
     },
     /**
-     * Permet de supprimer un role de la base de données
+     * Permet de supprimer une zone de la base de données
      * @param {Number} id 
      */
     delete(id) {
         return new Promise((resolve, reject) => {
-            connection.query('DELETE FROM role WHERE id = ?', [id], (error, results, fields) => {
+            connection.query('DELETE FROM zone WHERE id = ?', [id], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
@@ -56,18 +56,18 @@ var RoleDB = module.exports = {
     },
     /**
      * Permet de lister tous les éléments présents dans la base de données
-     * @return {Promise<Role[]>}
+     * @return {Promise<Zone[]>}
      */
     getAll() {
         return new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM role', [], (error, results, fields) => {
+            connection.query('SELECT * FROM zone', [], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
                 var res = [];
                 for (var i = 0; i < results.length; i++) {
                     var current = results[i];
-                    var temp = new Role(current.id, current.name);
+                    var temp = new Zone(current.id, current.name);
                     res.push(temp);
                 }
                 resolve(res);
@@ -80,12 +80,12 @@ var RoleDB = module.exports = {
      */
     get(id) {
         return new Promise((resolve, reject) => {
-            connection.query("SELECT * FROM role WHERE id=?", [id], (error, results, fields) => {
+            connection.query("SELECT * FROM zone WHERE id=?", [id], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
                 var current = results[0];
-                var temp = new Role(current.id, current.name);
+                var temp = new Zone(current.id, current.name);
                 resolve(temp);
             })
         })

@@ -1,39 +1,39 @@
-var Role = require('../objects/Role');
+var Station = require('../objects/Station');
 
 const connection = require('../modules/conn').getConnection();
 connection.connect();
 
-var RoleDB = module.exports = {
+var StationDB = module.exports = {
     /**
-     * Permet d'ajouter un role à la base de données
-     * @param {Role} role
-     * @return {Promise<Role>}
+     * Permet d'ajouter une reservation à la base de données
+     * @param {Station} station
+     * @return {Promise<Station>}
      */
-    add(role) {
+    add(station) {
         return new Promise((resolve, reject) => {
             connection.query(
-                'INSERT INTO `role`(`name`) VALUES (?)',
-                [role.name],
+                'INSERT INTO `station`(`name`, `posX`, `posY`) VALUES (?, ?, ?)',
+                [station.name, station.posX, station.posY],
                 function (error, results, fields) {
                     if (error) {
                         return reject(error);
                     }
-                    role.id = results.insertId
-                    resolve(role);
+                    station.id = results.insertId
+                    resolve(station);
                 }
             );
         })
     },
     /**
-     * Permet d'ajouter plusieurs roles
-     * @param {Role[]} roles 
-     * @return {Promise<Role[]>}
+     * Permet d'ajouter plusieurs reservation
+     * @param {Station[]} station 
+     * @return {Promise<Station[]>}
      */
-    addMultiple(role) {
+    addMultiple(station) {
         return new Promise((resolve, reject) => {
             var tab = []
-            for (var i = 0; i < role.length; i++){
-                tab.push(RoleDB.add(role[i]));
+            for (var i = 0; i < station.length; i++){
+                tab.push(StationDB.add(station[i]));
             }
             Promise.all(tab).then((res) =>{
                 resolve(res);
@@ -41,12 +41,12 @@ var RoleDB = module.exports = {
         })
     },
     /**
-     * Permet de supprimer un role de la base de données
+     * Permet de supprimer une reservation de la base de données
      * @param {Number} id 
      */
     delete(id) {
         return new Promise((resolve, reject) => {
-            connection.query('DELETE FROM role WHERE id = ?', [id], (error, results, fields) => {
+            connection.query('DELETE FROM station WHERE id = ?', [id], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
@@ -56,18 +56,18 @@ var RoleDB = module.exports = {
     },
     /**
      * Permet de lister tous les éléments présents dans la base de données
-     * @return {Promise<Role[]>}
+     * @return {Promise<Station[]>}
      */
     getAll() {
         return new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM role', [], (error, results, fields) => {
+            connection.query('SELECT * FROM station', [], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
                 var res = [];
                 for (var i = 0; i < results.length; i++) {
                     var current = results[i];
-                    var temp = new Role(current.id, current.name);
+                    var temp = new Station(current.id, current.name, current.posX, current.posY);
                     res.push(temp);
                 }
                 resolve(res);
@@ -80,12 +80,12 @@ var RoleDB = module.exports = {
      */
     get(id) {
         return new Promise((resolve, reject) => {
-            connection.query("SELECT * FROM role WHERE id=?", [id], (error, results, fields) => {
+            connection.query("SELECT * FROM station WHERE id=?", [id], (error, results, fields) => {
                 if (error) {
                     return reject(error);
                 }
                 var current = results[0];
-                var temp = new Role(current.id, current.name);
+                var temp = new Station(current.id, current.name, current.posX, current.posY);
                 resolve(temp);
             })
         })
