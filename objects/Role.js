@@ -10,3 +10,5 @@ var role = class Role {
         this.name = name;
     }
 }
+
+module.exports = role;
