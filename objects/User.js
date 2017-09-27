@@ -11,13 +11,13 @@ var user = class User {
      * @param {Number} idZone 
      */
     constructor(id, idRole, pseudo, password, email, changePass, idZone){
-        this.id = id;;
+        this.id = id;
         this.idRole = idRole;
         this.pseudo = pseudo;
         this.password = password;
         this.email = email;
         this.changePass = changePass;
-        this.idRole = idZone;
+        this.idZone = idZone;
     }
 }
 

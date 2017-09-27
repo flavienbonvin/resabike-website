@@ -10,3 +10,5 @@ var zone = class Zone {
         this.name = name;
     }
 }
+
+module.exports = zone;

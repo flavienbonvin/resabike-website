@@ -13,7 +13,7 @@ var UserDB = module.exports = {
         return new Promise((resolve, reject) => {
             connection.query(
                 'INSERT INTO `user`(`idRole`, `pseudo`, `password`, `email`, `changePass`, `idZone`) VALUES (?, ?, ?, ?, ?, ?)',
-                [user.idRole, user.pseudo, user.email, user.changePass, user.idZone],
+                [user.idRole, user.pseudo, user.password, user.email, user.changePass, user.idZone],
                 function (error, results, fields) {
                     if (error) {
                         return reject(error);
@@ -32,10 +32,10 @@ var UserDB = module.exports = {
     addMultiple(user) {
         return new Promise((resolve, reject) => {
             var tab = []
-            for (var i = 0; i < user.length; i++){
+            for (var i = 0; i < user.length; i++) {
                 tab.push(UserDB.add(user[i]));
             }
-            Promise.all(tab).then((res) =>{
+            Promise.all(tab).then((res) => {
                 resolve(res);
             })
         })
@@ -85,7 +85,7 @@ var UserDB = module.exports = {
                     return reject(error);
                 }
                 var current = results[0];
-                    var temp = new User(current.id, current.idRole, current.pseudo, current.password, current.email, current.changePass, current.idZone);
+                var temp = new User(current.id, current.idRole, current.pseudo, current.password, current.email, current.changePass, current.idZone);              
                 resolve(temp);
             })
         })
