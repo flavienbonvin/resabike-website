@@ -106,8 +106,24 @@ var User = sequelize.define('user', {
     }
 })
 
-Line.belongsToMany(Station, { through: 'LineStation' });
-Station.belongsToMany(Line, { through: 'LineStation' });
+var LineStation = sequelize.define('linestation', {
+    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+    idLine: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Line,
+            key: 'id',
+        }        
+    },
+    idStation: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Station,
+            key: 'id',
+        }
+    },
+    nbrOnLine: Sequelize.INTEGER
+})
 
 
 module.exports = {
@@ -128,4 +144,3 @@ module.exports = {
     Book,
     User
 }
-
