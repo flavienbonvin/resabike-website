@@ -88,12 +88,13 @@ module.exports = {
                     else
                         console.log("Alredy in DB " + stopTemp.name)
                 }
-                database.Station.bulkCreate(toAdd);
+                database.Station.bulkCreate(toAdd).then(() =>{
+                    database.close();
+                    resolve();
+                })
                 
             }).catch(() => {
             })
-
-            resolve();
         })
     }
 }

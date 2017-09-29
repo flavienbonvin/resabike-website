@@ -15,8 +15,8 @@ router.post('/addLine', function (req, res, next) {
   })
 });
 router.post('/addLine/add', function (req, res, next) {
-  adminApiConn.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
-    adminApiConn.insertLineInDB(stops).then((res) => {
+  adminApiConn.getStopsForLine(req.body.departFinal, req.body.arriveeFinal).then((stops) => {
+    adminApiConn.insertLineInDB(stops).then((msg) => {
       res.render('addLine', { title: 'Add Line', msg: 'Added' })
     })
   }).catch((error) => {
