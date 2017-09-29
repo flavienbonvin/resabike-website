@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/*', function(req, res, next) {
+router.get('/autoCompletionAPI', function(req, res, next) {
+   
     var url = req.url.split('?')[0];
-    var temp = require(__dirname + url);
-    console.log(temp)    
+    var servicePath = __dirname+"/../services" + url;
+    var temp = require(servicePath);  
     temp(req.query).then((response) =>{
         res.send(response)
     })

@@ -10,7 +10,7 @@ var user = class User {
      * @param {boolean} changePass 
      * @param {Number} idZone 
      */
-    constructor(id, idRole, pseudo, password, email, changePass, idZone){
+    constructor(id, idRole, pseudo, password, email, changePass, idZone) {
         this.id = id;
         this.idRole = idRole;
         this.pseudo = pseudo;
@@ -18,6 +18,18 @@ var user = class User {
         this.email = email;
         this.changePass = changePass;
         this.idZone = idZone;
+    }
+
+    convertToSequelize() {
+        return {
+            id: this.id,
+            idRole: this.idRole,
+            pseudo: this.pseudo,
+            password: this.password,
+            email: this.email,
+            changePass: this.changePass,
+            idZone: this.idZone
+        }
     }
 }
 
