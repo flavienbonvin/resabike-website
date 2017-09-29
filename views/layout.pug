@@ -5,8 +5,31 @@ html
     meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     link(rel='stylesheet', href='/css/style.css')
     script(src="https://code.jquery.com/jquery-3.2.1.min.js")
-    script(src="/libs/semantic.min.js")
-    link(rel="stylesheet", href="/libs/semantic.min.css")
+    script(src="/js/js.js")
+    script(src="/libs/semantic/semantic.min.js")
+    link(rel="stylesheet", href="/libs/semantic/semantic.min.css")
     block extraHeaders
   body
     block content
+    if error
+      div.ui.basic.modal#errorBox
+        div.ui.icon.header
+          i.warning.red.sign.icon
+          span.red= "Error"
+        div.content
+          p= error
+        div.actions
+          div.ui.green.ok.inverted.button
+            i.checkmark.icon
+            span="OK"
+    if msg
+      div.ui.basic.modal#msgBox
+        div.ui.icon.header
+          i.info.icon
+          span= "Message"
+        div.content
+          p= msg
+        div.actions
+          div.ui.green.ok.inverted.button
+            i.checkmark.icon
+            span="OK"
