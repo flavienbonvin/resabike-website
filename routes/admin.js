@@ -4,7 +4,7 @@ const adminApiConn = require('../modules/adminApiConn');
 
 /* GET home page. */
 router.get('/addLine', function (req, res, next) {
-  res.render('addLine', { title: 'Express',msg:'test' });
+  res.render('addLine', { title: 'Express' });
 });
 router.post('/addLine', function (req, res, next) {
   console.log(req.body)
@@ -16,7 +16,7 @@ router.post('/addLine', function (req, res, next) {
 });
 router.post('/addLine/add', function (req, res, next) {
   adminApiConn.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
-    adminApiConn.insertLineInDb().then((res) => {
+    adminApiConn.insertLineInDB(stops).then((res) => {
       res.render('addLine', { title: 'Add Line', msg: 'Added' })
     })
   }).catch((error) => {
