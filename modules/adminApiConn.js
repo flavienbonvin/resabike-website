@@ -9,6 +9,7 @@ var database = require('../modules/database');
 var self = module.exports = {
 
     /**
+     * Method allowing to retrive stops from a given start and destination
      * 
      * @param {string} from 
      * @param {string} to 
@@ -16,8 +17,6 @@ var self = module.exports = {
     getStopsForLine(from, to) {
         return new Promise((resolve, reject) => {
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
-                //Old code kept if we want to make line haveing different lines in them
-                //for (var i = 0; i < response.data.connections[0].legs.length; i++) {
 
                 //Check if there is more thant one leg, a leg is a change of bus (and change of line), if there is a change, the line is wrong
                 if (response.data.connections[0].legs.length <= 2) {
@@ -54,10 +53,11 @@ var self = module.exports = {
                         if (type == 'bus' || type == 'post') {
                             error += response.data.connections[0].legs[i].name + ' | '
                                 + response.data.connections[0].legs[i].terminal + '\n';
-                            errorArray.push([response.data.connections[0].legs[i].name,response.data.connections[0].legs[i].terminal]);
+                            errorArray.push([response.data.connections[0].legs[i].name, response.data.connections[0].legs[i].terminal]);
+                            //If the line isn't correctly entered, we suggest one based on what the API returns, this is the response[..].name and response[..].terminal fields
                         }
                     }
-                    reject([error,errorArray]);
+                    reject([error, errorArray]);
                 }
                 resolve(stops);
             })
@@ -65,16 +65,19 @@ var self = module.exports = {
     },
 
     /**
+     * Inserts an array of Station in the database (station table)
      * 
      * @param {Station[]} stops 
      */
     insertStationInDB(stops) {
         return new Promise((resolve, reject) => {
+
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
                 var stop = stops[i].convertToSequelize();
                 console.log(stop)
 
+                //Retrieve from our database all stations we wants to add (this returns null if we don't have this station)
                 listProm.push(database.Station.find({
                     where: {
                         name: stop.name
@@ -82,22 +85,24 @@ var self = module.exports = {
                 }))
             }
             Promise.all(listProm).then((stopsTemp) => {
+
                 var toAdd = [];
                 for (var i = 0; i < stopsTemp.length; i++) {
                     var stopTemp = stopsTemp[i];
                     if (stopTemp == null) {
                         toAdd.push(stops[i].convertToSequelize());
-                        //database.Station.create(stop);
+
                         console.log('Inserting in DB' + stop.name)
                     }
                     else
                         console.log("Alredy in DB " + stopTemp.name)
                 }
                 database.Station.bulkCreate(toAdd).then(() => {
+                    //Once the station is created we have to add the line in the DB
                     self.insertLineInDB(stops).then(() => {
                         database.close();
                         resolve();
-                    }).catch((error) =>{
+                    }).catch((error) => {
                         reject(error);
                     })
                 })
@@ -106,6 +111,14 @@ var self = module.exports = {
             })
         })
     },
+
+    //TODO: Est ce que c'est utile de récupérer la liste des promise sur le serveur? il suffirait pas de faire ce qui est dans le promise.all 
+    //TODO: sauvegarder le numéro de ligne
+    /**
+     * Inserts a line in the database (line table)
+     * 
+     * @param {Station[]} stops 
+     */
     insertLineInDB(stops) {
         return new Promise((resolve, reject) => {
             var listProm = [];
@@ -121,8 +134,9 @@ var self = module.exports = {
             }
             Promise.all(listProm).then((stopsTemp) => {
                 var line = new Line(null, stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, 1);
-                line.idEndStation
+                //TODO: UTILE? line.idEndStation
                 database.Line.find({
+                    //TODO: ajouter le numéro de ligne au FIND
                     where: {
                         idStartStation: line.idStartStation,
                         idEndStation: line.idEndStation
@@ -132,8 +146,10 @@ var self = module.exports = {
                         database.Line.create(line.convertToSequelize()).then((line) => {
                             console.log(line);
                             var lineStationsToAdd = [];
+                            //We have to save the order of the stops on the line, that's why we create this array of Station to add
                             for (var i = 0; i < stopsTemp.length; i++) {
                                 var station = stopsTemp[i];
+                                //TODO: est ce que LineStation à besoin d'un ID?
                                 var linestation = new LineStation(null, line.id, station.id, i);
                                 lineStationsToAdd.push(linestation.convertToSequelize());
                             }

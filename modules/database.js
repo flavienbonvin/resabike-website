@@ -57,15 +57,7 @@ var Book = sequelize.define('book', {
     pseudo: Sequelize.STRING,
     email: Sequelize.STRING,
     number: Sequelize.INTEGER,
-    startHour: Sequelize.DATE,
     token: Sequelize.TEXT,
-    idLine: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Line,
-            key: 'id',
-        }
-    },
     idStartStation: {
         type: Sequelize.INTEGER,
         references: {
@@ -125,6 +117,39 @@ var LineStation = sequelize.define('linestation', {
     nbrOnLine: Sequelize.INTEGER
 })
 
+var Trips = sequelize.define('trips', {
+    idLine: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        references: {
+            model: Line,
+            key: 'id'
+        }
+    },
+    idBook: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        references: {
+            model: Book,
+            key: 'id'
+        }
+    },
+    idStartStation: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Station,
+            key: 'id'
+        }
+    },
+    idEndStation: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Station,
+            key: 'id'
+        }
+    },
+    startHour: Sequelize.DATE,
+})
 
 module.exports = {
     sync: function () {
