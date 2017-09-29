@@ -142,5 +142,6 @@ module.exports = {
     Zone,
     Line,
     Book,
-    User
+    User,
+    LineStation
 }

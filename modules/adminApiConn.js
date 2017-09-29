@@ -1,9 +1,12 @@
 var axios = require('axios');
 var Station = require('../objects/Station');
+var Line = require('../objects/Line');
+var LineStation = require('../objects/LineStation');
+
 var database = require('../modules/database');
 
 
-module.exports = {
+var self = module.exports = {
 
     /**
      * 
@@ -44,15 +47,17 @@ module.exports = {
                     }
                 } else {
                     var error = '';
+                    var errorArray = [];
                     for (var i = 0; i < response.data.connections[0].legs.length - 1; i++) {
 
                         var type = response.data.connections[0].legs[i].type;
                         if (type == 'bus' || type == 'post') {
                             error += response.data.connections[0].legs[i].name + ' | '
                                 + response.data.connections[0].legs[i].terminal + '\n';
+                            errorArray.push([response.data.connections[0].legs[i].name,response.data.connections[0].legs[i].terminal]);
                         }
                     }
-                    reject(error);
+                    reject([error,errorArray]);
                 }
                 resolve(stops);
             })
@@ -63,13 +68,13 @@ module.exports = {
      * 
      * @param {Station[]} stops 
      */
-    insertLineInDB(stops) {
+    insertStationInDB(stops) {
         return new Promise((resolve, reject) => {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
                 var stop = stops[i].convertToSequelize();
                 console.log(stop)
-                
+
                 listProm.push(database.Station.find({
                     where: {
                         name: stop.name
@@ -78,9 +83,9 @@ module.exports = {
             }
             Promise.all(listProm).then((stopsTemp) => {
                 var toAdd = [];
-                for(var i = 0;i<stopsTemp.length;i++){
+                for (var i = 0; i < stopsTemp.length; i++) {
                     var stopTemp = stopsTemp[i];
-                    if (stopTemp == null){
+                    if (stopTemp == null) {
                         toAdd.push(stops[i].convertToSequelize());
                         //database.Station.create(stop);
                         console.log('Inserting in DB' + stop.name)
@@ -88,12 +93,59 @@ module.exports = {
                     else
                         console.log("Alredy in DB " + stopTemp.name)
                 }
-                database.Station.bulkCreate(toAdd).then(() =>{
-                    database.close();
-                    resolve();
+                database.Station.bulkCreate(toAdd).then(() => {
+                    self.insertLineInDB(stops).then(() => {
+                        database.close();
+                        resolve();
+                    }).catch((error) =>{
+                        reject(error);
+                    })
                 })
-                
+
             }).catch(() => {
+            })
+        })
+    },
+    insertLineInDB(stops) {
+        return new Promise((resolve, reject) => {
+            var listProm = [];
+            for (var i = 0; i < stops.length; i++) {
+                var stop = stops[i].convertToSequelize();
+                console.log(stop)
+
+                listProm.push(database.Station.find({
+                    where: {
+                        name: stop.name
+                    }
+                }))
+            }
+            Promise.all(listProm).then((stopsTemp) => {
+                var line = new Line(null, stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, 1);
+                line.idEndStation
+                database.Line.find({
+                    where: {
+                        idStartStation: line.idStartStation,
+                        idEndStation: line.idEndStation
+                    }
+                }).then((lineTemp) => {
+                    if (lineTemp == null) {
+                        database.Line.create(line.convertToSequelize()).then((line) => {
+                            console.log(line);
+                            var lineStationsToAdd = [];
+                            for (var i = 0; i < stopsTemp.length; i++) {
+                                var station = stopsTemp[i];
+                                var linestation = new LineStation(null, line.id, station.id, i);
+                                lineStationsToAdd.push(linestation.convertToSequelize());
+                            }
+                            database.LineStation.bulkCreate(lineStationsToAdd).then(() => {
+                                resolve();
+                            })
+                        })
+                    } else {
+                        reject("line already in db");
+                    }
+                })
+
             })
         })
     }

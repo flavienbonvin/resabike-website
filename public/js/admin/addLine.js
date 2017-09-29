@@ -25,3 +25,9 @@ function autoComplete(t,id) {
         }
     })
 }
+function createBySelection(depart,arrivee){
+    $("#departFinal").val(depart)
+    $("#arriveeFinal").val(arrivee)
+    $("#suggestForm").submit();
+
+}

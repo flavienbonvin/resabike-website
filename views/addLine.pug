@@ -29,5 +29,15 @@ block content
                     input(type="hidden",value=stops[0].name,name="departFinal")
                     input(type="hidden",value=stops[stops.length-1].name,name="arriveeFinal")  
                     div.field
-                        button.ui.button= "Je valide"                 
+                        button.ui.button= "Je valide"
+            if lineSuggestions
+                h3= "Suggestion"
+                div.ui.bulleted.list
+                    each l in lineSuggestions
+                        div.item
+                            span= l[0]+' - '+l[1]
+                            button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
+                form#suggestForm(method="post",action="/admin/addLine/add")
+                    input#departFinal(type="hidden",name="departFinal")
+                    input#arriveeFinal(type="hidden",name="arriveeFinal")
         div.column
