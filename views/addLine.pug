@@ -1,0 +1,20 @@
+extends layout
+
+block extraHeaders
+    link(rel="stylesheet", href="/css/admin/addLine.css")
+    script(src="/js/admin/addLine.js")
+
+block content
+    div(id="main", class="ui three column grid")
+        div(class="column")
+        div(class="column" id="centerCol")
+            form(class="ui form")
+                h4(class="ui dividing header")= "Ajout de ligne"
+                div(class="field")
+                    label= "Départ"
+                    select(class="ui search dropdown" id="depart")
+                        option(value="")= "Lieu de départ"
+                div(class="field")
+                    label= "Arrivé"
+                    select(class="ui search dropdown" id="arrivee")
+        div(class="column")
