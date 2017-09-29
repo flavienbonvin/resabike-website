@@ -10,8 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
+<<<<<<< HEAD
+=======
+    "body-parser": "^1.18.2",
+>>>>>>> 0674d09f5b2fd000f15d00d11d28735664a779bf
     "express": "^4.15.4",
-    "mysql": "^2.14.1"
+    "mysql": "^2.14.1",
+    "mysql2": "^1.4.2",
+    "semantic-ui-css": "^2.2.12",
+    "sequelize": "^4.11.2"
   },
   "devDependencies": {
     "opn": "^5.1.0"

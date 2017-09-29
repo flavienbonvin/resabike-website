@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="/semantic.min.js"></script>
+    <link rel="stylesheet" href="/semantic.min.css">
+    <title>Add Line</title>
+
+    <script>
+        $(document).ready(function () {
+            $('select.dropdown').dropdown();
+            $(document).on('keydown', '.search.dropdown input', function () {
+                var id = this.parentNode.children[0].id;
+                autoComplete(this,id);
+            })
+        })
+        function autoComplete(t,id) {
+            if(t.value.length<3){
+                document.getElementById(id).innerHTML = '';
+                $('select.dropdown').dropdown();
+                return;
+            }
+            $.ajax({
+                url: '/services/autoCompletionAPI?part='+t.value,
+                type: 'GET',
+                success: function (res) {
+                    console.log(res);
+                    var txt = '';
+                    for(var i = 0;i<res.length;i++){
+                        txt+='<option value="'+res[i]+'">'+res[i]+'</option>';
+                    }
+                    document.getElementById(id).innerHTML = txt;
+                    $('select.dropdown').dropdown();
+                }
+            })
+        }
+    </script>
+    <style>
+        body {
+            background-image: url('/media/bus.jpg');
+            background-size: cover;
+            background-position: center center;
+        }
+
+        #main {
+            margin-top: 100px;
+        }
+
+        #centerCol {
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" class="ui three column grid">
+        <div class="column">
+
+        </div>
+        <div class="column" id="centerCol">
+            <form class="ui form">
+                <h4 class="ui dividing header">Ajout de ligne</h4>
+                <div class="field">
+                    <label>Départ</label>
+                    <select class="ui search dropdown" id="depart">
+                        <option value="">Lieu départ</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Arrivé</label>
+                    <select class="ui search dropdown" id="arrivee">
+                          <option value="">Lieu de fin</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="column">
+
+        </div>
+
+    </div>
+</body>
+
+</html>
