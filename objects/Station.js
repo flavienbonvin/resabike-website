@@ -7,11 +7,20 @@ var station = class Station {
      * @param {Number} posX 
      * @param {Number} posY 
      */
-    constructor(id, name, posX, posY){
+    constructor(id, name, posX, posY) {
         this.id = id;
         this.name = name;
         this.posX = posX;
         this.posY = posY;
+    }
+
+    convertToSequelize() {
+        return {
+            id: this.id,
+            name: this.name,
+            posX: this.posX,
+            posY: this.posY
+        }
     }
 }
 

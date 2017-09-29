@@ -1,5 +1,5 @@
 var line = class Line {
-    
+
     /**
      * 
      * @param {Number} id 
@@ -7,11 +7,20 @@ var line = class Line {
      * @param {Number} idEndStation 
      * @param {Number} idZone 
      */
-    constructor(id, idStartStation, idEndStation, idZone){
+    constructor(id, idStartStation, idEndStation, idZone) {
         this.id = id;
         this.idStartStation = idStartStation;
         this.idEndStation = idEndStation;
         this.idZone = idZone;
+    }
+
+    convertToSequelize() {
+        return {
+            id: this.id,
+            idStartStation: this.idStartStation,
+            idEndStation: this.idEndStation,
+            idZone: this.idZone
+        }
     }
 }
 

@@ -23,6 +23,20 @@ var book = class Book {
         this.startHour = startHour;
         this.token = token;
     }
+
+    convertToSequelize() {
+        return {
+            id: this.id,
+            idLine: this.idLine,
+            idStartStation: this.idStartStation,
+            idEndStation: this.idEndStation,
+            pseudo: this.pseudo,
+            email: this.email,
+            number: this.number,
+            startHour: this.startHour,
+            token: this.token
+        }
+    }
 }
 
 module.exports = book;
