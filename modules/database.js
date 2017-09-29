@@ -106,17 +106,19 @@ var User = sequelize.define('user', {
     }
 })
 
-Line.belongsToMany(Station,{through: 'LineStation'});
-Station.belongsToMany(Line,{through: 'LineStation'});
+Line.belongsToMany(Station, { through: 'LineStation' });
+Station.belongsToMany(Line, { through: 'LineStation' });
 
 
 module.exports = {
-    sync : function(){
-        sequelize.sync({ force: true }).then(() => {
-            resolve();
+    sync: function () {
+        return new Promise((resolve, reject) => {
+            sequelize.sync({ force: true }).then(() => {
+                resolve();
+            })
         })
     },
-    close : function(){
+    close: function () {
         sequelize.close();
     },
     Role,
