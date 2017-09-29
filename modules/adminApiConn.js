@@ -65,23 +65,33 @@ module.exports = {
      */
     insertLineInDB(stops) {
         return new Promise((resolve, reject) => {
+            var listProm = [];
             for (var i = 0; i < stops.length; i++) {
                 var stop = stops[i].convertToSequelize();
                 console.log(stop)
-                database.Station.find({
+                
+                listProm.push(database.Station.find({
                     where: {
                         name: stop.name
                     }
-                }).then((stopTemp) => {
+                }))
+            }
+            Promise.all(listProm).then((stopsTemp) => {
+                var toAdd = [];
+                for(var i = 0;i<stopsTemp.length;i++){
+                    var stopTemp = stopsTemp[i];
                     if (stopTemp == null){
-                        database.Station.create(stop);
+                        toAdd.push(stops[i].convertToSequelize());
+                        //database.Station.create(stop);
                         console.log('Inserting in DB' + stop.name)
                     }
                     else
                         console.log("Alredy in DB " + stopTemp.name)
-                }).catch(() => {
-                })
-            }
+                }
+                database.Station.bulkCreate(toAdd);
+                
+            }).catch(() => {
+            })
 
             resolve();
         })
