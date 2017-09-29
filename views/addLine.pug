@@ -5,16 +5,29 @@ block extraHeaders
     script(src="/js/admin/addLine.js")
 
 block content
-    div(id="main", class="ui three column grid")
-        div(class="column")
-        div(class="column" id="centerCol")
-            form(class="ui form")
-                h4(class="ui dividing header")= "Ajout de ligne"
-                div(class="field")
+    div#main.ui.three.column.grid
+        div.column
+        div#centerCol.column
+            form.ui.form(method="post")
+                h4.ui.dividing.header= "Ajout de ligne"
+                div.field
                     label= "Départ"
-                    select(class="ui search dropdown" id="depart")
+                    select#depart.ui.search.dropdown(name="depart")
                         option(value="")= "Lieu de départ"
-                div(class="field")
+                div.field
                     label= "Arrivé"
-                    select(class="ui search dropdown" id="arrivee")
-        div(class="column")
+                    select#arrivee.ui.search.dropdown(name="arrivee")
+                        option(value="")= "Lieu d'arrivée"
+                if !stops    
+                    div.field
+                        button.ui.button= "Créer"
+            if stops
+                div.ui.bulleted.list
+                    each stop in stops
+                        div.item= stop.name
+                div.field
+                        button.ui.button= "Je valide"
+                form(style="display:none")
+                    input(type="text",value=stops[0].name,name="departFinal")
+                    input(type="text",value=stops[stops.length-1].name,name="arriveeFinal")                    
+        div.column
