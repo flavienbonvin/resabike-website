@@ -18,9 +18,9 @@ module.exports = {
         return new Promise((resolve, reject) => {
             //TODO: Je sais pas si il faut tester si les paramètres doiuvent être non nuls
             //if (pseudo != null && password != null && email != null && changepass != null && idZone != null){
-            var user = new User(null, 3, pseudo, password, email, changePass, idZone);
+            var user = new User(null, 1, pseudo, password, email, changePass, idZone);
 
-
+            //TODO: extraire ça dans une autre méthode vu que c'est à chaque fois pareil
             database.User.find({
                 where: {
                     pseudo: user.pseudo,
@@ -87,7 +87,7 @@ module.exports = {
      */
     createSystemAdmin(pseudo, password, email, changePass, idZone) {
         return new Promise((resolve, reject) => {
-            var user = new User(null, 1, pseudo, password, email, changePass, idZone);
+            var user = new User(null, 3, pseudo, password, email, changePass, idZone);
 
             user.convertToSequelize();
 
@@ -108,6 +108,17 @@ module.exports = {
                     reject("User already in the DB")
                 }
             })
+        })
+    },
+
+    /**
+     * Get all zones of the database
+     */
+    retriveAllZones() {
+        return new Promise((resolve, reject) => {
+            database.Zone.findAll().then((zoneList) => {
+                resolve(zoneList)
+            });
         })
     }
 }

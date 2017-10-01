@@ -5,7 +5,11 @@ Bus driver
 var Role = require('./objects/Role');
 var roles = [];
 
-roles.push(new Role(1, 'System admin').convertToSequelize(), new Role(2, 'Zone admin').convertToSequelize(), new Role(3, 'Bus driver').convertToSequelize())
+
+     roles.push(
+    new Role(1, 'Bus driver').convertToSequelize(), 
+    new Role(2, 'Zone admin').convertToSequelize(), 
+    new Role(3, 'System admin').convertToSequelize())  
 
 db.Role.bulkCreate(roles).then(() => {
     
