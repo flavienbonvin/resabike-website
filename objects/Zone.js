@@ -9,6 +9,7 @@ var zone = class Zone {
         this.id = id;
         this.name = name;
     }
+    
     convertToSequelize() {
         return {
             id: this.id,
