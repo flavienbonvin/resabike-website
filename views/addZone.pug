@@ -1,0 +1,21 @@
+extends layout
+
+block extraHeaders
+    link(rel="stylesheet", href="/css/admin/addZone.css")
+    script(src="/js/admin/addZone.js")
+
+block content
+    div#main.ui.three.column.grid
+        div.column
+        div#centerCol.column
+            form.ui.form(method="post")
+                h4.ui.dividing.header Ajout d'une zone
+                div.required.field
+                    label Nom de la zone
+                    class.ui.input
+                        input(name="zoneName")
+                div.field
+                    button.ui.button Ajouter
+            div#modifZone
+                h4.ui.dividing.header Modification des zones
+        div.column

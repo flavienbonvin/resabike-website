@@ -15,12 +15,13 @@ router.post('/addLine', (req, res, next) => {
   adminApiConn.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('addLine', { title: 'Express', stops: stops });
   }).catch((error) => {
-    res.render('addLine', { title: 'Express', error: error[0], lineSuggestions:error[1] });
+    res.render('addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
   })
 });
 
 router.post('/addLine/add', (req, res, next) => {
   console.log(req.body);
+  //TODO: refactoriser le router
   adminApiConn.getStopsForLine(req.body.departFinal, req.body.arriveeFinal).then((stops) => {
     adminApiConn.insertStationInDB(stops).then((msg) => {
       res.render('addLine', { title: 'Add Line', msg: 'Added' })
@@ -33,7 +34,7 @@ router.post('/addLine/add', (req, res, next) => {
 });
 
 router.get('/addUser', (req, res, next) => {
-  res.render('addUser', {title: 'Express'});
+  res.render('addUser', { title: 'Express' });
 });
 
 router.post('/addUser', (req, res, next) => {
@@ -43,28 +44,28 @@ router.post('/addUser', (req, res, next) => {
   if (req.body.passwordReset)
     resetPass = true;
 
-  switch (req.body.role){
+  switch (req.body.role) {
     //Create bus driver 
     case '1':
-        sysAdminConn.createDriver(req.body.username, req.body.password, req.body.email, resetPass, 1)
+      sysAdminConn.createDriver(req.body.username, req.body.password, req.body.email, resetPass, 1)
         .then(() => {
-          res.render('addUser', {title: 'Express'});
+          res.render('addUser', { title: 'Express' });
         })
-        break;
+      break;
     //Create zone admin
     case '2':
-        sysAdminConn.createZoneAdmin(req.body.username, req.body.password, req.body.email, resetPass, 1)
+      sysAdminConn.createZoneAdmin(req.body.username, req.body.password, req.body.email, resetPass, 1)
         .then(() => {
-          res.render('addUser', {title: 'Express'});
+          res.render('addUser', { title: 'Express' });
         })
-        break;
+      break;
     //Create system admin
     case '3':
-        sysAdminConn.createSystemAdmin(req.body.username, req.body.password, req.body.email, resetPass, 1)
+      sysAdminConn.createSystemAdmin(req.body.username, req.body.password, req.body.email, resetPass, 1)
         .then(() => {
-          res.render('addUser', {title: 'Express'});
+          res.render('addUser', { title: 'Express' });
         })
-        break;
+      break;
   }
 });
 
@@ -75,5 +76,9 @@ router.post('/addUser/add', (req, res, next) => {
   res.render('addUser', {title: 'Express'});
 });
 */
+
+router.get('/addZone', (req, res, next) => {
+  res.render('addZone', { title: 'Express' })
+})
 
 module.exports = router;
