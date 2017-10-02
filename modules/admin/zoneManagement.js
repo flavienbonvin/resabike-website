@@ -1,6 +1,6 @@
-var Zone = require('../objects/Zone');
+var Zone = require('../../objects/Zone');
 
-var database = require('../modules/database');
+var database = require('../database');
 
 module.exports = {
 

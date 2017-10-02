@@ -1,5 +1,5 @@
-var User = require('../objects/User');
-var database = require('../modules/database');
+var User = require('../../objects/User');
+var database = require('../database');
 
 
 var self = module.exports = {
@@ -8,8 +8,14 @@ var self = module.exports = {
     * 
     * @param {User} user 
     */
-    createUser(user) {
+    createUser(body) {
         return new Promise((resolve, reject) => {
+            var resetPass = false;
+            if (body.passwordReset) {
+              resetPass = true;
+            }
+            //TODO: add the zone ID, get from dropdown (temporary 1)
+            var user = new User(null, body.role, body.username, body.password, body.email, resetPass, 1);
             switch (user.idRole) {
                 //Create bus driver 
                 case '1':

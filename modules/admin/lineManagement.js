@@ -1,9 +1,9 @@
 var axios = require('axios');
-var Station = require('../objects/Station');
-var Line = require('../objects/Line');
-var LineStation = require('../objects/LineStation');
+var Station = require('../../objects/Station');
+var Line = require('../../objects/Line');
+var LineStation = require('../../objects/LineStation');
 
-var database = require('../modules/database');
+var database = require('../database');
 
 
 var self = module.exports = {
@@ -16,9 +16,10 @@ var self = module.exports = {
      */
     getStopsForLine(from, to) {
         return new Promise((resolve, reject) => {
+            var r = null;
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
-
                 //Check if there is more thant one leg, a leg is a change of bus (and change of line), if there is a change, the line is wrong
+                r = response;
                 if (response.data.connections[0].legs.length <= 2) {
 
                     var type = response.data.connections[0].legs[0].type;
@@ -60,6 +61,21 @@ var self = module.exports = {
                     reject([error, errorArray]);
                 }
                 resolve(stops);
+            }).catch((error) => {
+                reject("The API returns " + error);
+            })
+        })
+    },
+    prepareStation(body) {
+        return new Promise((resolve, reject) => {
+            self.getStopsForLine(body.departFinal, body.arriveeFinal).then((stops) => {
+                self.insertStationInDB(stops).then((msg)=>{
+                    resolve(msg)
+                }).catch((error) =>{
+                    reject(error);
+                })
+            }).catch((error) =>{
+                reject(error);
             })
         })
     },
@@ -71,7 +87,6 @@ var self = module.exports = {
      */
     insertStationInDB(stops) {
         return new Promise((resolve, reject) => {
-
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
                 var stop = stops[i].convertToSequelize();
@@ -134,7 +149,6 @@ var self = module.exports = {
             }
             Promise.all(listProm).then((stopsTemp) => {
                 var line = new Line(null, stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, 1);
-                //TODO: UTILE? line.idEndStation
                 database.Line.find({
                     //TODO: ajouter le numéro de ligne au FIND
                     where: {
@@ -149,7 +163,6 @@ var self = module.exports = {
                             //We have to save the order of the stops on the line, that's why we create this array of Station to add
                             for (var i = 0; i < stopsTemp.length; i++) {
                                 var station = stopsTemp[i];
-                                //TODO: est ce que LineStation à besoin d'un ID?
                                 var linestation = new LineStation(null, line.id, station.id, i);
                                 lineStationsToAdd.push(linestation.convertToSequelize());
                             }
