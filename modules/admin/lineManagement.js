@@ -2,8 +2,8 @@ var axios = require('axios');
 var Station = require('../../objects/Station');
 var Line = require('../../objects/Line');
 var LineStation = require('../../objects/LineStation');
-
 var database = require('../database');
+var renderAddon = require('../../modules/renderAddon');
 
 
 var self = module.exports = {
@@ -62,7 +62,8 @@ var self = module.exports = {
                 }
                 resolve(stops);
             }).catch((error) => {
-                reject("The API returns " + error);
+                var readableObj = renderAddon.readableObject(r.data)
+                reject("The API returns " + readableObj);
             })
         })
     },

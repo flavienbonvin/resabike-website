@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const lineManagement = require('../modules/admin/lineManagement');
 const userManagement = require('../modules/admin/userManagement');
-const User = require('../objects/User');
 
 
 /* GET home page. */
@@ -11,13 +10,14 @@ router.get('/addLine', (req, res, next) => {
 });
 
 router.post('/addLine', (req, res, next) => {
-  console.log(req.body)
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops });
   }).catch((error) => {
+    console.log(error);
     if (Array.isArray(error)) {
       res.render('admin/addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
     } else {
+      
       res.render('admin/addLine', { title: 'Express', error: error });
     }
 

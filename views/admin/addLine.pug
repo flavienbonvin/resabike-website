@@ -8,7 +8,7 @@ block content
     div#main.ui.three.column.grid
         div.column
         div#centerCol.column
-            form.ui.form(method="post")
+            form.ui.form(method="post",action="/admin/addLine")
                 h4.ui.dividing.header= "Ajout de ligne"
                 div.field
                     label= "Départ"
@@ -37,7 +37,7 @@ block content
                         div.item
                             span= l[0]+' - '+l[1]
                             button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
-                form#suggestForm(method="post",action="/admin/addLine/add")
+                form#suggestForm(method="post",action="/admin/addLine")
                     input#departFinal(type="hidden",name="departFinal")
                     input#arriveeFinal(type="hidden",name="arriveeFinal")
         div.column
