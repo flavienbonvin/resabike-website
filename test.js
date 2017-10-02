@@ -2,6 +2,7 @@ var db = require('./modules/database');
 var apiconn = require('./modules/adminApiConn');
 var sysManag = require('./modules/sysAdminAccount');
 var zoneManagement = require('./modules/zoneManagement');
+var retriveAllZones = require('./services/retrieveAllZones');
 var Role = require('./objects/Role');
 var roles = [];
 
@@ -56,3 +57,12 @@ var roles = [];
 //     console.log(res);
 //     db.close();
 // })
+
+
+retriveAllZones().then((res) => {
+    for (var k in res){
+        console.log(res[k].name)
+    }
+    db.close();
+} );
+

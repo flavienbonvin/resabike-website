@@ -109,16 +109,5 @@ module.exports = {
                 }
             })
         })
-    },
-
-    /**
-     * Get all zones of the database
-     */
-    retriveAllZones() {
-        return new Promise((resolve, reject) => {
-            database.Zone.findAll().then((zoneList) => {
-                resolve(zoneList)
-            });
-        })
     }
 }
