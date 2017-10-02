@@ -12,4 +12,14 @@ router.get('/autoCompletionAPI', function(req, res, next) {
     })
 });
 
+router.get('/retrieveAllZones', (req, res, next) => {
+
+    var servicePath = __dirname + "/../services" + req.url;
+    console.log(servicePath)
+    var temp = require(servicePath);  
+    temp().then((response) =>{
+        res.send(response)
+    })
+})
+
 module.exports = router;

@@ -14,6 +14,8 @@ var self = module.exports = {
             if (body.passwordReset) {
               resetPass = true;
             }
+            var idZone = body.zoneDropdown;
+            console.log("----------------------------------" + idZone.value)
             //TODO: add the zone ID, get from dropdown (temporary 1)
             var user = new User(null, body.role, body.username, body.password, body.email, resetPass, 1);
             switch (user.idRole) {
@@ -40,7 +42,7 @@ var self = module.exports = {
                     self.createSystemAdmin(user)
                         .then(() => {
                             resolve();
-                        }).catch((res) => {
+                        }).catch((res) => {zoneDropdown
                             reject(res);
                         })
                     break;
@@ -49,30 +51,17 @@ var self = module.exports = {
     },
 
     /**
+     * Add a bus driver to the DB
      * 
      * @param {User} user 
      */
     createDriver(user) {
         return new Promise((resolve, reject) => {
-
-            //TODO: extraire ça dans une autre méthode vu que c'est à chaque fois pareil
-            database.User.find({
-                where: {
-                    pseudo: user.pseudo,
-                    email: user.email,
-                    idZone: user.idZone,
-                    idRole: user.idRole
-                }
-            }).then((userTemp) => {
-                if (userTemp == null) {
-                    console.log(user)
-                    database.User.create(user.convertToSequelize()).then(() => {
-                        resolve();
-                    });
-                } else {
-                    reject("User already in the DB")
-                }
-            })
+            self.addUserToSystem(user).then(() => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            });
         })
     },
 
@@ -83,24 +72,11 @@ var self = module.exports = {
      */
     createZoneAdmin(user) {
         return new Promise((resolve, reject) => {
-
-            database.User.find({
-                where: {
-                    pseudo: user.pseudo,
-                    email: user.email,
-                    idZone: user.idZone,
-                    idRole: user.idRole
-                }
-            }).then((userTemp) => {
-                if (userTemp == null) {
-                    console.log(user)
-                    database.User.create(user.convertToSequelize()).then(() => {
-                        resolve();
-                    });
-                } else {
-                    reject("User already in the DB")
-                }
-            })
+            self.addUserToSystem(user).then(() => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            });
         })
     },
 
@@ -111,7 +87,21 @@ var self = module.exports = {
      */
     createSystemAdmin(user) {
         return new Promise((resolve, reject) => {
+            self.addUserToSystem(user).then(() => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            });
+        })
+    }, 
 
+    /**
+     * Insert the user passed in parameters in the DB
+     * 
+     * @param {User} user 
+     */
+    addUserToSystem(user){
+        return new Promise((resolve, reject) => {
             database.User.find({
                 where: {
                     pseudo: user.pseudo,

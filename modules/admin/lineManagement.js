@@ -128,7 +128,6 @@ var self = module.exports = {
         })
     },
 
-    //TODO: Est ce que c'est utile de récupérer la liste des promise sur le serveur? il suffirait pas de faire ce qui est dans le promise.all 
     //TODO: sauvegarder le numéro de ligne
     /**
      * Inserts a line in the database (line table)
@@ -136,6 +135,7 @@ var self = module.exports = {
      * @param {Station[]} stops 
      */
     insertLineInDB(stops) {
+        
         return new Promise((resolve, reject) => {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
