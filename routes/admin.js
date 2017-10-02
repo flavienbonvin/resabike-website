@@ -3,6 +3,8 @@ var router = express.Router();
 const adminApiConn = require('../modules/adminApiConn');
 const sysAdminConn = require('../modules/sysAdminAccount');
 
+const addUser = require('../modules/sysAdminAccount');
+
 var User = require('../objects/User')
 
 /* GET home page. */
@@ -41,32 +43,16 @@ router.post('/addUser', (req, res, next) => {
   console.log(req.body);
 
   var resetPass = false;
-  if (req.body.passwordReset)
+  if (req.body.passwordReset) {
     resetPass = true;
-
-  switch (req.body.role) {
-    //Create bus driver 
-    case '1':
-      sysAdminConn.createDriver(req.body.username, req.body.password, req.body.email, resetPass, 1)
-        .then(() => {
-          res.render('addUser', { title: 'Express' });
-        })
-      break;
-    //Create zone admin
-    case '2':
-      sysAdminConn.createZoneAdmin(req.body.username, req.body.password, req.body.email, resetPass, 1)
-        .then(() => {
-          res.render('addUser', { title: 'Express' });
-        })
-      break;
-    //Create system admin
-    case '3':
-      sysAdminConn.createSystemAdmin(req.body.username, req.body.password, req.body.email, resetPass, 1)
-        .then(() => {
-          res.render('addUser', { title: 'Express' });
-        })
-      break;
   }
+  //TODO: add the zone ID, get from dropdown (temporary 1)
+  var user = new User(null, req.body.role, req.body.username, req.body.password, req.body.email, resetPass, 1);
+  addUser.createUser(user).then(() => {
+    res.render('addUser', { title: 'Express' });
+  }).catch((error) => {
+    res.render('addUser', {title: 'Add user', error: error});
+  });
 });
 
 //TODO: est ce que c'est utile?

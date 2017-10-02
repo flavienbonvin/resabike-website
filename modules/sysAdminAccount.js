@@ -1,24 +1,53 @@
 var User = require('../objects/User');
-
 var database = require('../modules/database');
 
 
-module.exports = {
+var self = module.exports = {
 
     /**
-     * Add a driver to the DB
-     * 
-     * @param {string} pseudo 
-     * @param {string} password 
-     * @param {string} email 
-     * @param {boolean} changePass 
-     * @param {Number} idZone 
-     */
-    createDriver(pseudo, password, email, changePass, idZone) {
+    * 
+    * @param {User} user 
+    */
+    createUser(user) {
         return new Promise((resolve, reject) => {
-            //TODO: Je sais pas si il faut tester si les paramètres doiuvent être non nuls
-            //if (pseudo != null && password != null && email != null && changepass != null && idZone != null){
-            var user = new User(null, 1, pseudo, password, email, changePass, idZone);
+            switch (user.idRole) {
+                //Create bus driver 
+                case '1':
+                    self.createDriver(user)
+                        .then(() => {
+                            resolve();
+                        }).catch((res) => {
+                            reject(res);
+                        })
+                    break;
+                //Create zone admin
+                case '2':
+                    self.createZoneAdmin(user)
+                        .then(() => {
+                            resolve();
+                        }).catch((res) => {
+                            reject(res);
+                        })
+                    break;
+                //Create system admin
+                case '3':
+                    self.createSystemAdmin(user)
+                        .then(() => {
+                            resolve();
+                        }).catch((res) => {
+                            reject(res);
+                        })
+                    break;
+            }
+        })
+    },
+
+    /**
+     * 
+     * @param {User} user 
+     */
+    createDriver(user) {
+        return new Promise((resolve, reject) => {
 
             //TODO: extraire ça dans une autre méthode vu que c'est à chaque fois pareil
             database.User.find({
@@ -44,17 +73,10 @@ module.exports = {
     /**
      * Add a zone admin to the DB
      * 
-     * @param {string} pseudo 
-     * @param {string} password 
-     * @param {string} email 
-     * @param {boolean} changePass 
-     * @param {Number} idZone 
+     * @param {User} user 
      */
-    createZoneAdmin(pseudo, password, email, changePass, idZone) {
+    createZoneAdmin(user) {
         return new Promise((resolve, reject) => {
-            var user = new User(null, 2, pseudo, password, email, changePass, idZone);
-
-            user.convertToSequelize();
 
             database.User.find({
                 where: {
@@ -66,7 +88,7 @@ module.exports = {
             }).then((userTemp) => {
                 if (userTemp == null) {
                     console.log(user)
-                    database.User.create(user).then(() => {
+                    database.User.create(user.convertToSequelize()).then(() => {
                         resolve();
                     });
                 } else {
@@ -79,17 +101,10 @@ module.exports = {
     /**
      * Add a system to the DB 
      * 
-     * @param {string} pseudo 
-     * @param {string} password 
-     * @param {string} email 
-     * @param {boolean} changePass 
-     * @param {Number} idZone 
+     * @param {User} user
      */
-    createSystemAdmin(pseudo, password, email, changePass, idZone) {
+    createSystemAdmin(user) {
         return new Promise((resolve, reject) => {
-            var user = new User(null, 3, pseudo, password, email, changePass, idZone);
-
-            user.convertToSequelize();
 
             database.User.find({
                 where: {
@@ -101,7 +116,7 @@ module.exports = {
             }).then((userTemp) => {
                 if (userTemp == null) {
                     console.log(user)
-                    database.User.create(user).then(() => {
+                    database.User.create(user.convertToSequelize()).then(() => {
                         resolve();
                     });
                 } else {

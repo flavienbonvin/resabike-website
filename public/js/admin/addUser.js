@@ -2,7 +2,6 @@ $(document).ready(() => {
     $('select.dropdown').dropdown();
 })
 
-
 /*
     Reste à faire pour l'ajout de personne.
 
