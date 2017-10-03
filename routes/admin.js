@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const lineManagement = require('../modules/admin/lineManagement');
 const userManagement = require('../modules/admin/userManagement');
+const zoneManagement = require('../modules/admin/zoneManagement');
 
 
 /* GET home page. */
@@ -17,7 +18,7 @@ router.post('/addLine', (req, res, next) => {
     if (Array.isArray(error)) {
       res.render('admin/addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
     } else {
-      
+
       res.render('admin/addLine', { title: 'Express', error: error });
     }
 
@@ -46,6 +47,16 @@ router.post('/addUser', (req, res, next) => {
 
 router.get('/addZone', (req, res, next) => {
   res.render('admin/addZone', { title: 'Express' })
+})
+router.post('/addZone', (req, res, next) => {
+  zoneManagement.createZone(req.body).then(() => {
+    res.render('admin/addZone', { title: 'Express' })
+  }).catch((error) => {
+    res.render('admin/addZone', { title: 'Express', error: error })
+  })
+})
+router.post('/addZone/delete',(req, res, next) => {
+  zoneManagement
 })
 
 module.exports = router;

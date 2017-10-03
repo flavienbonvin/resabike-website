@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block extraHeaders
     link(rel="stylesheet", href="/css/admin/addZone.css")
@@ -18,9 +18,5 @@ block content
                     button.ui.button Ajouter
             div#modifZone
                 h4.ui.dividing.header Modification des zones
-                div.ui.middle.aligned.divided.list
-                    div.item
-                        div.right.floated.content
-                            div.ui.button Add
-                        div.content Name
+                div#pastModif.ui.middle.aligned.divided.list
         div.column
