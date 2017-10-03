@@ -6,12 +6,12 @@ module.exports = {
 
     /**
      * 
-     * @param {string} name 
+     * @param {string} body 
      */
-    createZone(name) {
+    createZone(body) {
         return new Promise((resolve, reject) => {
 
-            var zone = new Zone(null, name);
+            var zone = new Zone(null, body.zoneName);
 
             database.Zone.find({
                 where: {
@@ -29,21 +29,15 @@ module.exports = {
         })
     },
 
-    deleteZone(body){
+    deleteZone(body) {
         return new Promise((resolve, reject) => {
-
-            database.Zone.find({
+            console.log('ifno')
+            database.Zone.destroy({
                 where: {
                     id: body.idToDel
                 }
             }).then((zoneTemp) => {
-                if (zoneTemp != null){
-                    database.Zone.destroy(zoneTemp).then(() => {
-                        resolve();
-                    });
-                } else {
-                    reject("Can't find the zone")
-                }
+                resolve();
             })
         })
     }

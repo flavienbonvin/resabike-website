@@ -9,7 +9,7 @@ function loadZone(){
         success: (res) => {
             var txt = '';
             for (var i in res) {
-                txt += '<div class="item"><div class="right floated content"><div class="ui button">Update</div><div class="ui button" onclikc="deleteZone('+res[i].id+')">Delete</div></div><div class="content">'+res[i].name+'</div></div>'
+                txt += '<div class="item"><div class="right floated content"><div class="ui button">Update</div><div class="ui button" onclick="deleteZone('+res[i].id+')">Delete</div></div><div class="content">'+res[i].name+'</div></div>'
             }
             document.getElementById("pastModif").innerHTML = txt;
         }
@@ -18,7 +18,8 @@ function loadZone(){
 function deleteZone(id){
     $.ajax({
         url: '/admin/addZone/delete',
-        type: 'idToDel='+id,
+        type: 'POST',
+        data: 'idToDel='+id,
         success: (res) => {
             loadZone();
         }

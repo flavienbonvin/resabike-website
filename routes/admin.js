@@ -56,7 +56,11 @@ router.post('/addZone', (req, res, next) => {
   })
 })
 router.post('/addZone/delete',(req, res, next) => {
-  zoneManagement
+  zoneManagement.deleteZone(req.body).then(() =>{
+    res.send('');
+  }).catch((error) =>{
+    console.log(error);
+  })
 })
 
 module.exports = router;
