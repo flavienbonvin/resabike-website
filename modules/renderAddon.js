@@ -7,7 +7,7 @@ var self = module.exports = {
                 html+=self.readableObject(data[label]);
                 html+"</li>";
             }else{
-                html+="<li>"+label+" "+data[label]+"</li>";
+                html+="<li>"+label+" => "+data[label]+"</li>";
             }
         }
 
