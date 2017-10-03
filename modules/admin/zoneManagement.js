@@ -27,5 +27,24 @@ module.exports = {
                 }
             })
         })
+    },
+
+    deleteZone(body){
+        return new Promise((resolve, reject) => {
+
+            database.Zone.find({
+                where: {
+                    id: body.idToDel
+                }
+            }).then((zoneTemp) => {
+                if (zoneTemp != null){
+                    database.Zone.destroy(zoneTemp).then(() => {
+                        resolve();
+                    });
+                } else {
+                    reject("Can't find the zone")
+                }
+            })
+        })
     }
 }

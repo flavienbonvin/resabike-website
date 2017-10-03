@@ -8,7 +8,7 @@ $(document).ready(() => {
             var txt = '<option value="">Zone</option>';
             console.log(res)
             for (var i in res) {
-                txt += '<option value="' + res[i] + '">' + res[i].name + '</option>';
+                txt += '<option value="' + res[i].id + '">' + res[i].name + '</option>';
             }
             document.getElementById("zoneDropdown").innerHTML = txt;
             $('select.dropdown').dropdown();

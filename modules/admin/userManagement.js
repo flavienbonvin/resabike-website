@@ -14,10 +14,8 @@ var self = module.exports = {
             if (body.passwordReset) {
               resetPass = true;
             }
-            var idZone = body.zoneDropdown;
-            console.log("----------------------------------" + idZone.value)
-            //TODO: add the zone ID, get from dropdown (temporary 1)
-            var user = new User(null, body.role, body.username, body.password, body.email, resetPass, 1);
+            
+            var user = new User(null, body.role, body.username, body.password, body.email, resetPass, body.zoneDropdown);
             switch (user.idRole) {
                 //Create bus driver 
                 case '1':
