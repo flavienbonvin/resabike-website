@@ -27,54 +27,23 @@ var Zone = sequelize.define('zone', {
 })
 
 var Line = sequelize.define('line', {
-    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-    idStartStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id',
-        }
-    },
-    idEndStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id',
-        }
-    }
-    /*idZone: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Zone,
-            key: 'id',
-        }
-    }*/
+    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }
 })
 
-Zone.hasOne(Line,{foreignKey:'idZone'})
+Station.hasOne(Line, { foreignKey: 'idEndStation' })
+Station.hasOne(Line, { foreignKey: 'idStartStation' })
+Zone.hasOne(Line, { foreignKey: 'idZone' })
 
 var Book = sequelize.define('book', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     pseudo: Sequelize.STRING,
     email: Sequelize.STRING,
     number: Sequelize.INTEGER,
-    token: Sequelize.TEXT,
-    idStartStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id',
-        }
-    },
-    idEndStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id',
-        }
-    }
+    token: Sequelize.TEXT
 });
 
+Station.hasOne(Book, { foreignKey: 'idStartStation' });
+Station.hasOne(Book, { foreignKey: 'idEndStation' });
 
 
 var User = sequelize.define('user', {
@@ -82,75 +51,31 @@ var User = sequelize.define('user', {
     pseudo: Sequelize.STRING,
     password: Sequelize.TEXT,
     email: Sequelize.STRING,
-    changePass: Sequelize.BOOLEAN,
-    idZone: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Zone,
-            key: 'id',
-        }
-    },
-    idRole: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Role,
-            key: 'id',
-        }
-    }
+    changePass: Sequelize.BOOLEAN
 })
+Zone.hasOne(User, { foreignKey: 'idZone' })
+Role.hasOne(User, { foreignKey: 'idRole' })
 
 var LineStation = sequelize.define('linestation', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-    idLine: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Line,
-            key: 'id',
-        }        
-    },
-    idStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id',
-        }
-    },
     nbrOnLine: Sequelize.INTEGER
 })
 
+Line.hasOne(LineStation, { foreignKey: 'idLine' })
+Station.hasOne(LineStation, { foreignKey: 'idStation' })
+
 var Trips = sequelize.define('trips', {
-    idLine: {
+    idTrips: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-            model: Line,
-            key: 'id'
-        }
-    },
-    idBook: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-            model: Book,
-            key: 'id'
-        }
-    },
-    idStartStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id'
-        }
-    },
-    idEndStation: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Station,
-            key: 'id'
-        }
+        primaryKey: true
     },
     startHour: Sequelize.DATE,
 })
+
+Line.hasOne(Trips,{foreignKey:'idLine'})
+Book.hasOne(Trips,{foreignKey:'idBook'})
+Station.hasOne(Trips,{foreignKey:'idStartStation'})
+Station.hasOne(Trips,{foreignKey:'idEndStation'})
 
 module.exports = {
     sync: function () {
