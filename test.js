@@ -1,14 +1,5 @@
-var addon = require('./modules/renderAddon');
+var zonem = require('./modules/admin/zoneManagement');
 
-
-var obj = {
-    niveau1 :{
-        niveau2 :{
-            test:'salut',
-            hello:'123'
-        },
-        coucou:"12"
-    }
-}
-var a = addon.readableObject(obj)
-console.log(a);
+zonem.listWithDetails().then((list) =>{
+    console.log(list);
+})

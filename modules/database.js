@@ -41,16 +41,17 @@ var Line = sequelize.define('line', {
             model: Station,
             key: 'id',
         }
-    },
-    idZone: {
+    }
+    /*idZone: {
         type: Sequelize.INTEGER,
         references: {
             model: Zone,
             key: 'id',
         }
-    }
+    }*/
 })
 
+Zone.hasOne(Line,{foreignKey:'idZone'})
 
 var Book = sequelize.define('book', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
