@@ -17,7 +17,7 @@ function loadZone(){
 }
 function deleteZone(id){
     $.ajax({
-        url: '/admin/addZone/delete',
+        url: '/admin/zone/delete',
         type: 'POST',
         data: 'idToDel='+id,
         success: (res) => {

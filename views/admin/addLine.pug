@@ -8,7 +8,7 @@ block content
     div#main.ui.three.column.grid
         div.column
         div#centerCol.column
-            form.ui.form(method="post",action="/admin/addLine")
+            form.ui.form(method="post",action="/admin/line/preview")
                 h4.ui.dividing.header= "Ajout de ligne"
                 div.field
                     label= "Départ"
@@ -25,7 +25,7 @@ block content
                 div.ui.bulleted.list
                     each stop in stops
                         div.item= stop.name 
-                form(method="post",action="/admin/addLine/add")
+                form(method="post",action="/admin/line/add")
                     input(type="hidden",value=stops[0].name,name="departFinal")
                     input(type="hidden",value=stops[stops.length-1].name,name="arriveeFinal")  
                     div.field
@@ -37,7 +37,7 @@ block content
                         div.item
                             span= l[0]+' - '+l[1]
                             button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
-                form#suggestForm(method="post",action="/admin/addLine")
-                    input#departFinal(type="hidden",name="departFinal")
-                    input#arriveeFinal(type="hidden",name="arriveeFinal")
+                form#suggestForm(method="post",action="/admin/line/preview")
+                    input#departFinal(type="hidden",name="depart")
+                    input#arriveeFinal(type="hidden",name="arrivee")
         div.column
