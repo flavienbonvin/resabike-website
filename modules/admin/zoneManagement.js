@@ -38,6 +38,8 @@ module.exports = {
                 }
             }).then((zoneTemp) => {
                 resolve();
+            }).catch((error) => {
+                reject(error);
             })
         })
     }
