@@ -58,26 +58,12 @@ module.exports = {
         })
     },
     listWithDetails() {
-        var res = [];
-        database.Zone.findAll().then((list) => {
-            for (var i = 0; i < list.length; i++) {
-                database.Line.findAll({ where: { idZone: list[i].id } }).then((listStation) =>{
-                    var temp = {
-                        id:0,
-                        name:'zone',
-                        stations : [
-                            {
-                                id:0,
-                                name:'line1'
-                            },
-                            {
-                                id:1,
-                                name:'line2'
-                            }
-                        ]
-                    }
-                })
-            }
+        return new Promise((resolve, reject) => {
+            database.Zone.findAll({
+                include : database.Line
+            }).then((list) => {
+                resolve(list);
+            })
         })
     }
 }
