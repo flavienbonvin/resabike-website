@@ -59,6 +59,7 @@ router.post('/zone/delete',(req, res, next) => {
   zoneManagement.deleteZone(req.body).then(() =>{
     res.send('');
   }).catch((error) =>{
+    //TODO: handle error (forein key one)
     console.log(error);
   })
 })
