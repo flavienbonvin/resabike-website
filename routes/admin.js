@@ -5,6 +5,14 @@ const userManagement = require('../modules/admin/userManagement');
 const zoneManagement = require('../modules/admin/zoneManagement');
 
 
+router.get('/', (req, res, next) => {
+  res.render('admin/index', {title: 'Admin index'});
+});
+
+router.get('/index', (req, res, next) => {
+  res.render('admin/index', {title: 'Admin'});
+});
+
 /* GET home page. */
 router.get('/addLine', (req, res, next) => {
   res.render('admin/addLine', { title: 'Express' });
