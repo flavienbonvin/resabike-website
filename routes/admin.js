@@ -71,5 +71,12 @@ router.post('/zone/delete',(req, res, next) => {
     console.log(error);
   })
 })
+router.post('/zone/update',(req, res, next) => {
+  zoneManagement.updateZone(req.body).then(() =>{
+    res.send('');
+  }).catch((error) =>{
+    console.log(error);
+  })
+})
 
 module.exports = router;
