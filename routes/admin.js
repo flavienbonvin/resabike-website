@@ -6,11 +6,11 @@ const zoneManagement = require('../modules/admin/zoneManagement');
 
 
 /* GET home page. */
-router.get('/addLine', (req, res, next) => {
+router.get('/line/add', (req, res, next) => {
   res.render('admin/addLine', { title: 'Express' });
 });
 
-router.post('/addLine', (req, res, next) => {
+router.post('/line/preview', (req, res, next) => {
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops });
   }).catch((error) => {
@@ -25,7 +25,7 @@ router.post('/addLine', (req, res, next) => {
   })
 });
 
-router.post('/addLine/add', (req, res, next) => {
+router.post('/line/add', (req, res, next) => {
   lineManagement.prepareStation(req.body).then((msg) => {
     res.render('admin/addLine', { title: 'Add Line', msg: 'Added' })
   }).catch((error) => {
@@ -33,11 +33,11 @@ router.post('/addLine/add', (req, res, next) => {
   })
 });
 
-router.get('/addUser', (req, res, next) => {
+router.get('/user/add', (req, res, next) => {
   res.render('admin/addUser', { title: 'Express' });
 });
 
-router.post('/addUser', (req, res, next) => {
+router.post('/user/add', (req, res, next) => {
   userManagement.createUser(req.body).then(() => {
     res.render('admin/addUser', { title: 'Express' });
   }).catch((error) => {
@@ -45,17 +45,17 @@ router.post('/addUser', (req, res, next) => {
   });
 });
 
-router.get('/addZone', (req, res, next) => {
-  res.render('admin/addZone', { title: 'Express' })
+router.get('/zone', (req, res, next) => {
+  res.render('admin/zone', { title: 'Express' })
 })
-router.post('/addZone', (req, res, next) => {
+router.post('/zone', (req, res, next) => {
   zoneManagement.createZone(req.body).then(() => {
-    res.render('admin/addZone', { title: 'Express' })
+    res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
-    res.render('admin/addZone', { title: 'Express', error: error })
+    res.render('admin/zone', { title: 'Express', error: error })
   })
 })
-router.post('/addZone/delete',(req, res, next) => {
+router.post('/zone/delete',(req, res, next) => {
   zoneManagement.deleteZone(req.body).then(() =>{
     res.send('');
   }).catch((error) =>{

@@ -17,6 +17,7 @@ var self = module.exports = {
     getStopsForLine(from, to) {
         return new Promise((resolve, reject) => {
             var r = null;
+            console.log("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to)
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
                 //Check if there is more thant one leg, a leg is a change of bus (and change of line), if there is a change, the line is wrong
                 r = response;
