@@ -73,7 +73,11 @@ module.exports = {
             database.Zone.findAll({
                 include : database.Line
             }).then((list) => {
+<<<<<<< HEAD
                 console.log(list)
+=======
+                console.log(list);
+>>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
                 resolve(list);
             }).catch((error) => {
                 reject(error);
