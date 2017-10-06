@@ -6,11 +6,17 @@ const zoneManagement = require('../modules/admin/zoneManagement');
 
 
 router.get('/', (req, res, next) => {
-  res.render('admin/index', {title: 'Admin index'});
+  zoneManagement.listWithDetails().then((details) => {
+      res.render('admin/index', {title: 'Admin index', listZone: details});
+  })
 });
 
 router.get('/index', (req, res, next) => {
-  res.render('admin/index', {title: 'Admin'});
+  zoneManagement.listWithDetails().then((details) => {
+      res.render('admin/index', {title: 'Admin index', listZone: details});
+  }).catch((error) => {
+    console.log(error)
+  })
 });
 
 /* GET home page. */
