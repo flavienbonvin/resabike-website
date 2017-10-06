@@ -5,7 +5,7 @@ var database = require('../database');
 module.exports = {
 
     /**
-     * 
+     * Create a new zone
      * @param {string} body 
      */
     createZone(body) {
@@ -29,6 +29,10 @@ module.exports = {
         })
     },
 
+    /**
+     * Delete a zone
+     * @param {string} body 
+     */
     deleteZone(body) {
         return new Promise((resolve, reject) => {
             database.Zone.destroy({
@@ -42,6 +46,10 @@ module.exports = {
             })
         })
     },
+    /**
+     * Update a given zone
+     * @param {string} body 
+     */
     updateZone(body) {
         return new Promise((resolve, reject) => {
             database.Zone.update({
@@ -57,12 +65,15 @@ module.exports = {
                 })
         })
     },
+    /**
+     * List all zones and the line they have
+     */
     listWithDetails() {
         return new Promise((resolve, reject) => {
             database.Zone.findAll({
                 include : database.Line
             }).then((list) => {
-                console.log(list[0].line.id)
+                console.log(list)
                 resolve(list);
             }).catch((error) => {
                 reject(error);

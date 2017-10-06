@@ -15,7 +15,7 @@ router.get('/index', (req, res, next) => {
   zoneManagement.listWithDetails().then((details) => {
       res.render('admin/index', {title: 'Admin index', listZone: details});
   }).catch((error) => {
-    console.log(error)
+    console.error(error);
   })
 });
 
@@ -28,11 +28,10 @@ router.post('/line/preview', (req, res, next) => {
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops });
   }).catch((error) => {
-    console.log(error);
+    console.error(error);
     if (Array.isArray(error)) {
       res.render('admin/addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
     } else {
-
       res.render('admin/addLine', { title: 'Express', error: error });
     }
 
@@ -43,6 +42,7 @@ router.post('/line/add', (req, res, next) => {
   lineManagement.prepareStation(req.body).then((msg) => {
     res.render('admin/addLine', { title: 'Add Line', msg: 'Added' })
   }).catch((error) => {
+    console.error(error);
     res.render('admin/addLine', { title: 'Add Line', error: error });
   })
 });
@@ -55,6 +55,7 @@ router.post('/user/add', (req, res, next) => {
   userManagement.createUser(req.body).then(() => {
     res.render('admin/addUser', { title: 'Express' });
   }).catch((error) => {
+    console.error(error);
     res.render('admin/addUser', { title: 'Add user', error: error });
   });
 });
@@ -66,6 +67,7 @@ router.post('/zone', (req, res, next) => {
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
+    console.error(error);
     res.render('admin/zone', { title: 'Express', error: error })
   })
 })
@@ -74,14 +76,14 @@ router.post('/zone/delete',(req, res, next) => {
     res.send('');
   }).catch((error) =>{
     //TODO: handle error (forein key one)
-    console.log(error);
+    console.error(error);
   })
 })
 router.post('/zone/update',(req, res, next) => {
   zoneManagement.updateZone(req.body).then(() =>{
     res.send('');
   }).catch((error) =>{
-    console.log(error);
+    console.error(error);
   })
 })
 

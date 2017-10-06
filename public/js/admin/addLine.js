@@ -30,4 +30,5 @@ function createBySelection(depart,arrivee){
     $("#arriveeFinal").val(arrivee)
     $("#suggestForm").submit();
 
+    
 }

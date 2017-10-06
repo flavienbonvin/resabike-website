@@ -17,7 +17,7 @@ var self = module.exports = {
     getStopsForLine(from, to) {
         return new Promise((resolve, reject) => {
             var r = null;
-            console.log("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to)
+            console.log("API QUERRY: https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to)
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
                 //Check if there is more thant one leg, a leg is a change of bus (and change of line), if there is a change, the line is wrong
                 r = response;
@@ -71,12 +71,12 @@ var self = module.exports = {
     prepareStation(body) {
         return new Promise((resolve, reject) => {
             self.getStopsForLine(body.departFinal, body.arriveeFinal).then((stops) => {
-                self.insertStationInDB(stops).then((msg)=>{
+                self.insertStationInDB(stops).then((msg) => {
                     resolve(msg)
-                }).catch((error) =>{
+                }).catch((error) => {
                     reject(error);
                 })
-            }).catch((error) =>{
+            }).catch((error) => {
                 reject(error);
             })
         })
@@ -92,7 +92,6 @@ var self = module.exports = {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
                 var stop = stops[i].convertToSequelize();
-                console.log(stop)
 
                 //Retrieve from our database all stations we wants to add (this returns null if we don't have this station)
                 listProm.push(database.Station.find({
@@ -102,22 +101,20 @@ var self = module.exports = {
                 }))
             }
             Promise.all(listProm).then((stopsTemp) => {
-
                 var toAdd = [];
                 for (var i = 0; i < stopsTemp.length; i++) {
                     var stopTemp = stopsTemp[i];
                     if (stopTemp == null) {
-                        toAdd.push(stops[i].convertToSequelize());
-
-                        console.log('Inserting in DB' + stop.name)
+                        var stop = stops[i].convertToSequelize();
+                        toAdd.push(stop);
+                        console.log('Inserting in DB ' + stop.name);
                     }
                     else
-                        console.log("Alredy in DB " + stopTemp.name)
+                        console.error('Alredy in DB');
                 }
                 database.Station.bulkCreate(toAdd).then(() => {
                     //Once the station is created we have to add the line in the DB
                     self.insertLineInDB(stops).then(() => {
-                        database.close();
                         resolve();
                     }).catch((error) => {
                         reject(error);
@@ -136,12 +133,11 @@ var self = module.exports = {
      * @param {Station[]} stops 
      */
     insertLineInDB(stops) {
-        
+
         return new Promise((resolve, reject) => {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
                 var stop = stops[i].convertToSequelize();
-                console.log(stop)
 
                 listProm.push(database.Station.find({
                     where: {
@@ -160,7 +156,7 @@ var self = module.exports = {
                 }).then((lineTemp) => {
                     if (lineTemp == null) {
                         database.Line.create(line.convertToSequelize()).then((line) => {
-                            console.log(line);
+                            console.log('Inserting linestation in DB')
                             var lineStationsToAdd = [];
                             //We have to save the order of the stops on the line, that's why we create this array of Station to add
                             for (var i = 0; i < stopsTemp.length; i++) {
