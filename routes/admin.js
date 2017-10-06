@@ -28,10 +28,7 @@ router.post('/line/preview', (req, res, next) => {
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops });
   }).catch((error) => {
-<<<<<<< HEAD
     console.error(error);
-=======
->>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
     if (Array.isArray(error)) {
       res.render('admin/addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
     } else {
@@ -79,22 +76,14 @@ router.post('/zone/delete',(req, res, next) => {
     res.send('');
   }).catch((error) =>{
     //TODO: handle error (forein key one)
-<<<<<<< HEAD
     console.error(error);
-=======
-    //console.log(error);
->>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
   })
 })
 router.post('/zone/update',(req, res, next) => {
   zoneManagement.updateZone(req.body).then(() =>{
     res.send('');
   }).catch((error) =>{
-<<<<<<< HEAD
     console.error(error);
-=======
-    //console.log(error);
->>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
   })
 })
 
