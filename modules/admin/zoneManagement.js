@@ -6,7 +6,7 @@ var renderAddon = require('../../modules/renderAddon');
 module.exports = {
 
     /**
-     * 
+     * Create a new zone
      * @param {string} body 
      */
     createZone(body) {
@@ -30,6 +30,10 @@ module.exports = {
         })
     },
 
+    /**
+     * Delete a zone
+     * @param {string} body 
+     */
     deleteZone(body) {
         return new Promise((resolve, reject) => {
             database.Zone.destroy({
@@ -43,6 +47,10 @@ module.exports = {
             })
         })
     },
+    /**
+     * Update a given zone
+     * @param {string} body 
+     */
     updateZone(body) {
         return new Promise((resolve, reject) => {
             database.Zone.update({
@@ -58,6 +66,9 @@ module.exports = {
                 })
         })
     },
+    /**
+     * List all zones and the line they have
+     */
     listWithDetails() {
         return new Promise((resolve, reject) => {
             database.Zone.findAll({
@@ -77,7 +88,15 @@ module.exports = {
                     }
                 ]
             }).then((list) => {
+<<<<<<< HEAD
                 list = JSON.parse(JSON.stringify(list));
+=======
+<<<<<<< HEAD
+                console.log(list)
+=======
+                console.log(list);
+>>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
+>>>>>>> 965b991ef53ef7854ce2aaa9a415b7417a904344
                 resolve(list);
             }).catch((error) => {
                 reject(error);
