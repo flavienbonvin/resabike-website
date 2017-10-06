@@ -1,3 +1,5 @@
+const database = require('../modules/database');
+
 module.exports = function() {
     return new Promise((resolve, reject) => {
         database.Zone.findAll({

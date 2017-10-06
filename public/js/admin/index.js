@@ -33,18 +33,23 @@ function refreshZoneWithDetails(){
         type: 'GET',
         success: function(res) {
             var txt = '';
+            console.log(res);
             for (var i in res) {
+                var zone = res[i];
                 txt += '<div id="listZone">' + 
-                    '<h4 class="ui dividing header">  ' + res[i].name + ' </h4>' +
-                    '<div class="ui middle aligned divided list">' +
-                        '<div class="item">' +
+                    '<h4 class="ui dividing header">  ' + zone.name + ' </h4>' +
+                    '<div class="ui middle aligned divided list">';
+                for(var j in zone.lines){
+                    var line = zone.lines[j];
+                    txt+='<div class="item">' +
                             '<div class="right floated content">' +
                                 '<div class="ui button">Edit</div>' +
-                                '<div class="ui button" onclick="deleteZone(' + res[i].id + ')">Delete</div>' +
+                                '<div class="ui button" onclick="deleteLine(' + line.id + ')">Delete</div>' +
                             '</div>' +
-                            '<div class="content">ligne ' + res[i].id + ' ( ' + res[i].startStation.name + ' - ' + res[i].endStation.name + ')</div>' +
-                        '</div>' +
-                    '</div>' + 
+                            '<div class="content">ligne ' + line.id + ' ( ' + line.startStation.name + ' - ' + line.endStation.name + ')</div>' +
+                        '</div>'
+                }
+                txt+='</div>' + 
                 '</div>'
             }
             document.getElementById("listZone").innerHTML = txt;
