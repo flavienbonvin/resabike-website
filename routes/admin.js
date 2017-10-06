@@ -15,11 +15,7 @@ router.get('/index*', (req, res, next) => {
   zoneManagement.listWithDetails().then((details) => {
       res.render('admin/index', {title: 'Admin index', listZone: details});
   }).catch((error) => {
-<<<<<<< HEAD
     console.error(error);
-=======
-    //console.log(error)
->>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
   })
 });
 
