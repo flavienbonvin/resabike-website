@@ -17,4 +17,7 @@ block content
                     div.ui.middle.aligned.divided.list
                         each line in zone.lines
                             div.item 
-                                div.content ligne no#{line.id} (#{line.startStation.name} - #{line.endStation.name})
+                                div.right.floated.content
+                                    div.ui.button Edit
+                                    div.ui.button(onClick="deleteLine(" + line.id + ")") Delete
+                                div.content ligne #{line.id} (#{line.startStation.name} - #{line.endStation.name})

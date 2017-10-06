@@ -47,6 +47,12 @@ router.post('/line/add', (req, res, next) => {
   })
 });
 
+router.post('/line/delete', (req, res, next) => {
+  lineManagement.deleteLine(req.body).then(() => {
+    res.sendStatus(200);
+  })
+})
+
 router.get('/user/add', (req, res, next) => {
   res.render('admin/addUser', { title: 'Express' });
 });
@@ -63,6 +69,7 @@ router.post('/user/add', (req, res, next) => {
 router.get('/zone', (req, res, next) => {
   res.render('admin/zone', { title: 'Express' })
 })
+
 router.post('/zone', (req, res, next) => {
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })

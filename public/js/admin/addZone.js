@@ -6,7 +6,7 @@ function loadZone(){
     $.ajax({
         url: '/services/retrieveAllZones',
         type: 'GET',
-        success: (res) => {
+        success: function(res) {
             var txt = '';
             for (var i in res) {
                 txt += '<div class="item">'+

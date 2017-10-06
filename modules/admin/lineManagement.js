@@ -175,5 +175,23 @@ var self = module.exports = {
 
             })
         })
-    }
+    },
+
+        /**
+     * Delete a zone
+     * @param {string} body 
+     */
+    deleteLine(body) {
+        return new Promise((resolve, reject) => {
+            database.Line.destroy({
+                where: {
+                    id: body.idToDel
+                }
+            }).then((zoneTemp) => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            })
+        })
+    },
 }
