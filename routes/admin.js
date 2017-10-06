@@ -11,11 +11,11 @@ router.get('/', (req, res, next) => {
   })
 });
 
-router.get('/index', (req, res, next) => {
+router.get('/index*', (req, res, next) => {
   zoneManagement.listWithDetails().then((details) => {
       res.render('admin/index', {title: 'Admin index', listZone: details});
   }).catch((error) => {
-    console.log(error)
+    //console.log(error)
   })
 });
 
@@ -28,7 +28,6 @@ router.post('/line/preview', (req, res, next) => {
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops });
   }).catch((error) => {
-    console.log(error);
     if (Array.isArray(error)) {
       res.render('admin/addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
     } else {
@@ -74,14 +73,14 @@ router.post('/zone/delete',(req, res, next) => {
     res.send('');
   }).catch((error) =>{
     //TODO: handle error (forein key one)
-    console.log(error);
+    //console.log(error);
   })
 })
 router.post('/zone/update',(req, res, next) => {
   zoneManagement.updateZone(req.body).then(() =>{
     res.send('');
   }).catch((error) =>{
-    console.log(error);
+    //console.log(error);
   })
 })
 

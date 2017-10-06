@@ -62,7 +62,7 @@ module.exports = {
             database.Zone.findAll({
                 include : database.Line
             }).then((list) => {
-                console.log(list[0].line.id)
+                console.log(list);
                 resolve(list);
             }).catch((error) => {
                 reject(error);
