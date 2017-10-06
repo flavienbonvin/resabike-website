@@ -43,7 +43,6 @@ function refreshZoneWithDetails(){
                     var line = zone.lines[j];
                     txt+='<div class="item">' +
                             '<div class="right floated content">' +
-                                '<div class="ui button">Edit</div>' +
                                 '<div class="ui button" onclick="deleteLine(' + line.id + ')">Delete</div>' +
                             '</div>' +
                             '<div class="content">ligne ' + line.id + ' ( ' + line.startStation.name + ' - ' + line.endStation.name + ')</div>' +

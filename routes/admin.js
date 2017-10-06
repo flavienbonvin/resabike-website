@@ -26,7 +26,7 @@ router.get('/line/add', (req, res, next) => {
 
 router.post('/line/preview', (req, res, next) => {
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
-    res.render('admin/addLine', { title: 'Express', stops: stops });
+    res.render('admin/addLine', { title: 'Express', stops: stops[0] });
   }).catch((error) => {
     console.error(error);
     if (Array.isArray(error)) {
