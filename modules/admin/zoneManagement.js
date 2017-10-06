@@ -88,15 +88,7 @@ module.exports = {
                     }
                 ]
             }).then((list) => {
-<<<<<<< HEAD
                 list = JSON.parse(JSON.stringify(list));
-=======
-<<<<<<< HEAD
-                console.log(list)
-=======
-                console.log(list);
->>>>>>> 8bbaa0da48a9ec164501525d4912fb5c8a6b4a2d
->>>>>>> 965b991ef53ef7854ce2aaa9a415b7417a904344
                 resolve(list);
             }).catch((error) => {
                 reject(error);
