@@ -16,9 +16,17 @@ block contentClient
             class.ui.input
                 input(type="number",name="username")
         div.field
-            label= "Choissiez votre zone"
+            label= "Choisissez votre zone"
             select#zone.ui.search.dropdown(name="zone")
-                option(value="")= "Choissiez votre zone"
+                option(value="")= "Choisissez votre zone"
+        div.field
+            label= "Choisissez votre départ"
+            select#depart.ui.search.dropdown(name="depart")
+                option(value="")= "Choisissez votre départ"
+        div.field
+            label= "Choisissez votre destination"
+            select#destination.ui.search.dropdown(name="destination")
+                option(value="")= "Choisissez votre destination"
         .field
             button.ui.button Valider
         
