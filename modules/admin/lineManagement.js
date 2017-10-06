@@ -24,6 +24,7 @@ var self = module.exports = {
                 if (response.data.connections[0].legs.length <= 2) {
 
                     var type = response.data.connections[0].legs[0].type;
+                    var idLine = response.data.connections[0].legs[0].line;
 
                     //Check if the transport type is a bus or a postal bus, if not this isn't a bus line
                     if (type == 'bus' || type == 'post') {
@@ -42,7 +43,7 @@ var self = module.exports = {
 
                         stop = response.data.connections[0].legs[0].exit;
                         station = new Station(null, stop.name, stop.x, stop.y);
-                        stops.push(station);
+                        stops.push(station);                        
                     } else {
                         reject("This isn't a bus line");
                     }
@@ -61,7 +62,10 @@ var self = module.exports = {
                     }
                     reject([error, errorArray]);
                 }
-                resolve(stops);
+                var results = [];
+                results[0] = stops;
+                results[1] = idLine;
+                resolve(results);
             }).catch((error) => {
                 var readableObj = renderAddon.readableObject(r.data)
                 reject("The API returns " + readableObj);
@@ -85,10 +89,11 @@ var self = module.exports = {
     /**
      * Inserts an array of Station in the database (station table)
      * 
-     * @param {Station[]} stops 
+     * @param {[Station[], number]} stops 
      * @param {Number} idZone
      */
-    insertStationInDB(stops, idZone) {
+    insertStationInDB(stopsAndLine, idZone) {
+        var stops = stopsAndLine[0];
         return new Promise((resolve, reject) => {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
@@ -111,11 +116,11 @@ var self = module.exports = {
                         console.log('Inserting in DB ' + stop.name);
                     }
                     else
-                        console.error('Alredy in DB');
+                        console.error('Alredy in DB ' + stopTemp.name);
                 }
                 database.Station.bulkCreate(toAdd).then(() => {
                     //Once the station is created we have to add the line in the DB
-                    self.insertLineInDB(stops, idZone).then(() => {
+                    self.insertLineInDB(stopsAndLine, idZone).then(() => {
                         resolve();
                     }).catch((error) => {
                         reject(error);
@@ -131,11 +136,11 @@ var self = module.exports = {
     /**
      * Inserts a line in the database (line table)
      * 
-     * @param {Station[]} stops
+     * @param {[Station[], number]} stops
      * @param {Number} idZone
      */
-    insertLineInDB(stops, idZone) {
-
+    insertLineInDB(stopsAndLine, idZone) {
+        var stops = stopsAndLine[0];
         return new Promise((resolve, reject) => {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
@@ -148,10 +153,10 @@ var self = module.exports = {
                 }))
             }
             Promise.all(listProm).then((stopsTemp) => {
-                var line = new Line(null, stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
+                var line = new Line(stopsAndLine[1], stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
                 database.Line.find({
-                    //TODO: ajouter le numéro de ligne au FIND
                     where: {
+                        id: line.id,
                         idStartStation: line.idStartStation,
                         idEndStation: line.idEndStation
                     }
