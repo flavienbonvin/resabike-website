@@ -10,7 +10,7 @@ module.exports = {
                 
                 var connectionsTrip = new Array();
                 for (var i in response.data.connections){
-                    var conn = new Connection(response.data.connections[i].departure.split(" ")[1], response.data.connections[i].duration);
+                    var conn = new Connection(response.data.connections[i].departure, response.data.connections[i].duration);
                     connectionsTrip.push(conn)
                 }
                 
