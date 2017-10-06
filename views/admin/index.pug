@@ -1,20 +1,17 @@
-extends ../layout
+extends layout
 
-block extraHeaders
-    link(rel="stylesheet", href="/css/admin/addUser.css")
+block extraHeadersAdmin
+    link(rel="stylesheet", href="/css/admin/index.css")
     script(src="/js/admin/index.js")
 
-block content
-    div#main.ui.three.column.grid
-        div.column
-        div#centerCol.column
-            h4.ui.dividing.header Liste des zones
-            button.ui.button(onClick="location.href = '/admin/zone'") Ajouter une zone
-            //TODO: faire un espace pour que ça soit joli
-            div#listZone
-                each zone in listZone
-                    h4.ui.dividing.header= zone.name
-                    div.ui.middle.aligned.divided.list
-                        each line in zone.lines
-                            div.item 
-                                div.content ligne no#{line.id} (#{line.startStation.name} - #{line.endStation.name})
+block contentAdmin
+    h4.ui.dividing.header Liste des zones
+    button.ui.button(onClick="location.href = '/admin/zone'") Ajouter une zone
+    //TODO: faire un espace pour que ça soit joli
+    div#listZone
+        each zone in listZone
+            h4.ui.dividing.header= zone.name
+            div.ui.middle.aligned.divided.list
+                each line in zone.lines
+                    div.item 
+                        div.content ligne no#{line.id} (#{line.startStation.name} - #{line.endStation.name})

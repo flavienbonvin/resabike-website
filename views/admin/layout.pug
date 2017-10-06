@@ -1,0 +1,15 @@
+extends ../layout
+
+block extraHeaders
+    link(rel="stylesheet", href="/css/admin/style.css")
+    script(src="/js/admin/js.js")
+    block extraHeadersAdmin
+
+block content
+    div#main.ui.three.column.grid
+        div.column
+        div#centerCol.column
+            div#headerNav
+                a(href="/admin/").ui.button Acceuil
+            block contentAdmin
+        div.column

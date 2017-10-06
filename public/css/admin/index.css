@@ -1,0 +1,7 @@
+#listZone{
+    margin-top:25px;
+}
+#listZone .ui.divided.list > .item{
+    border-top:none;
+    padding-left:10px;
+}
