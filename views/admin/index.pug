@@ -14,5 +14,7 @@ block content
             div#listZone
                 each zone in listZone
                     h4.ui.dividing.header= zone.name
-                        each line in zone
-                            h3= console.log(line)
+                    div.ui.middle.aligned.divided.list
+                        each line in zone.lines
+                            div.item 
+                                div.content ligne no#{line.id} (#{line.startStation.name} - #{line.endStation.name})

@@ -30,9 +30,12 @@ var Line = sequelize.define('line', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }
 })
 
-Station.hasMany(Line, { foreignKey: 'idEndStation' })
-Station.hasMany(Line, { foreignKey: 'idStartStation' })
+Station.hasOne(Line, { as: 'endStation', foreignKey: 'idEndStation' })
+Line.belongsTo(Station, { as: 'endStation', foreignKey: 'idEndStation' })
+Station.hasOne(Line, { as: 'startStation', foreignKey: 'idStartStation' })
+Line.belongsTo(Station, { as: 'startStation', foreignKey: 'idStartStation' })
 Zone.hasMany(Line, { foreignKey: 'idZone' })
+Line.belongsTo(Zone, { foreignKey: 'idZone' })
 
 var Book = sequelize.define('book', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -72,10 +75,10 @@ var Trips = sequelize.define('trips', {
     startHour: Sequelize.DATE,
 })
 
-Line.hasMany(Trips,{foreignKey:'idLine'})
-Book.hasMany(Trips,{foreignKey:'idBook'})
-Station.hasMany(Trips,{foreignKey:'idStartStation'})
-Station.hasMany(Trips,{foreignKey:'idEndStation'})
+Line.hasMany(Trips, { foreignKey: 'idLine' })
+Book.hasMany(Trips, { foreignKey: 'idBook' })
+Station.hasMany(Trips, { foreignKey: 'idStartStation' })
+Station.hasMany(Trips, { foreignKey: 'idEndStation' })
 
 module.exports = {
     sync: function () {
