@@ -65,7 +65,9 @@ var LineStation = sequelize.define('linestation', {
 })
 
 Line.hasMany(LineStation, { foreignKey: 'idLine' })
+LineStation.belongsTo(Line, { foreignKey: 'idLine' })
 Station.hasMany(LineStation, { foreignKey: 'idStation' })
+LineStation.belongsTo(Station, { foreignKey: 'idStation' })
 
 var Trips = sequelize.define('trips', {
     idTrips: {

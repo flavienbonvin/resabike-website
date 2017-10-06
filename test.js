@@ -1,11 +1,13 @@
-var zonem = require('./modules/admin/zoneManagement');
 var db = require('./modules/database');
-var zone = require('./modules/admin/zoneManagement');
+var zone = require('./services/getStationByZone');
 var render = require('./modules/renderAddon');
 var fs = require('fs');
 var opn = require('opn');
+var body = {
+    zoneId:1
+}
 
-zone.listWithDetails().then((res) => {
+zone(body).then((res) => {
     var obj = JSON.parse(JSON.stringify(res));
     var op = render.readableObject(obj);
     fs.writeFileSync('index.html',op);

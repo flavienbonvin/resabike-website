@@ -20,7 +20,7 @@ function loadZone() {
 
 function loadStation(){
     $.ajax({
-        url: '/services/retrieveAllZones',
+        url: '/services/getStationByZone',
         type: 'POST',
         data: 'zoneId='+document.getElementById('zone').value,
         success: (res) => {
@@ -28,7 +28,8 @@ function loadStation(){
             for (var i = 0; i < res.length; i++) {
                 txt += '<option value="' + res[i].id + '">' + res[i].name + '</option>';
             }
-            document.getElementById('zone').innerHTML = txt;
+            document.getElementById('depart').innerHTML = txt;
+            document.getElementById('destination').innerHTML = txt;
             $('select.dropdown').dropdown();
         }
     })
