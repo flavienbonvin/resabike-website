@@ -1,0 +1,13 @@
+extends ../layout
+
+block extraHeaders
+    link(rel="stylesheet", href="/css/client/style.css")
+    script(src="/js/client/js.js")
+    block extraHeadersClient
+
+block content
+    div#main.ui.three.column.grid
+        div.column
+        div#centerCol.column
+            block contentClient
+        div.column

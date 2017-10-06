@@ -1,0 +1,24 @@
+extends layout
+
+
+block extraHeadersClient
+    script(src="/js/client/index.js")
+
+block contentClient
+    form.ui.form(method="post",action="/admin/user/add")
+        h4.ui.dividing.header Reservation
+        div.required.field
+            label Votre nom - prénom
+            class.ui.input
+                input(name="pseudo")
+        div.required.field
+            label Nombre du vélo
+            class.ui.input
+                input(type="number",name="username")
+        div.field
+            label= "Choissiez votre zone"
+            select#zone.ui.search.dropdown(name="zone")
+                option(value="")= "Choissiez votre zone"
+        .field
+            button.ui.button Valider
+        
