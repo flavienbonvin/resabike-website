@@ -1,43 +1,44 @@
-extends ../layout
+extends layout
 
-block extraHeaders
+block extraHeadersAdmin
     link(rel="stylesheet", href="/css/admin/addLine.css")
     script(src="/js/admin/addLine.js")
 
-block content
-    div#main.ui.three.column.grid
-        div.column
-        div#centerCol.column
-            form.ui.form(method="post",action="/admin/line/preview")
-                h4.ui.dividing.header= "Ajout de ligne"
-                div.field
-                    label= "Départ"
-                    select#depart.ui.search.dropdown(name="depart")
-                        option(value="")= "Lieu de départ"
-                div.field
-                    label= "Arrivé"
-                    select#arrivee.ui.search.dropdown(name="arrivee")
-                        option(value="")= "Lieu d'arrivée"
-                if !stops    
-                    div.field
-                        button.ui.button= "Créer"
-            if stops
-                div.ui.bulleted.list
-                    each stop in stops
-                        div.item= stop.name 
-                form(method="post",action="/admin/line/add")
-                    input(type="hidden",value=stops[0].name,name="departFinal")
-                    input(type="hidden",value=stops[stops.length-1].name,name="arriveeFinal")  
-                    div.field
-                        button.ui.button= "Je valide"
-            if lineSuggestions
-                h3= "Suggestion"
-                div.ui.bulleted.list
-                    each l in lineSuggestions
-                        div.item
-                            span= l[0]+' - '+l[1]
-                            button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
-                form#suggestForm(method="post",action="/admin/line/preview")
-                    input#departFinal(type="hidden",name="depart")
-                    input#arriveeFinal(type="hidden",name="arrivee")
-        div.column
+block contentAdmin
+    form.ui.form(method="post",action="/admin/line/preview")
+        h4.ui.dividing.header= "Ajout de ligne"
+        div.field
+            label= "Départ"
+            select#depart.ui.search.dropdown(name="depart")
+                option(value="")= "Lieu de départ"
+        div.field
+            label= "Arrivé"
+            select#arrivee.ui.search.dropdown(name="arrivee")
+                option(value="")= "Lieu d'arrivée"
+        if !stops    
+            div.field
+                button.ui.button= "Créer"
+    if stops
+        div.ui.bulleted.list
+            each stop in stops
+                div.item= stop.name 
+        form.ui.form(method="post",action="/admin/line/add")
+            input(type="hidden",value=stops[0].name,name="departFinal")
+            input(type="hidden",value=stops[stops.length-1].name,name="arriveeFinal") 
+            div.field
+                label= "Zone"
+                select#zone.ui.search.dropdown(name="zoneFinal")
+                    option(value="")= "Zone" 
+            div.field
+                button.ui.button= "Je valide"
+        
+    if lineSuggestions
+        h3= "Suggestion"
+        div.ui.bulleted.list
+            each l in lineSuggestions
+                div.item
+                    span= l[0]+' - '+l[1]
+                    button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
+        form#suggestForm(method="post",action="/admin/line/preview")
+            input#departFinal(type="hidden",name="depart")
+            input#arriveeFinal(type="hidden",name="arrivee")

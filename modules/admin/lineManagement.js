@@ -71,7 +71,7 @@ var self = module.exports = {
     prepareStation(body) {
         return new Promise((resolve, reject) => {
             self.getStopsForLine(body.departFinal, body.arriveeFinal).then((stops) => {
-                self.insertStationInDB(stops).then((msg) => {
+                self.insertStationInDB(stops, body.zoneFinal).then((msg) => {
                     resolve(msg)
                 }).catch((error) => {
                     reject(error);
@@ -86,8 +86,9 @@ var self = module.exports = {
      * Inserts an array of Station in the database (station table)
      * 
      * @param {Station[]} stops 
+     * @param {Number} idZone
      */
-    insertStationInDB(stops) {
+    insertStationInDB(stops, idZone) {
         return new Promise((resolve, reject) => {
             var listProm = [];
             for (var i = 0; i < stops.length; i++) {
@@ -114,7 +115,7 @@ var self = module.exports = {
                 }
                 database.Station.bulkCreate(toAdd).then(() => {
                     //Once the station is created we have to add the line in the DB
-                    self.insertLineInDB(stops).then(() => {
+                    self.insertLineInDB(stops, idZone).then(() => {
                         resolve();
                     }).catch((error) => {
                         reject(error);
@@ -130,9 +131,10 @@ var self = module.exports = {
     /**
      * Inserts a line in the database (line table)
      * 
-     * @param {Station[]} stops 
+     * @param {Station[]} stops
+     * @param {Number} idZone
      */
-    insertLineInDB(stops) {
+    insertLineInDB(stops, idZone) {
 
         return new Promise((resolve, reject) => {
             var listProm = [];
@@ -146,7 +148,7 @@ var self = module.exports = {
                 }))
             }
             Promise.all(listProm).then((stopsTemp) => {
-                var line = new Line(null, stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, 1);
+                var line = new Line(null, stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
                 database.Line.find({
                     //TODO: ajouter le numéro de ligne au FIND
                     where: {
