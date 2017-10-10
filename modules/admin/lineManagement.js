@@ -131,8 +131,7 @@ var self = module.exports = {
             })
         })
     },
-
-    //TODO: sauvegarder le numéro de ligne
+    
     /**
      * Inserts a line in the database (line table)
      * 
