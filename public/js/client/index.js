@@ -11,7 +11,7 @@ $(document).ready(function () {
                 var year = date.getFullYear();
                 var min = date.getMinutes();
                 var hour = date.getHours();
-                return day + '/' + month + '/' + year+', ' + hour + ':' + min;
+                return day + '-' + month + '-' + year+', ' + hour + ':' + min;
             }
         }
     });
