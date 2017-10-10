@@ -5,11 +5,11 @@ block extraHeadersAdmin
     script(src="/js/admin/addUser.js")
 
 block contentAdmin
-    form.ui.form(method="post",action="/admin/user/add")
+    form.ui.form(method="post",action="/admin/user/add", onsubmit="controlForm(event)")
         h4.ui.dividing.header Ajout d'un utilisateur
         div.required.field
             label Role du nouvel utilisateur
-            select(name="role").ui.dropdown
+            select#role(name="role").ui.dropdown
                 option(value="") Role
                 option(value="1") Chauffeur de bus
                 option(value="2") Administrateur de zone
@@ -23,11 +23,11 @@ block contentAdmin
         div.required.field
             label Mot de passe
             class#password1.ui.input
-                input(name="password", type="password")
+                input#password(name="password", type="password")
         div.required.field
             label Confirmer le mot de passe
             class#password2.ui.input
-                input(name="passwordConfirmation", type="password")
+                input#passwordConfirmation(name="passwordConfirmation", type="password", onkeyup="checkChangePass(this)")
         div.field
             label Email
             class.ui.input

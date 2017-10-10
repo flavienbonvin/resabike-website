@@ -1,7 +1,20 @@
 $(document).ready(function () {
     loadZone();
     $('select.dropdown').dropdown();
-    $('#calendar').calendar({ampm: false});
+    $('#calendar').calendar({
+        ampm: false,
+        formatter: {
+            datetime: function (date, settings) {
+                if (!date) return '';
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                var min = date.getMinutes();
+                var hour = date.getHours();
+                return day + '/' + month + '/' + year+', ' + hour + ':' + min;
+            }
+        }
+    });
 })
 
 function loadZone() {
@@ -19,11 +32,11 @@ function loadZone() {
     })
 }
 
-function loadStation(){
+function loadStation() {
     $.ajax({
         url: '/services/getStationByZone',
         type: 'POST',
-        data: 'zoneId='+document.getElementById('zone').value,
+        data: 'zoneId=' + document.getElementById('zone').value,
         success: (res) => {
             var txt = '<option value="">Choisissez votre zone</option>';
             for (var i = 0; i < res.length; i++) {

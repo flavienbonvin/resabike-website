@@ -1,6 +1,9 @@
 $(document).ready(() => {
     $('select.dropdown').dropdown();
-
+    getAllZone();
+    
+})
+function getAllZone(){
     $.ajax({
         url: '/services/retrieveAllZones',
         type: 'GET',
@@ -14,7 +17,34 @@ $(document).ready(() => {
             $('select.dropdown').dropdown();
         }
     })
-})
+}
+
+function controlForm(e){
+    var validate = true;
+    if(document.getElementById('role').value==""){
+        document.getElementById('role').style.borderColor = 'red';
+        validate = false;
+    }
+    if(document.getElementById('password').value.length < 6){
+        document.getElementById('password').style.borderColor = 'red';
+        validate = false;
+    }
+    if(document.getElementById('password').value != document.getElementById('passwordConfirmation').value){
+        document.getElementById('passwordConfirmation').style.borderColor = 'red';
+        validate = false;
+    }
+
+    if(!validate){
+        e.preventDefault();
+    }
+}
+function checkChangePass(t){
+    if(document.getElementById('password').value == t.value){
+        t.style.borderColor = 'green';
+    }else{
+        t.style.borderColor = 'rgba(34, 36, 38, 0.15)';
+    }
+}
 /*
     Reste à faire pour l'ajout de personne.
 
@@ -25,3 +55,4 @@ $(document).ready(() => {
         - Voir si il faut aller chercher les rôles possibles dans la base de donnée ou pas
         - Voir si le champs email est obligatoire (conmnexion avec le pseudo)
 */
+
