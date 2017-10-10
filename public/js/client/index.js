@@ -1,6 +1,7 @@
 $(document).ready(function () {
     loadZone();
     $('select.dropdown').dropdown();
+    $('#calendar').calendar({ampm: false});
 })
 
 function loadZone() {

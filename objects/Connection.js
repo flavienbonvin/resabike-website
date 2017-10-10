@@ -1,6 +1,8 @@
 var connection = class Connection {
 
-    constructor(departure, tripDuration){
+    constructor(idStationDeparture, idStationDestination, departure, tripDuration){
+        this.idStationDeparture = idStationDeparture;
+        this.idStationDestination = idStationDestination;
         this.departure = departure;
         this.tripDuration = tripDuration;
     }

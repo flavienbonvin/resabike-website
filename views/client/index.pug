@@ -3,10 +3,16 @@ extends layout
 
 block extraHeadersClient
     script(src="/js/client/index.js")
+    script(src="calendar.js")
+    link(rel="stylesheet", href="calendar.css")
 
 block contentClient
-    form.ui.form(method="post",action="/admin/user/add")
+    form.ui.form(method="post",action="/book/add")
         h4.ui.dividing.header Reservation
+        div.required.field
+            label Date de la réservation
+            div(class="ui calendar" id="calendar")
+                    input(type="text" placeholder="Date" name="date")
         div.required.field
             label Votre nom - prénom
             class.ui.input
@@ -14,13 +20,14 @@ block contentClient
         div.required.field
             label Nombre du vélo
             class.ui.input
-                input(type="number",name="username")
+                input(type="number" name="username")
         div.field
             label= "Choisissez votre zone"
             select(onchange="loadStation()")#zone.ui.search.dropdown(name="zone")
                 option(value="")= "Choisissez votre zone"
         div.field
             label= "Choisissez votre départ"
+                div(class.="ui input left icon")
             select#depart.ui.search.dropdown(name="depart")
                 option(value="")= "Choisissez votre départ"
         div.field
@@ -29,4 +36,3 @@ block contentClient
                 option(value="")= "Choisissez votre destination"
         .field
             button.ui.button Valider
-        
