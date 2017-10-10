@@ -9,7 +9,7 @@ block contentAdmin
         h4.ui.dividing.header Ajout d'un utilisateur
         div.required.field
             label Role du nouvel utilisateur
-            select#role(name="role").ui.dropdown
+            select#role(name="role",onchange="updateSelect(this)").ui.dropdown
                 option(value="") Role
                 option(value="1") Chauffeur de bus
                 option(value="2") Administrateur de zone
@@ -17,13 +17,12 @@ block contentAdmin
         div.required.field
             label Nom d'utilisateur
             class.ui.input
-                input(name="username")
-        //TODO: check if passwords are the same during the input 
+                input#username(name="username",onkeyup="updateInput(this)")
         //(not having to confirm to see if its good or not)
         div.required.field
             label Mot de passe
             class#password1.ui.input
-                input#password(name="password", type="password")
+                input#password(name="password", type="password",onkeyup="updateInput(this)")
         div.required.field
             label Confirmer le mot de passe
             class#password2.ui.input
@@ -31,11 +30,11 @@ block contentAdmin
         div.field
             label Email
             class.ui.input
-                input(name="email")
+                input#email(name="email",onkeyup="updateInput(this)")
         //TODO: hide if role is sysadmin
-        div.required.field
+        div#zoneContent.required.field
             label Selectionnez la zone 
-            select#zoneDropdown.ui.dropdown(name="zoneDropdown")
+            select#zoneDropdown.ui.dropdown(name="zoneDropdown",onchange="updateSelect(this)")
                 option(value="")= "Zone"                    
         div.field        
             class.ui.checkbox
