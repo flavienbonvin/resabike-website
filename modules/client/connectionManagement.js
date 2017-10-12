@@ -28,13 +28,9 @@ module.exports = {
                             connectionsTrip.push(conn)
 
                         }
-<<<<<<< HEAD
-                        resolve(connectionsTrip);
-=======
 
                         console.log(connectionsTrip);
                         resolve([body,connectionsTrip]);
->>>>>>> 64ce27e15d9c82a8977dd4b59718284246ab590f
                     })
                 })
             })
