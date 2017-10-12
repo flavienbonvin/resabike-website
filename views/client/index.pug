@@ -5,34 +5,59 @@ block extraHeadersClient
     script(src="/js/client/index.js")
     script(src="calendar.js")
     link(rel="stylesheet", href="calendar.css")
+    link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
-    form.ui.form(method="post",action="/book/add")
-        h4.ui.dividing.header Reservation
-        div.required.field
-            label Date de la réservation
-            div(class="ui calendar" id="calendar")
-                    input(type="text" placeholder="Date" name="date")
-        div.required.field
-            label Votre nom - prénom
-            class.ui.input
-                input(name="pseudo")
-        div.required.field
-            label Nombre du vélo
-            class.ui.input
-                input(type="number" name="username")
-        div.field
-            label= "Choisissez votre zone"
-            select(onchange="loadStation()")#zone.ui.search.dropdown(name="zone")
-                option(value="")= "Choisissez votre zone"
-        div.field
-            label= "Choisissez votre départ"
-                div(class.="ui input left icon")
-            select#depart.ui.search.dropdown(name="depart")
-                option(value="")= "Choisissez votre départ"
-        div.field
-            label= "Choisissez votre destination"
-            select#destination.ui.search.dropdown(name="destination")
-                option(value="")= "Choisissez votre destination"
-        .field
-            button.ui.button Valider
+    h4.ui.dividing.header Reservation
+    if !listHoraire
+        form#formAdd.ui.form(method="post",action="/book/add")
+            div.required.field
+                label Date de la réservation
+                div(class="ui calendar" id="calendar")
+                        input(type="text" placeholder="Date" name="date")
+            div.required.field
+                label Votre nom - prénom
+                class.ui.input
+                    input(name="pseudo")
+            div.required.field
+                label Email
+                class.ui.input
+                    input(name="email")
+            div.required.field
+                label Nombre du vélo
+                class.ui.input
+                    input(type="number" name="nbVelo")
+            div.field
+                label= "Choisissez votre zone"
+                select(onchange="loadStation()")#zone.ui.search.dropdown(name="zone")
+                    option(value="")= "Choisissez votre zone"
+            div.field
+                label= "Choisissez votre départ"
+                    div(class.="ui input left icon")
+                select#depart.ui.search.dropdown(name="depart")
+                    option(value="")= "Choisissez votre départ"
+            div.field
+                label= "Choisissez votre destination"
+                select#destination.ui.search.dropdown(name="destination")
+                    option(value="")= "Choisissez votre destination"
+            .field
+                button.ui.button Valider
+    else
+        div.ui.two.column.grid
+            div.column
+                div De #{listHoraire[1][0].nameStationDeparture} à #{listHoraire[1][0].nameStationDestination}
+                div Pour #{listHoraire[0]['nbVelo']} vélo(s) reservé par #{listHoraire[0]['pseudo']}
+            div.column
+                a(href="/").ui.button Nouvelle reservation
+        div.ui.list
+            each horaire in listHoraire[1]
+                div.item
+                    .right.floated.content
+                        div(onclick="reservation('#{horaire.departure}')").ui.button Reserver
+                    div.content.infoDepart= horaire.departure+' ('+Math.floor(horaire.tripDuration/100)+'min)'
+        form#hiddenForm
+            input(type="text",name="bookPseudo",value="#{listHoraire[0]['pseudo']}")
+            input(type="text",name="bookEmail",value="#{listHoraire[0]['email']}")
+            input(type="text",name="bookNumber",value="#{listHoraire[0]['nbVelo']}")
+            input(type="text",name="bookIdStartStation",value="#{listHoraire[0]['depart']}")
+            input(type="text",name="bookIdEndStation",value="#{listHoraire[0]['destination']}")
