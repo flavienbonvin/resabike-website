@@ -28,8 +28,6 @@ module.exports = {
                             connectionsTrip.push(conn)
                             
                         }
-
-                        console.log(connectionsTrip);
                         resolve(connectionsTrip);
                     })
                 })

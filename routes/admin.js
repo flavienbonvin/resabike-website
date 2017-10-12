@@ -54,12 +54,12 @@ router.post('/line/delete', (req, res, next) => {
 })
 
 router.get('/user/add', (req, res, next) => {
-  res.render('admin/addUser', { title: 'Express' });
+  res.render('admin/addUser', { title: 'Add user' });
 });
 
 router.post('/user/add', (req, res, next) => {
   userManagement.createUser(req.body).then(() => {
-    res.render('admin/addUser', { title: 'Express' });
+    res.render('admin/addUser', { title: 'Add user', msg: 'Added' });
   }).catch((error) => {
     console.error(error);
     res.render('admin/addUser', { title: 'Add user', error: error });

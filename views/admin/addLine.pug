@@ -37,8 +37,12 @@ block contentAdmin
         div.ui.bulleted.list
             each l in lineSuggestions
                 div.item
-                    span= l[0]+' - '+l[1]
-                    button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
+                    div.right.floated.content
+                        button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
+                    div.content
+                        span= l[0] + ' - ' + l[1]
+                    
+                    
         form#suggestForm(method="post",action="/admin/line/preview")
             input#departFinal(type="hidden",name="depart")
             input#arriveeFinal(type="hidden",name="arrivee")
