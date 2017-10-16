@@ -6,15 +6,12 @@ block extraHeadersAdmin
 
 block contentAdmin
     h4.ui.dividing.header Liste des zones
-    button.ui.button(onClick="location.href = '/admin/zone'") Ajouter une zone
-    //TODO: faire un espace pour que ça soit joli
     div#listZone
         each zone in listZone
-            h4.ui.dividing.header= zone.name
-            div.ui.middle.aligned.divided.list
+            h5.ui.dividing.header= zone.name
+            div.ui.bulleted.list
                 each line in zone.lines
                     div.item 
                         div.right.floated.content
                             div.ui.button(onClick="deleteLine(" + line.id + ")") Delete
-                        div.content ligne #{line.id} (#{line.startStation.name} - #{line.endStation.name})
-            
+                        div.content Ligne #{line.id} (#{line.startStation.name} - #{line.endStation.name})

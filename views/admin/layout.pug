@@ -6,13 +6,13 @@ block extraHeaders
     block extraHeadersAdmin
 
 block content
-    div#main.ui.three.column.grid
+    div.ui.two.column.centered.grid
         div.column
-        div#centerCol.column
-            div#headerNav
-                a(href="/admin/").ui.button Acceuil
-                a(href="/admin/line/add").ui.button Ajouter une ligne
-                a(href="/admin/user/add").ui.button Ajouter un utilisateur
-                a(href="/admin/zone").ui.button Gestion des zones
-            block contentAdmin
-        div.column
+            div.ui.top.attached.tabular.menu
+                a(class="active item", id="menuHome", href="/admin/") Acceuil
+                a(class="item", id="menuLine", href="/admin/line/add", onclick="test()") Ajouter une ligne
+                a(class="item", id="menuUser", href="/admin/user/add") Ajouter un utilisateur
+                a(class="item", id="menuZone", href="/admin/zone") Gestion des zones
+            div.ui.bottom.attached.segment  
+                block contentAdmin
+                

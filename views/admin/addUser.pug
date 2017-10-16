@@ -14,7 +14,7 @@ block contentAdmin
                 option(value="1") Chauffeur de bus
                 option(value="2") Administrateur de zone
                 option(value="3") Administrateur system
-        div.required.field
+        div.required.field#usernameInput
             label Nom d'utilisateur
             class.ui.input
                 input#username(name="username",onkeyup="updateInput(this)")
@@ -29,8 +29,11 @@ block contentAdmin
                 input#passwordConfirmation(name="passwordConfirmation", type="password", onkeyup="checkChangePass(this)")
         div.field
             label Email
-            class.ui.input
-                input#email(name="email",onkeyup="updateInput(this)")
+            class.ui.input.error
+                input#email(name="email",onkeyup="updateInput(this)")        
+        div.field
+            label Email
+                input.ui.input.error#email(name="email",onkeyup="updateInput(this)")
         //TODO: hide if role is sysadmin
         div#zoneContent.required.field
             label Selectionnez la zone 
