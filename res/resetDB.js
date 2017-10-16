@@ -3,8 +3,10 @@ var Role = require('../objects/Role');
 var Zone = require('../objects/Zone');
 var Station = require('../objects/Station');
 var Line = require('../objects/Line');
+var User = require('../objects/User');
 var roles = [];
-
+var zones = [];
+var users = [];
 var LineManagement = require('../modules/admin/lineManagement');
 
 
@@ -13,19 +15,21 @@ roles.push(
     new Role(2, 'Zone admin').convertToSequelize(),
     new Role(3, 'System admin').convertToSequelize())
 
+zones.push(
+    new Zone(1, 'Anniviers').convertToSequelize(),
+    new Zone(2, 'Hérens').convertToSequelize())
+
+users.push(
+    new User(1, 1, 'Flavien', '123456', 'test.test@test.test', 0, 1).convertToSequelize(),
+    new User(2, 2, 'Maxime', 'testPassword', 'test@test.ch', 0, 2).convertToSequelize(),
+    new User(3, 3, 'Hugo', 'passwordHugo', 'hugo@resabike.ch', 0, 1).convertToSequelize())
 
 
 db.sync().then(() => {
 
     db.Role.bulkCreate(roles).then(() => {
-        var zone = new Zone(1, 'Anniviers');
-        db.Zone.create(
-            zone.convertToSequelize()
-        ).then(() => {
-            zone = new Zone(2, 'Hérens')
-            db.Zone.create(
-                zone.convertToSequelize()
-            ).then(() => {
+        db.Zone.bulkCreate(zones).then(() => {
+            db.User.bulkCreate(users).then(() => {
                 var body = {
                     departFinal: 'Sierre, poste/gare',
                     arriveeFinal: 'Vissoie, poste',
@@ -49,9 +53,8 @@ db.sync().then(() => {
                     });
                 })
             })
-
-
         })
 
     })
+
 });

@@ -70,3 +70,4 @@ function checkChangePass(t) {
     } else {
         t.style.borderColor = 'rgba(34, 36, 38, 0.15)';
     }
+}

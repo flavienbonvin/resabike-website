@@ -6,6 +6,7 @@ block extraHeadersAdmin
 
 block contentAdmin
     form.ui.form(method="post",action="/admin/user/add", onsubmit="controlForm(event)")
+        input(name="idUser", type="hidden", value=user.id)
         h4.ui.dividing.header Ajout d'un utilisateur
         div.required.field
             label Role du nouvel utilisateur
@@ -17,8 +18,7 @@ block contentAdmin
         div.required.field#usernameInput
             label Nom d'utilisateur
             class.ui.input
-                input#username(name="username",onkeyup="updateInput(this)")
-        //(not having to confirm to see if its good or not)
+                input#username(name="username",onkeyup="updateInput(this)", value=user.pseudo)
         div.required.field
             label Mot de passe
             class#password1.ui.input
@@ -30,19 +30,14 @@ block contentAdmin
         div.field
             label Email
             class.ui.input.error
-                input#email(name="email",onkeyup="updateInput(this)")        
-        div.field
-            label Email
-                input.ui.input.error#email(name="email",onkeyup="updateInput(this)")
-        //TODO: hide if role is sysadmin
+                input#email(name="email",onkeyup="updateInput(this)", value=user.email)
         div#zoneContent.required.field
             label Selectionnez la zone 
             select#zoneDropdown.ui.dropdown(name="zoneDropdown",onchange="updateSelect(this)")
-                option(value="")= "Zone"                    
+                option(value="")= "Zone"
         div.field        
             class.ui.checkbox
                 input(name="passwordReset", type="checkbox")
                 label Changer de mot de passe lors de la première connexion
-        //TODO: afficher (ou activer) le bouton qu'une fois que tout est rempli
         div.field
             button.ui.button Ajouter

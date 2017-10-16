@@ -15,7 +15,7 @@ var self = module.exports = {
               resetPass = true;
             }
             
-            var user = new User(null, body.role, body.username, body.password, body.email, resetPass, body.zoneDropdown);
+            var user = new User(body.idUser, body.role, body.username, body.password, body.email, resetPass, body.zoneDropdown);
             switch (user.idRole) {
                 //Create bus driver 
                 case '1':
@@ -100,22 +100,77 @@ var self = module.exports = {
      */
     addUserToSystem(user){
         return new Promise((resolve, reject) => {
+            database.User.update
             database.User.find({
                 where: {
-                    pseudo: user.pseudo,
-                    email: user.email,
-                    idZone: user.idZone,
-                    idRole: user.idRole
+                    id: user.id
                 }
             }).then((userTemp) => {
                 if (userTemp == null) {
-                    console.log(user)
+                    console.log("Creating a new user");
+                    console.log(user);
                     database.User.create(user.convertToSequelize()).then(() => {
                         resolve();
                     });
                 } else {
-                    reject("User already in the DB")
+                    console.log("Updating a user");
+                    console.log(user)
+                    database.User.update({
+                        pseudo: user.pseudo,
+                        password: user.password,
+                        email: user.email,
+                        changePass: user.changePass,
+                        idZone: user.idZone,
+                        idRole: user.idRole    
+                    }, {
+                        where: {
+                            id: user.id
+                        }
+                    }).then(() => {
+                        resolve();
+                    })
                 }
+            })
+        })
+    },
+        /**
+     * Delete a zone
+     * @param {string} body 
+     */
+    deleteUser(body) {
+        return new Promise((resolve, reject) => {
+            database.User.destroy({
+                where: {
+                    id: body.idToDel
+                }
+            }).then((userTemp) => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            })
+        })
+    },
+    resetPassword(body) {
+        return new Promise((resolve, reset) => {
+            database.User.update( {
+                changePass: 1
+            }, {
+                where: {
+                    id: body.idToEdit
+                }
+            }).then((userTemp) => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            })
+        })
+    },
+    getUser(idSearch){
+        return new Promise((resolve, reset) => {
+            database.User.findById(idSearch).then((userTemp) => {
+                resolve(userTemp);
+            }).catch((error) => {
+                reject(error);
             })
         })
     }
