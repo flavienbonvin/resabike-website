@@ -4,3 +4,13 @@
 .infoDepart{
     padding:.78571429em 1.5em .78571429em
 }
+.infoTrip{
+    font-size: 10px;
+    margin-left:10px;
+}
+#hiddenForm{
+    display: none;
+}
+.idLine{
+    display: none;
+}

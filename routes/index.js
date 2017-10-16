@@ -4,6 +4,7 @@ var router = express.Router();
 const database = require('../modules/database')
 const Station = require('../objects/Station');
 const connectionManagement = require('../modules/client/connectionManagement');
+const bookManagement = require('../modules/client/bookManagement');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -11,9 +12,14 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/book/add', function (req, res, next) {
-  console.log(req.body)
   connectionManagement.getConnectionForTrip(req.body).then((list) => {
     res.render('client/index', { title: 'express', listHoraire: list })
+  })
+})
+router.post('/book/reserve', function (req, res, next) {
+  console.log(req.body);
+  bookManagement.addBook(req.body).then((list) => {
+    res.render('client/index', { title: 'express', msg:'reservation ajouté' })
   })
 })
 

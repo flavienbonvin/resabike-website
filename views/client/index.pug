@@ -3,8 +3,8 @@ extends layout
 
 block extraHeadersClient
     script(src="/js/client/index.js")
-    script(src="calendar.js")
-    link(rel="stylesheet", href="calendar.css")
+    script(src="/calendar.js")
+    link(rel="stylesheet", href="/calendar.css")
     link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
@@ -48,16 +48,32 @@ block contentClient
                 div De #{listHoraire[1][0].nameStationDeparture} à #{listHoraire[1][0].nameStationDestination}
                 div Pour #{listHoraire[0]['nbVelo']} vélo(s) reservé par #{listHoraire[0]['pseudo']}
             div.column
-                a(href="/").ui.button Nouvelle reservation
+                a(href="/").ui.button.right.floated Nouvelle reservation
         div.ui.list
             each horaire in listHoraire[1]
                 div.item
                     .right.floated.content
-                        div(onclick="reservation('#{horaire.departure}')").ui.button Reserver
-                    div.content.infoDepart= horaire.departure+' ('+Math.floor(horaire.tripDuration/100)+'min)'
-        form#hiddenForm
-            input(type="text",name="bookPseudo",value="#{listHoraire[0]['pseudo']}")
-            input(type="text",name="bookEmail",value="#{listHoraire[0]['email']}")
-            input(type="text",name="bookNumber",value="#{listHoraire[0]['nbVelo']}")
-            input(type="text",name="bookIdStartStation",value="#{listHoraire[0]['depart']}")
-            input(type="text",name="bookIdEndStation",value="#{listHoraire[0]['destination']}")
+                        div(onclick="reservation(this)").ui.button Reserver
+                    div.content.infoDepart
+                        div= horaire.departure+' ('+Math.floor(horaire.tripDuration/60)+'min)'
+                        each trip in horaire.tripsInfo
+                            div.infoTrip 
+                                span #{trip.type} : 
+                                span.depart #{trip.depart}
+                                span (
+                                span.departTime #{trip.departTime}
+                                span ) - 
+                                span.sortie #{trip.sortie}
+                                span (#{trip.finTime})
+                                if trip.idLine != -1
+                                    i.icon.check
+                                else
+                                    i.icon.remove
+                                sapn.idLine #{trip.idLine}
+        form#hiddenForm(action="/book/reserve",method="POST")
+            input(type="text",name="bookPseudo",value=listHoraire[0]['pseudo'])
+            input(type="text",name="bookEmail",value=listHoraire[0]['email'])
+            input(type="text",name="bookNumber",value=listHoraire[0]['nbVelo'])
+            input(type="text",name="bookIdStartStation",value=listHoraire[0]['depart'])
+            input(type="text",name="bookIdEndStation",value=listHoraire[0]['destination'])
+            input#nbLine(type="text",name="nbLine")

@@ -1,6 +1,6 @@
 var connection = class Connection {
 
-    constructor(nameStationDeparture,idStationDeparture,nameStationDestination, idStationDestination, departure, tripDuration){
+    constructor(nameStationDeparture,idStationDeparture,nameStationDestination, idStationDestination, departure, tripDuration, tripsInfo){
         this.nameStationDeparture = nameStationDeparture;
         this.idStationDeparture = idStationDeparture;
         this.nameStationDestination = nameStationDestination;
@@ -11,6 +11,7 @@ var connection = class Connection {
         var timeTemp = depTemp[1].split(':');
         this.departure = dateTemp+' '+timeTemp[0]+':'+timeTemp[1];
         this.tripDuration = tripDuration;
+        this.tripsInfo = tripsInfo
     }
 }
 

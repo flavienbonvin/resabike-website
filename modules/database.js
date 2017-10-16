@@ -72,13 +72,16 @@ LineStation.belongsTo(Station, { foreignKey: 'idStation' })
 var Trips = sequelize.define('trips', {
     idTrips: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     startHour: Sequelize.DATE,
 })
 
 Line.hasMany(Trips, { foreignKey: 'idLine' })
+Trips.belongsTo(Line, { foreignKey: 'idLine' })
 Book.hasMany(Trips, { foreignKey: 'idBook' })
+Trips.belongsTo(Book, { foreignKey: 'idBook' })
 Station.hasMany(Trips, { foreignKey: 'idStartStation' })
 Station.hasMany(Trips, { foreignKey: 'idEndStation' })
 
@@ -99,5 +102,6 @@ module.exports = {
     Line,
     Book,
     User,
-    LineStation
+    LineStation,
+    Trips
 }
