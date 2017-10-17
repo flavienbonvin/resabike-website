@@ -45,7 +45,7 @@ var Book = sequelize.define('book', {
     token: Sequelize.TEXT,
     status: Sequelize.BOOLEAN
 });
-
+    
 Station.hasMany(Book, { foreignKey: 'idStartStation' });
 Station.hasMany(Book, { foreignKey: 'idEndStation' });
 
