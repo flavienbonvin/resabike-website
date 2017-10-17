@@ -8,6 +8,7 @@ block extraHeadersClient
     link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
+    a(class="active item", id="menuHome", href="/admin/login") Login
     h4.ui.dividing.header Reservation
     if !listHoraire
         form#formAdd.ui.form(method="post",action="/book/add")
@@ -65,7 +66,10 @@ block contentClient
                                 span ) - 
                                 span.sortie #{trip.sortie}
                                 span (#{trip.finTime})
-                                span #{trip.nbPlaceRestant}
+                                if trip.nbPlaceRestant - listHoraire[0]['nbVelo'] < 0
+                                    span(data-tooltip = "Confirmation de l'administrateur necessaire", style = "color:red") #{trip.nbPlaceRestant} 
+                                else
+                                    span #{trip.nbPlaceRestant} 
                                 if trip.idLine != -1
                                     i.icon.check
                                 else

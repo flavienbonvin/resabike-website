@@ -1,0 +1,20 @@
+extends layout
+
+block extraHeadersAdmin
+    link(rel="stylesheet", href="/css/admin/index.css")
+    script(src="/js/admin/index.js")
+
+block contentAdmin
+
+    h4.ui.dividing.header Login
+    form.ui.form(method="post",action="/login")
+        div.required.field
+            label Nom d'utilisateur
+            class.ui.input
+                input(name="pseudo")
+        div.required.field
+                label Mot de passe 
+                class.ui.input
+                    input(name="pseudo")
+        .field
+            button.ui.button Connecter

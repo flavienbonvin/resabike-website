@@ -127,4 +127,11 @@ router.post('/zone/update',(req, res, next) => {
     console.error(error);
   })
 })
+
+router.get('/login', (req, res, next) => {
+  res.render('admin/login', {title: 'Express'});
+})
+router.post('/login', (req, res, next) => {
+  
+})
 module.exports = router;
