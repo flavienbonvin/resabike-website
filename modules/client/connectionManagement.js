@@ -98,7 +98,7 @@ var self = module.exports = {
     isLineinDB(legTemp) {
         return new Promise((resolve, reject) => {
             if (legTemp.idLine == -1) {
-                resolve(false);
+                resolve(legTemp);
                 return;
             }
             database.Line.find({
