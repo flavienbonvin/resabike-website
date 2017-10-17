@@ -2,6 +2,8 @@ var axios = require('axios');
 var database = require('../database')
 var Connection = require("../../objects/Connection");
 
+const nbMaxVelo = 6;
+
 var self = module.exports = {
 
     getConnectionForTrip(body) {
@@ -74,7 +76,8 @@ var self = module.exports = {
                     type: type,
                     departTime: currentLeg.departure,
                     finTime: currentLeg.exit.arrival,
-                    sortie: currentLeg.exit.name
+                    sortie: currentLeg.exit.name,
+                    nbPlaceRestant : nbMaxVelo
                 }
 
                 linesInfoTemp.push(self.isLineinDB(lineInfoTemp));
@@ -105,8 +108,30 @@ var self = module.exports = {
             }).then((line) => {
                 if (line == null) {
                     legTemp.idLine = -1;
+                    resolve(legTemp);
+                }else{
+                    self.checkNBVeloOnLine(legTemp).then((legTemp) =>{
+                        resolve(legTemp)
+                    })
                 }
-                resolve(legTemp);
+                
+            })
+        })
+    },
+
+    checkNBVeloOnLine(legTemp){
+        return new Promise((resolve,reject) =>{
+
+            database.Trips.sum('number', {
+                where : {
+                    idLine : legTemp.idLine,
+                    startHour : legTemp.departTime
+                },
+                include: [{ model: database.Book }]
+            }).then(sum => {
+                sum = sum || 0;
+                legTemp.nbPlaceRestant -= sum;
+                resolve(legTemp)
             })
         })
     }
