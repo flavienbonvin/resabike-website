@@ -30,9 +30,9 @@ users.push(
     new User(3, 3, 'Hugo', 'passwordHugo', 'hugo@resabike.ch', 0, 1).convertToSequelize())
 
 books.push(
-    new Book(1, 1, 11, 'Flavien', 'bonvin.flavien@gmail.com', 4, 'token').convertToSequelize(),
-    new Book(2, 26, 38, 'Maxime', 'max@gmail.com', 3, 'token').convertToSequelize(),
-    new Book(3, 1, 24, 'Hugo', 'hugo@hugo.com', 8, 'token').convertToSequelize());
+    new Book(1, 1, 11, 'Flavien', 'bonvin.flavien@gmail.com', 4, 'token1', true).convertToSequelize(),
+    new Book(2, 26, 38, 'Maxime', 'max@gmail.com', 3, 'token2', true).convertToSequelize(),
+    new Book(3, 1, 24, 'Hugo', 'hugo@hugo.com', 8, 'token3', false).convertToSequelize());
 
 trips.push(
     new Trip(1, date, 451, 1, 1, 11).convertToSequelize(),

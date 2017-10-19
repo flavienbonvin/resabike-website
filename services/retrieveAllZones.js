@@ -5,7 +5,6 @@ const database = require('../modules/database')
 module.exports = () => {
     return new Promise((resolve, reject) => {
         database.Zone.findAll().then((zoneList) => {
-            console.log(zoneList);
             resolve(zoneList)
         });
     })

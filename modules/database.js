@@ -43,7 +43,7 @@ var Book = sequelize.define('book', {
     email: Sequelize.STRING,
     number: Sequelize.INTEGER,
     token: Sequelize.TEXT,
-    status: Sequelize.BOOLEAN
+    status: {type : Sequelize.BOOLEAN, defaultValue : false}
 });
     
 Station.hasMany(Book, { foreignKey: 'idStartStation' });
