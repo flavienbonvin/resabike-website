@@ -14,6 +14,7 @@ router.use((req, res, next) => {
   }else{
     next();
   }*/
+  next();
 })
 
 //TODO: page de détail pour lignes
