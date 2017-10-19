@@ -60,13 +60,15 @@ function reservation(t) {
     var departsTime = $(info).find('.departTime');
     var sorties = $(info).find(".sortie");
     var idLines = $(info).find(".idLine");
+    var nbPlaceRestants = $(info).find(".nbPlaceRestant");
     var size = $(info).find('.depart').length;
     
     for (var i = 0; i < departs.length; i++) {
         var txt = '<input type="text" name="depart'+i+'" value="'+departs[i].innerHTML+'" />'+ 
                     '<input type="text" name="departTime'+i+'" value="'+departsTime[i].innerHTML+'" />' +
                     '<input type="text" name="sortie'+i+'" value="'+sorties[i].innerHTML+'" />'+
-                    '<input type="text" name="idLine'+i+'" value="'+idLines[i].innerHTML+'" />' 
+                    '<input type="text" name="idLine'+i+'" value="'+idLines[i].innerHTML+'" />'+ 
+                    '<input type="text" name="nbPlaceRestant'+i+'" value="'+nbPlaceRestants[i].innerHTML+'" />'
         document.getElementById('hiddenForm').innerHTML += txt;
     }
     $("#nbLine").val(size);

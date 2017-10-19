@@ -8,9 +8,10 @@ var book = class Book {
      * @param {string} email 
      * @param {Number} number 
      * @param {string} token 
+     * @param {string} status
      */
 
-    constructor(id, idStartStation, idEndStation, pseudo, email, number, token) {
+    constructor(id, idStartStation, idEndStation, pseudo, email, number, token, status) {
         this.id = id;
         this.idStartStation = idStartStation;
         this.idEndStation = idEndStation;
@@ -18,6 +19,7 @@ var book = class Book {
         this.email = email;
         this.number = number;
         this.token = token;
+        this.status = status;
     }
 
     convertToSequelize() {
@@ -28,7 +30,8 @@ var book = class Book {
             pseudo: this.pseudo,
             email: this.email,
             number: this.number,
-            token: this.token
+            token: this.token,
+            status : this.status
         }
     }
 }

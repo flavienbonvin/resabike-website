@@ -1,10 +1,5 @@
-var db = require('./modules/database');
+var email = require('./modules/email');
 
-
-db.Line.find({
-    where: {
-        id : 50
-    }
-}).then((line) =>{
-    console.log(line);
+email.createEmail('maxime.betrisey@jehegt.ch','test','<p>salut<p>').then(() =>{
+    console.log('ok');
 })
