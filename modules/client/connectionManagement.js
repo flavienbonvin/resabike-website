@@ -36,7 +36,6 @@ var self = module.exports = {
         return new Promise((resolve, reject) => {
             database.Station.findById(body.depart).then((stationDepart) => {
                 database.Station.findById(body.destination).then((stationArrivee) => {
-                    console.log(body.date);
                     var temp = body.date;
                     var date = temp.split(',');
                     var dateTemp = date[0].split('-');
