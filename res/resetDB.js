@@ -4,26 +4,41 @@ var Zone = require('../objects/Zone');
 var Station = require('../objects/Station');
 var Line = require('../objects/Line');
 var User = require('../objects/User');
+var Book = require('../objects/Book');
+var Trip = require('../objects/Trip');
 var roles = [];
 var zones = [];
 var users = [];
+var books = [];
+var trips = [];
+var date = new Date();
 var LineManagement = require('../modules/admin/lineManagement');
 
 
 roles.push(
     new Role(1, 'Bus driver').convertToSequelize(),
     new Role(2, 'Zone admin').convertToSequelize(),
-    new Role(3, 'System admin').convertToSequelize())
+    new Role(3, 'System admin').convertToSequelize());
 
 zones.push(
     new Zone(1, 'Anniviers').convertToSequelize(),
-    new Zone(2, 'Hérens').convertToSequelize())
+    new Zone(2, 'Hérens').convertToSequelize());
 
 users.push(
     new User(1, 1, 'Flavien', '123456', 'test.test@test.test', 0, 1).convertToSequelize(),
     new User(2, 2, 'Maxime', 'testPassword', 'test@test.ch', 0, 2).convertToSequelize(),
     new User(3, 3, 'Hugo', 'passwordHugo', 'hugo@resabike.ch', 0, 1).convertToSequelize())
 
+books.push(
+    new Book(1, 1, 11, 'Flavien', 'bonvin.flavien@gmail.com', 4, 'token').convertToSequelize(),
+    new Book(2, 26, 38, 'Maxime', 'max@gmail.com', 3, 'token').convertToSequelize(),
+    new Book(3, 1, 24, 'Hugo', 'hugo@hugo.com', 8, 'token').convertToSequelize());
+
+trips.push(
+    new Trip(1, date, 451, 1, 1, 11).convertToSequelize(),
+    new Trip(2, date, 381, 2, 26, 38).convertToSequelize(),
+    new Trip(3, date, 451, 3, 1, 11).convertToSequelize(),
+    new Trip(4, date, 453, 3, 11, 24).convertToSequelize());
 
 db.sync().then(() => {
 
@@ -48,7 +63,11 @@ db.sync().then(() => {
                             zoneFinal: 2
                         }
                         LineManagement.prepareStation(body).then(() => {
-                            db.close();
+                            db.Book.bulkCreate(books).then(() => {
+                                db.Trips.bulkCreate(trips).then(() => {
+                                    db.close();
+                                })
+                            })
                         });
                     });
                 })

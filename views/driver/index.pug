@@ -1,0 +1,16 @@
+extends layout
+
+block extraHeadersDriver
+    script(src="/js/driver/index.js")
+    link(rel="stylesheet", href="/css/driver/index.css")
+
+block contentDriver
+
+    form.ui.form(method="POST", action="/driver")
+        h4.ui.dividing.header Selection de la ligne
+        div#zoneContent.required.field
+            label Selectionnez la ligne
+            select#lineDropdown.ui.dropdown(name="lineDropdown",onchange="updateSelect(this)")
+                option(value="")= "Ligne"
+        .field
+            button.ui.button Valider

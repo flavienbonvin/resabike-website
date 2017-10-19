@@ -1,5 +1,5 @@
 var axios = require('axios');
-var database = require('../database')
+var database = require('../database');
 var Connection = require("../../objects/Connection");
 
 const nbMaxVelo = 6;

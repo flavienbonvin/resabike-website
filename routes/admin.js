@@ -67,7 +67,6 @@ router.post('/line/delete', (req, res, next) => {
 router.get('/user/add', (req, res, next) => {
   res.render('admin/addUser', { title: 'Add user' , user: new User()});
 });
-
 router.post('/user/add', (req, res, next) => {
   userManagement.createUser(req.body).then(() => {
     res.render('admin/addUser', { title: 'Add user', msg: 'Added', user: new User()});

@@ -1,0 +1,11 @@
+extends ../layout
+
+block extraHeaders
+    link(rel="stylesheet", href="/css/driver/style.css")
+    script(src="/js/driver/js.js")
+    block extraHeadersDriver
+
+block content
+    div.ui.two.column.centered.grid
+        div#centerCol.column
+            block contentDriver

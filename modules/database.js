@@ -83,8 +83,10 @@ Line.hasMany(Trips, { foreignKey: 'idLine' })
 Trips.belongsTo(Line, { foreignKey: 'idLine' })
 Book.hasMany(Trips, { foreignKey: 'idBook' })
 Trips.belongsTo(Book, { foreignKey: 'idBook' })
-Station.hasMany(Trips, { foreignKey: 'idStartStation' })
-Station.hasMany(Trips, { foreignKey: 'idEndStation' })
+Station.hasMany(Trips, { as: 'startStationTrip', foreignKey: 'idStartStation' })
+Trips.belongsTo(Station, { as: 'startStationTrip', foreignKey: 'idStartStation' })
+Station.hasMany(Trips, { as: 'endStationTrip', foreignKey: 'idEndStation' })
+Trips.belongsTo(Station, { as: 'endStationTrip', foreignKey: 'idEndStation' })
 
 module.exports = {
     sync: function () {
