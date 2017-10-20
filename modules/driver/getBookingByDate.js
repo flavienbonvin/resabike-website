@@ -74,10 +74,8 @@ module.exports = {
                         date = date[2]+'.'+date[1]+'.'+date[0];
                         var time = datetimeTemp[1].split(':');
                         time = time[0]+':'+time[1];
-                        console.log(date+' '+time);
                         list[i].startHour = date+' '+time;
                     }
-                    console.log(list);
                     resolve(list);
                 })
             })

@@ -32,6 +32,10 @@ app.use('/admin', admin);
 app.use('/driver', driver);
 app.use('/services', services);
 
+app.use((req,res,next) => {
+  //var lang = require('./lang/'+req.url);
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
