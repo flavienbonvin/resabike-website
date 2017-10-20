@@ -43,9 +43,9 @@ var Book = sequelize.define('book', {
     email: Sequelize.STRING,
     number: Sequelize.INTEGER,
     token: Sequelize.TEXT,
-    status: Sequelize.BOOLEAN
+    status: { type: Sequelize.BOOLEAN, defaultValue: false }
 });
-    
+
 Station.hasMany(Book, { foreignKey: 'idStartStation' });
 Station.hasMany(Book, { foreignKey: 'idEndStation' });
 
@@ -76,7 +76,7 @@ var Trips = sequelize.define('trips', {
         primaryKey: true,
         autoIncrement: true
     },
-    startHour: Sequelize.DATE,
+    startHour: Sequelize.DATE
 })
 
 Line.hasMany(Trips, { foreignKey: 'idLine' })
@@ -87,6 +87,23 @@ Station.hasMany(Trips, { as: 'startStationTrip', foreignKey: 'idStartStation' })
 Trips.belongsTo(Station, { as: 'startStationTrip', foreignKey: 'idStartStation' })
 Station.hasMany(Trips, { as: 'endStationTrip', foreignKey: 'idEndStation' })
 Trips.belongsTo(Station, { as: 'endStationTrip', foreignKey: 'idEndStation' })
+
+
+var Trailer = sequelize.define('trailer', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    startHour: Sequelize.DATE,
+    nbBike: Sequelize.INTEGER,
+    trailerUsed: { type: Sequelize.BOOLEAN, defaultValue: false },
+    status: { type: Sequelize.BOOLEAN, defaultValue: true }
+})
+
+Line.hasMany(Trailer, { foreignKey: 'idLine' })
+Trailer.belongsTo(Line, { foreignKey: 'idLine' })
+
 
 module.exports = {
     sync: function () {
@@ -106,5 +123,6 @@ module.exports = {
     Book,
     User,
     LineStation,
-    Trips
+    Trips,
+    Trailer
 }

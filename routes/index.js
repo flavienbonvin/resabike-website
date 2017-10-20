@@ -14,6 +14,8 @@ router.get('/', function (req, res, next) {
 router.post('/book/add', function (req, res, next) {
   connectionManagement.getConnectionForTrip(req.body).then((list) => {
     res.render('client/index', { title: 'express', listHoraire: list })
+  }).catch((error) => {
+    res.render('client/index', { title: 'Express',error : error });
   })
 })
 router.post('/book/reserve', function (req, res, next) {
