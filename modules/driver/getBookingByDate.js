@@ -6,7 +6,21 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             var date = new Date();
-            database.Trips.findAll({
+
+            database.Trailer.findAll({
+                where : {
+                    idLine: body.lineDropdown
+                },
+                include : [
+                    {
+                        model: database.Line
+                    }
+                ]
+            }).then((trailers) => {
+                resolve(trailers)
+            })
+
+            /*database.Trips.findAll({
                 where: {
                     idLine: body.lineDropdown
                 }, 
@@ -28,9 +42,10 @@ module.exports = {
                 ]
             }).then((tripLists) => {
                 console.log('--------------------------------------------------------------------------------')
-                console.log(tripLists)
+                console.log(JSON.parse(JSON.stringify(tripLists)))
                 console.log('--------------------------------------------------------------------------------')
-            })
+                resolve(tripLists)
+            })*/
         })
     }
 }

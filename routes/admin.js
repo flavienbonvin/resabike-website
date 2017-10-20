@@ -49,7 +49,6 @@ router.post('/line/preview', (req, res, next) => {
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops[0] });
   }).catch((error) => {
-    console.error(error);
     if (Array.isArray(error)) {
       res.render('admin/addLine', { title: 'Express', error: error[0], lineSuggestions: error[1] });
     } else {
@@ -62,7 +61,6 @@ router.post('/line/add', (req, res, next) => {
   lineManagement.prepareStation(req.body).then((msg) => {
     res.render('admin/addLine', { title: 'Add Line', msg: 'Added' })
   }).catch((error) => {
-    console.error(error);
     res.render('admin/addLine', { title: 'Add Line', error: error });
   })
 });
@@ -82,7 +80,6 @@ router.post('/user/add', (req, res, next) => {
   userManagement.createUser(req.body).then(() => {
     res.render('admin/addUser', { title: 'Add user', msg: 'Added', user: new User() });
   }).catch((error) => {
-    console.error(error);
     res.render('admin/addUser', { title: 'Add user', error: error, user: new User() });
   });
 });
@@ -119,7 +116,6 @@ router.post('/zone', (req, res, next) => {
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
-    console.error(error);
     res.render('admin/zone', { title: 'Express', error: error })
   })
 })

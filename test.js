@@ -1,5 +1,9 @@
-var email = require('./modules/email');
+var db = require('./modules/database');
 
-email.createEmail('maxime.betrisey@jehegt.ch','test','<p>salut<p>').then(() =>{
-    console.log('ok');
+db.Trips.findAll().then((list) =>{
+    var t = JSON.parse(JSON.stringify(list))
+    console.log(t);
+
+    console.log(new Date(t[4].startHour).toLocaleString())
+
 })

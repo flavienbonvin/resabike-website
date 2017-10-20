@@ -7,6 +7,7 @@ const sequelize = new Sequelize('dbresabike', 'max', 'pass$1234', {
         min: 0,
         idle: 10000
     },
+    timezone : 'Europe/Zurich'
 });
 
 
