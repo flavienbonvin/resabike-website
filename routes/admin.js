@@ -3,6 +3,7 @@ const router = express.Router();
 const lineManagement = require('../modules/admin/lineManagement');
 const userManagement = require('../modules/admin/userManagement');
 const zoneManagement = require('../modules/admin/zoneManagement');
+const trailerManagement = require('../modules/admin/trailerManagement');
 
 const User = require('../objects/User');
 
@@ -131,6 +132,13 @@ router.post('/zone/update', (req, res, next) => {
     res.send('');
   }).catch((error) => {
     console.error(error);
+  })
+})
+
+
+router.get('/remorques',(req,res,next) =>{
+  trailerManagement.getAllTrailer().then((trailers) =>{
+    res.render('admin/remorques',{title: 'express', trailers: trailers});
   })
 })
 

@@ -1,0 +1,13 @@
+extends layout
+
+block extraHeadersAdmin
+    link(rel="stylesheet", href="/css/admin/manageUsers.css")
+    script(src="/js/admin/manageUsers.js")
+
+
+block contentAdmin
+    div
+        h4.ui.dividing.header Gestion des remorques
+        div.ui.list
+        each trailer in trailers
+            div.item

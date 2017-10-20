@@ -30,7 +30,6 @@ app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-calendar/d
 app.use((req,res,next) => {
   var lang = require('./lang/en.js');
   res.locals.langs = lang;
-  console.log(lang)
   next();
 })
 
