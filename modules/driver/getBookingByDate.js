@@ -13,10 +13,34 @@ module.exports = {
                 },
                 include : [
                     {
-                        model: database.Line
+                        model: database.Line,
+                        include : [
+                            {
+                                model: database.Station,
+                                as: 'startStation'
+                            },
+                            {
+                                model: database.Station,
+                                as: 'endStation'
+                            }
+                        ]
                     }
                 ]
             }).then((trailers) => {
+                trailers = JSON.parse(JSON.stringify(trailers));
+                console.log(trailers);
+                for(var i = 0;i<trailers.length;i++){
+                    var datetimeTemp = new Date(trailers[i].startHour).toLocaleString().split(' ');
+                    
+                    var date = datetimeTemp[0].split('-');
+                    date = date[2]+'.'+date[1]+'.'+date[0];
+                    var time = datetimeTemp[1].split(':');
+                    time = time[0]+':'+time[1];
+                    console.log(date+' '+time);
+                    trailers[i].startHour = date+' '+time;
+                    console.log(trailers[i]);
+                }
+                
                 resolve(trailers)
             })
 

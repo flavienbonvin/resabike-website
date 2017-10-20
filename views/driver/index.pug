@@ -20,14 +20,22 @@ block contentDriver
         table.ui.celled.table
             thead
                 tr
+                    th Heure de départ
                     th Station de départ
                     th Station d'arrivée
-                    th Nom de la réservation
                     th Nombre de vélos
+                    th Remorques
+                    th Actions
             each trip in listTrips
                 tbody
                     tr
-                        td= trip.startStationTrip.name
-                        td= trip.endStationTrip.name
-                        td= trip.book.pseudo
-                        td= trip.book.number
+                        td= trip.startHour
+                        td= trip.line.startStation.name
+                        td= trip.line.endStation.name
+                        td= trip.nbBike
+                        if trip.trailerUsed
+                            td Oui
+                        else 
+                            td Non
+                        td 
+                            a.ui.button Détails
