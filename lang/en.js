@@ -1,0 +1,3 @@
+module.exports = {
+    salut: 'Coucou'
+}
