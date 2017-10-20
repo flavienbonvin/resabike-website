@@ -30,6 +30,10 @@ module.exports = {
                 console.log('--------------------------------------------------------------------------------')
                 console.log(tripLists)
                 console.log('--------------------------------------------------------------------------------')
+                resolve(tripLists);
+            }).catch((error) => {
+                console.log(error)
+                reject(error);
             })
         })
     }
