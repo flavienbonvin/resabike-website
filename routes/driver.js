@@ -12,5 +12,11 @@ router.post('/', (req, res, next) => {
         res.render('driver/index', { title: 'Express', error: error })
     })
 })
+router.get('/details/:id', (req, res, next) => {
+    getBooking.getDetailsBooking(req.params).then((list) => {
+        res.render('driver/details', { title: 'Express', list: list });
+    })
+
+})
 
 module.exports = router;

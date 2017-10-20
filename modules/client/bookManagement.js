@@ -47,12 +47,20 @@ var self = module.exports = {
                                         }
                                     }).then(() => {
                                         self.sendEmailOK(dateAffichage,body,token).then(() => {
+<<<<<<< HEAD
                                         resolve();
+=======
+                                            resolve();
+>>>>>>> 2ebffb0adc9958105e9a6b005493a28875d7e7df
                                         })
                                     })
                             } else {
                                 self.sendEmailWait(dateAffichage,body,token).then(() => {
+<<<<<<< HEAD
                                 resolve();
+=======
+                                    resolve();
+>>>>>>> 2ebffb0adc9958105e9a6b005493a28875d7e7df
                                 })
                             }
                         })

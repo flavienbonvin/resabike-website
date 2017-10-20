@@ -3,7 +3,6 @@ var database = require('../database');
 module.exports = {
 
     getBooking(body) {
-
         return new Promise((resolve, reject) => {
             var date = new Date();
 
@@ -31,7 +30,6 @@ module.exports = {
                 console.log(trailers);
                 for(var i = 0;i<trailers.length;i++){
                     var datetimeTemp = new Date(trailers[i].startHour).toLocaleString().split(' ');
-                    
                     var date = datetimeTemp[0].split('-');
                     date = date[2]+'.'+date[1]+'.'+date[0];
                     var time = datetimeTemp[1].split(':');
@@ -43,33 +41,46 @@ module.exports = {
                 
                 resolve(trailers)
             })
-
-            /*database.Trips.findAll({
-                where: {
-                    idLine: body.lineDropdown
-                }, 
-                include: [
-                    {
-                        model: database.Book
+        })
+    },
+    getDetailsBooking(body){
+        return new Promise((resolve,reject) => {
+            database.Trailer.findOne({
+                where : {
+                    id : body.id
+                }
+            }).then((trailer) => {
+                database.Trips.findAll({
+                    where: {
+                        idLine : trailer.idLine,
+                        startHour : trailer.startHour
                     },
-                    {
-                        model: database.Station,
-                        as: 'startStationTrip'
-                    },
-                    {
-                        model: database.Station,
-                        as: 'endStationTrip'
-                    },
-                    {
-                        model: database.Line
+                    include : [
+                        {
+                            model : database.Book
+                        }, {
+                            model : database.Station,
+                            as : 'startStationTrip'
+                        },{
+                            model : database.Station,
+                            as : 'endStationTrip'
+                        }
+                    ]
+                }).then((list) => {
+                    list = JSON.parse(JSON.stringify(list));
+                    for(var i = 0 ;i<list.length;i++){
+                        var datetimeTemp = new Date(list[i].startHour).toLocaleString().split(' ');
+                        var date = datetimeTemp[0].split('-');
+                        date = date[2]+'.'+date[1]+'.'+date[0];
+                        var time = datetimeTemp[1].split(':');
+                        time = time[0]+':'+time[1];
+                        console.log(date+' '+time);
+                        list[i].startHour = date+' '+time;
                     }
-                ]
-            }).then((tripLists) => {
-                console.log('--------------------------------------------------------------------------------')
-                console.log(JSON.parse(JSON.stringify(tripLists)))
-                console.log('--------------------------------------------------------------------------------')
-                resolve(tripLists)
-            })*/
+                    console.log(list);
+                    resolve(list);
+                })
+            })
         })
     }
 }

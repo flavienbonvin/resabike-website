@@ -1,0 +1,25 @@
+extends layout
+
+block extraHeadersDriver
+    script(src="/js/driver/index.js")
+    link(rel="stylesheet", href="/css/driver/index.css")
+
+block contentDriver
+
+    a(href="/driver").ui.button Retour
+
+    h4.ui.dividing.header Voyages ayant des vélos
+    table.ui.celled.table
+        thead
+            tr
+                th Station d'entrée
+                th Station de sortie
+                th Nombre de vélos
+                th Pseudo
+        each info in list
+            tbody
+                tr
+                    td= info.startStationTrip.name
+                    td= info.endStationTrip.name
+                    td= info.book.number
+                    td= info.book.pseudo
