@@ -21,7 +21,7 @@ var self = module.exports = {
                     var trips = [];
                     var trailersPromise = [];
                     var status = true;
-                    var dateAffichage = stationsId[0].departTime;
+                    var dateAffichage = stationsId[0].departTime.split(' ')[0];
                     dateAffichage = dateAffichage.split('-');
                     dateAffichage = dateAffichage[2] + '.' + dateAffichage[1] + '.' + dateAffichage[0];
 
@@ -46,14 +46,14 @@ var self = module.exports = {
                                             id: book.id
                                         }
                                     }).then(() => {
-                                        //self.sendEmailOK(dateAffichage,body,token).then(() => {
-                                        resolve();
-                                        //})
+                                        self.sendEmailOK(dateAffichage,body,token).then(() => {
+                                            resolve();
+                                        })
                                     })
                             } else {
-                                //self.sendEmailWait(dateAffichage,body,token).then(() => {
-                                resolve();
-                                //})
+                                self.sendEmailWait(dateAffichage,body,token).then(() => {
+                                    resolve();
+                                })
                             }
                         })
                     })
