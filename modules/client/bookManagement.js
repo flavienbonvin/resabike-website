@@ -21,7 +21,7 @@ var self = module.exports = {
                     var trips = [];
                     var trailersPromise = [];
                     var status = true;
-                    var dateAffichage = stationsId[0].departTime;
+                    var dateAffichage = stationsId[0].departTime.split(' ')[0];
                     dateAffichage = dateAffichage.split('-');
                     dateAffichage = dateAffichage[2] + '.' + dateAffichage[1] + '.' + dateAffichage[0];
 
@@ -46,14 +46,14 @@ var self = module.exports = {
                                             id: book.id
                                         }
                                     }).then(() => {
-                                        //self.sendEmailOK(dateAffichage,body,token).then(() => {
+                                        self.sendEmailOK(dateAffichage,body,token).then(() => {
                                         resolve();
-                                        //})
+                                        })
                                     })
                             } else {
-                                //self.sendEmailWait(dateAffichage,body,token).then(() => {
+                                self.sendEmailWait(dateAffichage,body,token).then(() => {
                                 resolve();
-                                //})
+                                })
                             }
                         })
                     })
@@ -149,6 +149,34 @@ var self = module.exports = {
 
                 }
                 resolve(list);
+            })
+        })
+    },
+
+    findBooking(id){
+        return new Promise((resolve, reject) => {
+            database.Book.find({
+                where:{
+                    token: id
+                }, 
+                include: [
+                    {
+                        model: database.Station,
+                        as: 'startStationBook'
+                    },
+                    {
+                        model: database.Station,
+                        as: 'endStationBook'
+                    },
+                    {
+                        model: database.Trips
+                    }
+                ]
+            }).then((book) => {
+                console.log(JSON.parse(JSON.stringify(book)))
+                resolve(book);
+            }).catch((error) => {
+                reject(error);
             })
         })
     }

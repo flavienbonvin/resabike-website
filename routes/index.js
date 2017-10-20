@@ -15,12 +15,19 @@ router.post('/book/add', function (req, res, next) {
   connectionManagement.getConnectionForTrip(req.body).then((list) => {
     res.render('client/index', { title: 'express', listHoraire: list })
   }).catch((error) => {
-    res.render('client/index', { title: 'Express',error : error });
+    res.render('client/index', { title: 'Express', error: error });
   })
 })
 router.post('/book/reserve', function (req, res, next) {
   bookManagement.addBook(req.body).then((list) => {
-    res.render('client/index', { title: 'express', msg:'reservation ajouté' })
+    res.render('client/index', { title: 'express', msg: 'reservation ajouté' })
+  })
+})
+router.get('/book/cancel/:id', function (req, res, next) {
+  bookManagement.findBooking(req.params.id).then((book) => {
+    res.render('client/cancelBooking', {title: 'Express', book: book});
+  }).catch((error) => {
+    res.render('client/cancelBooking', { title: 'Express', error: error});
   })
 })
 
