@@ -8,22 +8,23 @@ block extraHeadersClient
 block contentClient
 
     h4.ui.dividing.header Confirmation de suppression
-    table.ui.celled.table
-        thead
-            tr
-                th Horaire
-                th Nom
-                th Email
-                th Nombre de vélos
-                th Station de départ
-                th Station d'arrivée
-            
-        tbody
-            tr
-                td= book.trips[0].startHour
-                td= book.pseudo
-                td= book.email
-                td= book.number
-                td= book.startStationBook.name
-                td= book.endStationBook.name
-    button.ui.button Confirmer la supprssion
+    form(method='POST')
+        table.ui.celled.table
+            thead
+                tr
+                    th Horaire
+                    th Nom
+                    th Email
+                    th Nombre de vélos
+                    th Station de départ
+                    th Station d'arrivée
+                
+            tbody
+                tr
+                    td= book.trips[0].startHour
+                    td= book.pseudo
+                    td= book.email
+                    td= book.number
+                    td= book.startStationBook.name
+                    td= book.endStationBook.name
+        button.ui.button() Confirmer la supprssion

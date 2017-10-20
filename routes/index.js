@@ -30,5 +30,10 @@ router.get('/book/cancel/:id', function (req, res, next) {
     res.render('client/cancelBooking', { title: 'Express', error: error});
   })
 })
+router.post('/book/cancel/:id', function(req, res, next){
+    bookManagement.deleteBooking(req.params.id).then(() => {
+      res.redirect('/'); 
+    })
+})
 
 module.exports = router;

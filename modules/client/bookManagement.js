@@ -30,13 +30,13 @@ var self = module.exports = {
                         if (stationsId[i].nbPlaceRestant - body.bookNumber < 0) {
                             status = false;
                         }
-                        var trailer = new Trailer(null,stationsId[i].departTime,body.bookNumber,false,true,stationsId[i].numeroLine);
+                        var trailer = new Trailer(null, stationsId[i].departTime, body.bookNumber, false, true, stationsId[i].numeroLine);
                         trailersPromise.push(self.checkTrailer(trailer));
                         var trip = new Trip(null, stationsId[i].departTime, stationsId[i].numeroLine, book.id, stationsId[i].idDepart, stationsId[i].idFin).convertToSequelize();
                         trips.push(trip);
                     }
 
-                    Promise.all(trailersPromise).then(() =>{
+                    Promise.all(trailersPromise).then(() => {
                         database.Trips.bulkCreate(trips).then(() => {
                             if (status) {
                                 database.Book.update({
@@ -46,26 +46,18 @@ var self = module.exports = {
                                             id: book.id
                                         }
                                     }).then(() => {
-                                        self.sendEmailOK(dateAffichage,body,token).then(() => {
-<<<<<<< HEAD
-                                        resolve();
-=======
+                                        self.sendEmailOK(dateAffichage, body, token).then(() => {
                                             resolve();
->>>>>>> 2ebffb0adc9958105e9a6b005493a28875d7e7df
                                         })
                                     })
                             } else {
-                                self.sendEmailWait(dateAffichage,body,token).then(() => {
-<<<<<<< HEAD
-                                resolve();
-=======
+                                self.sendEmailWait(dateAffichage, body, token).then(() => {
                                     resolve();
->>>>>>> 2ebffb0adc9958105e9a6b005493a28875d7e7df
                                 })
                             }
                         })
                     })
-                    
+
                 })
             })
         })
@@ -89,15 +81,15 @@ var self = module.exports = {
                 } else {
                     var newNbVelo = Number(trailerFind.nbBike) + Number(trailer.nbBike);
                     var newStatus = true;
-                    if(newNbVelo>nbMaxVelo && trailer.status){
+                    if (newNbVelo > nbMaxVelo && trailer.status) {
                         newStatus = false;
                     }
                     database.Trailer.update({
-                         nbBike: newNbVelo,
-                         status : newStatus
+                        nbBike: newNbVelo,
+                        status: newStatus
                     }, {
                             where: {
-                               id : trailerFind.id 
+                                id: trailerFind.id
                             }
                         }
                     ).then(() => {
@@ -161,12 +153,12 @@ var self = module.exports = {
         })
     },
 
-    findBooking(id){
+    findBooking(id) {
         return new Promise((resolve, reject) => {
             database.Book.find({
-                where:{
+                where: {
                     token: id
-                }, 
+                },
                 include: [
                     {
                         model: database.Station,
@@ -181,8 +173,29 @@ var self = module.exports = {
                     }
                 ]
             }).then((book) => {
-                console.log(JSON.parse(JSON.stringify(book)))
+                console.log(book)
+                book = JSON.parse(JSON.stringify(book));
+                var dateTimeTemp = new Date(book.trips[0].startHour).toLocaleString().split(' ');
+                var date = dateTimeTemp[0].split('-');
+                date = date[2] + '.' + date[1] + '.' + date[0];
+                var time = dateTimeTemp[1].split(':');
+                time = time[0] + ':' + time[1];
+                book.trips[0].startHour = date + ' ' + time;
                 resolve(book);
+            }).catch((error) => {
+                reject(error);
+            })
+        })
+    },
+
+    deleteBooking(id){
+        return new Promise((resolve, reject) => {
+            database.Book.destroy({
+                where: {
+                    token: id
+                }
+            }).then((bookTemp) => {
+                resolve();
             }).catch((error) => {
                 reject(error);
             })
