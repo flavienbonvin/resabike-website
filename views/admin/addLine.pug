@@ -6,18 +6,18 @@ block extraHeadersAdmin
 
 block contentAdmin
     form.ui.form(method="post",action="/admin/line/preview")
-        h4.ui.dividing.header= "Ajout de ligne"
+        h4.ui.dividing.header= langs.titleAddLine
         div.field
-            label= "Départ"
+            label= langs.labelStart
             select#depart.ui.search.dropdown(name="depart")
-                option(value="")= "Lieu de départ"
+                option(value="")= langs.optionStart
         div.field
-            label= "Arrivé"
+            label= langs.labelEnd
             select#arrivee.ui.search.dropdown(name="arrivee")
-                option(value="")= "Lieu d'arrivée"
+                option(value="")= langs.optionEnd
         if !stops    
             div.field
-                button.ui.button= "Créer"
+                button.ui.button= langs.buttonCreateLine
     if stops
         div.ui.bulleted.list
             each stop in stops
@@ -26,11 +26,11 @@ block contentAdmin
             input(type="hidden",value=stops[0].name,name="departFinal")
             input(type="hidden",value=stops[stops.length-1].name,name="arriveeFinal") 
             div.field
-                label= "Zone"
+                label= langs.labelZone
                 select#zone.ui.search.dropdown(name="zoneFinal")
-                    option(value="")= "Zone" 
+                    option(value="")= langs.labelZone
             div.field
-                button.ui.button= "Je valide"
+                button.ui.button= langs.buttonValidate
         
     if lineSuggestions
         h3= "Suggestion"

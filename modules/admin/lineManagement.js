@@ -60,6 +60,7 @@ var self = module.exports = {
                             //If the line isn't correctly entered, we suggest one based on what the API returns, this is the response[..].name and response[..].terminal fields
                         }
                     }
+                    console.log(errorArray)
                     reject([error, errorArray]);
                 }
                 var results = [];
