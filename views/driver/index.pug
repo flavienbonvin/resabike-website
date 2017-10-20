@@ -14,3 +14,20 @@ block contentDriver
                 option(value="")= "Ligne"
         .field
             button.ui.button Valider
+
+    if listTrips
+        h4.ui.dividing.header Voyages ayant des vélos
+        table.ui.celled.table
+            thead
+                tr
+                    th Station de départ
+                    th Station d'arrivée
+                    th Nom de la réservation
+                    th Nombre de vélos
+            each trip in listTrips
+                tbody
+                    tr
+                        td= trip.startStationTrip.name
+                        td= trip.endStationTrip.name
+                        td= trip.book.pseudo
+                        td= trip.book.number
