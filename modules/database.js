@@ -47,8 +47,11 @@ var Book = sequelize.define('book', {
     status: { type: Sequelize.BOOLEAN, defaultValue: false }
 });
 
-Station.hasMany(Book, { foreignKey: 'idStartStation' });
-Station.hasMany(Book, { foreignKey: 'idEndStation' });
+
+Station.hasMany(Book, { as: 'startStationBook', foreignKey: 'idStartStation' });
+Book.belongsTo(Station, { as: 'startStationBook', foreignKey: 'idStartStation' });
+Station.hasMany(Book, { as: 'endStationBook', foreignKey: 'idEndStation' });
+Book.belongsTo(Station, { as: 'endStationBook', foreignKey: 'idStartStation' });
 
 
 var User = sequelize.define('user', {
