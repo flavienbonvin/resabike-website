@@ -21,33 +21,18 @@ var self = module.exports = {
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
                 //Check if there is more thant one leg, a leg is a change of bus (and change of line), if there is a change, the line is wrong
                 r = response;
+                // load all stations because 
                 if (response.data.connections[0].legs.length <= 2) {
-
-                    var type = response.data.connections[0].legs[0].type;
-                    var idLine = response.data.connections[0].legs[0].line;
-
-                    //Check if the transport type is a bus or a postal bus, if not this isn't a bus line
-                    if (type == 'bus' || type == 'post') {
-                        var stops = new Array();
-
-                        var stop = response.data.connections[0].legs[0];
-                        var station = new Station(null, stop.name, stop.x, stop.y);
-                        stops.push(station);
-
-                        for (var k in response.data.connections[0].legs[0].stops) {
-                            stop = response.data.connections[0].legs[0].stops[k];
-                            station = new Station(null, stop.name, stop.x, stop.y);
-
-                            stops.push(station);
-                        }
-
-                        stop = response.data.connections[0].legs[0].exit;
-                        station = new Station(null, stop.name, stop.x, stop.y);
-                        stops.push(station);                        
-                    } else {
-                        reject("This isn't a bus line");
-                    }
-                } else {
+                    from = response.data.connections[0].legs[0].name;
+                    to = response.data.connections[0].legs[0].terminal;
+                    self.correctStation(from,to).then((results)=>{
+                        resolve(results);
+                    }).catch((error) => {
+                        reject(error);
+                    })
+                }
+                // 
+                else {
                     var error = '';
                     var errorArray = [];
                     for (var i = 0; i < response.data.connections[0].legs.length - 1; i++) {
@@ -62,16 +47,54 @@ var self = module.exports = {
                     }
                     reject([error, errorArray]);
                 }
-                var results = [];
-                results[0] = stops;
-                results[1] = idLine;
-                resolve(results);
             }).catch((error) => {
+                console.log(error);
                 var readableObj = renderAddon.readableObject(r.data)
                 reject("The API returns " + readableObj);
             })
         })
     },
+
+    correctStation(from,to){
+        return new Promise((resolve, reject) => {
+            var stops = new Array();
+            var idLine;
+            console.log("API QUERRY2: https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to)
+            axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
+
+                var type = response.data.connections[0].legs[0].type;
+                idLine = response.data.connections[0].legs[0].line;
+
+                //Check if the transport type is a bus or a postal bus, if not this isn't a bus line
+                if (type == 'bus' || type == 'post') {
+
+                    var stop = response.data.connections[0].legs[0];
+                    var station = new Station(null, stop.name, stop.x, stop.y);
+                    stops.push(station);
+
+                    for (var k in response.data.connections[0].legs[0].stops) {
+                        stop = response.data.connections[0].legs[0].stops[k];
+                        station = new Station(null, stop.name, stop.x, stop.y);
+
+                        stops.push(station);
+                    }
+
+                    stop = response.data.connections[0].legs[0].exit;
+                    station = new Station(null, stop.name, stop.x, stop.y);
+                    stops.push(station);
+                    var results = [];
+                    results[0] = stops;
+                    results[1] = idLine;
+
+                    resolve(results);
+
+                } else {
+                    reject("This isn't a bus line");
+                }
+            })
+        })
+    },
+
     prepareStation(body) {
         return new Promise((resolve, reject) => {
             self.getStopsForLine(body.departFinal, body.arriveeFinal).then((stops) => {
@@ -131,7 +154,7 @@ var self = module.exports = {
             })
         })
     },
-    
+
     /**
      * Inserts a line in the database (line table)
      * 
@@ -183,10 +206,10 @@ var self = module.exports = {
         })
     },
 
-        /**
-     * Delete a zone
-     * @param {string} body 
-     */
+    /**
+ * Delete a zone
+ * @param {string} body 
+ */
     deleteLine(body) {
         return new Promise((resolve, reject) => {
             database.Line.destroy({
