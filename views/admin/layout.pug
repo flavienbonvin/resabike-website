@@ -8,7 +8,7 @@ block extraHeaders
 block content
     div.ui.two.column.centered.grid
         div.column           
-            div.ui.top.attached.menu 
+            div#Adminmenu.ui.top.attached.menu 
                 a(class="active item", id="menuHome", href="/"+langUsed+"/admin/")= langs.home
                 a(class="item", id="menuLine", href="/"+langUsed+"/admin/line/add", onclick="test()")= langs.addLineMenu
                 a(class="item", id="menuUser", href="/"+langUsed+"/admin/user/add")= langs.addUserMenu
