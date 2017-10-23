@@ -15,13 +15,14 @@ block content
                 a(class="item", id="menuZone", href="/"+langUsed+"/admin/zone")= langs.manageZoneMenu
                 a(class="item", id="menuUser", href="/"+langUsed+"/admin/users")= langs.manageUserMenu
                 a(class="item", id="menuValidationRemor", href="/"+langUsed+"/admin/remorques")= langs.manageTrailerMenu
+                
                 div(class="right menu")
                     div(class="item")
-                        select.ui.dropdown.item(name="languageDropdown", onchange="changeLanguage(this)")
+                        select.ui.dropdown(id="languageDropdown" onchange="changeLanguage(this)")
                             option(value="fr")= langs.langFrench
                             option(value="de")= langs.langGerman
                             option(value="en")= langs.langEnglish
                     div(class="item")
-                        a(class="ui button", href="/ " + langUsed + "/admin/logout") Logout
+                        a(class="ui button", href="/" + langUsed + "/admin/logout")= langs.buttonLogout
             div.ui.attached.segment
                 block contentAdmin

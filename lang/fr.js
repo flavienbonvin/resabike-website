@@ -33,7 +33,7 @@ module.exports = {
     labelLine: 'Ligne',
 
     //Login
-    titleLogin: 'Login',
+    titleLogin: 'Connexion',
     labelConnect: 'Connecter',
 
     //UserManagement

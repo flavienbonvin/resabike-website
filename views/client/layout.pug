@@ -11,11 +11,11 @@ block content
             div.ui.top.attached.menu 
                 div(class="right menu")
                     div(class="item")
-                        select.ui.dropdown.item(name="languageDropdown", onchange="changeLanguage(this)")
+                        select.ui.dropdown(id="languageDropdown" onchange="changeLanguage(this)")
                             option(value="fr")= langs.langFrench
                             option(value="de")= langs.langGerman
                             option(value="en")= langs.langEnglish
                     div(class="item")
-                        a(class="ui button", href="/admin/login")= langs.titleLogin
+                        a(class="ui button", href="/" + langUsed + "/admin/login")= langs.titleLogin
             div.ui.attached.segment
                 block contentClient

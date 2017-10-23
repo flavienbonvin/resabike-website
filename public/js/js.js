@@ -5,6 +5,7 @@ $(document).ready(function(){
     else if($("#msgBox").length>0){
         $('#msgBox').modal('show')
     }
+    $('#languageDropdown').val(langUsed);
 })
 
 $('#langSwitch').click(function(v){
@@ -17,5 +18,4 @@ function changeLanguage(lang){
     locSplit[3] = lang.value;
     loc = locSplit.join('/');
     window.location = loc;
-    console.log(locSplit[3]);
 }

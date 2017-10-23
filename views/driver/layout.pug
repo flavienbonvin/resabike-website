@@ -10,13 +10,12 @@ block content
         div.column  
             div.ui.top.attached.menu 
                 div(class="right menu")
-                    div(class="ui simple dropdown item")= langs.dropDownLanguage
-                        i(class="dropdown icon")
-                        div(class="menu")
-                            a(class="item")= langs.langFrench
-                            a(class="item")= langs.langGerman
-                            a(class="item")= langs.langEnglish
                     div(class="item")
-                        a(class="ui button", href="/admin/login")= langs.titleLogin
+                        select.ui.dropdown(id="languageDropdown" onchange="changeLanguage(this)")
+                            option(value="fr")= langs.langFrench
+                            option(value="de")= langs.langGerman
+                            option(value="en")= langs.langEnglish
+                    div(class="item")
+                        a(class="ui button", href="/" + langUsed + "/admin/logout")= langs.buttonLogout
             div.ui.attached.segment
                 block contentDriver
