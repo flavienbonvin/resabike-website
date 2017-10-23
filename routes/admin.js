@@ -11,10 +11,11 @@ const User = require('../objects/User');
 
 
 router.use((req, res, next) => {
+  console.log(req.url)
   if (!req.session.isConnected && req.url != '/login') {
-    res.redirect('/admin/login');
+    res.redirect('/' + res.locals.langUsed + '/admin/login');
   } else if (req.url != '/login' && req.session.userInfo.idRole == 1) {
-    res.redirect('/driver');
+    res.redirect('/' + res.locals.langUsed + '/driver');
   } else {
     next();
   }
@@ -150,9 +151,9 @@ router.get('/login', (req, res, next) => {
 router.post('/login', (req, res, next) => {
   loginManagement.login(req.body, req.session).then(() => {
     if (req.session.userInfo.idRole == 1) {
-      res.redirect('/driver');
+      res.redirect('/'+res.locals.langUsed+'/driver');
     } else {
-      res.redirect('/admin');
+      res.redirect('/'+res.locals.langUsed+'/admin');
     }
   }).catch(() => {
     res.render('admin/login', { title: "express", error: "wrong password" })
@@ -160,6 +161,11 @@ router.post('/login', (req, res, next) => {
 })
 router.get('/logout', (req, res, next) => {
   loginManagement.logout(req.session);
-  res.redirect('/admin');
+  res.redirect('/'+res.locals.langUsed+'/admin');
 })
+
+
+
+
+
 module.exports = router;

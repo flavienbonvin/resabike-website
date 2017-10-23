@@ -28,8 +28,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-calendar/dist')));
 
 app.use((req,res,next) => {
-  var lang = require('./lang/en.js');
+  console.log('url : '+req.url);
+  if(req.url=="/"){
+    res.redirect("/fr");
+    return;
+  }else if(req.url.indexOf("/services")!=-1){
+    next();
+    return;
+  }
+  var langUrl = req.url.split('/');
+  var newUrl = "/";
+  for(var i = 2;i<langUrl.length;i++){
+    newUrl += langUrl[i]+"/"; 
+  }
+  if(newUrl.length>1){
+    newUrl = newUrl.slice(0,-1);
+  }
+  
+  req.url = newUrl;
+  console.log(req.url);
+  var lang = require('./lang/'+langUrl[1]+'.js');
   res.locals.langs = lang;
+  res.locals.langUsed = langUrl[1];
   next();
 })
 

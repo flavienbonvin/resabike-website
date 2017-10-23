@@ -7,7 +7,7 @@ block extraHeadersAdmin
 block contentAdmin
 
     h4.ui.dividing.header= langs.titleLogin
-    form.ui.form(method="post",action="/admin/login")
+    form.ui.form(method="post",action="/"+langUsed+"/admin/login")
         div.required.field
             label= langs.labelUsername
             class.ui.input

@@ -5,7 +5,7 @@ block extraHeadersAdmin
     script(src="/js/admin/addZone.js")
 
 block contentAdmin
-    form.ui.form(method="post", action="/admin/zone")
+    form.ui.form(method="post", action="/"+langUsed+"/admin/zone")
         h4.ui.dividing.header= titleAddNewZone
         div.required.field
             label= langs.labelZoneName
