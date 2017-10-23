@@ -159,7 +159,7 @@ router.post('/login', (req, res, next) => {
   })
 })
 router.get('/logout', (req, res, next) => {
-  loginManagement.logout();
+  loginManagement.logout(req.session);
   res.redirect('/admin');
 })
 module.exports = router;

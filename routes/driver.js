@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const getBooking = require('../modules/driver/getBookingByDate');
 
+
+router.use((req, res, next) => {
+  if (!req.session.isConnected && req.url != '/login') {
+    res.redirect('/admin/login');
+  } else if (req.url != '/login' && req.session.userInfo.idRole == 1) {
+    res.redirect('/driver');
+  } else {
+    next();
+  }
+})
+
 router.get('/', (req, res, next) => {
     res.render('driver/index', { title: 'Express' });
 })
