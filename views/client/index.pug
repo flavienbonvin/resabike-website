@@ -8,7 +8,6 @@ block extraHeadersClient
     link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
-    a(class="active item", id="menuHome", href="/"+langUsed+"/admin/login") Login
     h4.ui.dividing.header= langs.titleReservation
     if !listHoraire
         form#formAdd.ui.form(method="post",action="/"+langUsed+"/book/add")
