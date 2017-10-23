@@ -5,7 +5,7 @@ block extraHeadersAdmin
     script(src="/js/admin/addLine.js")
 
 block contentAdmin
-    form.ui.form(method="post",action="/admin/line/preview")
+    form.ui.form(method="post",action="/"+langUsed+"/admin/line/preview")
         h4.ui.dividing.header= langs.titleAddLine
         div.field
             label= langs.labelStart
@@ -22,7 +22,7 @@ block contentAdmin
         div.ui.bulleted.list
             each stop in stops
                 div.item= stop.name 
-        form.ui.form(method="post",action="/admin/line/add")
+        form.ui.form(method="post",action="/"+langUsed+"/admin/line/add")
             input(type="hidden",value=stops[0].name,name="departFinal")
             input(type="hidden",value=stops[stops.length-1].name,name="arriveeFinal") 
             div.field
@@ -43,6 +43,6 @@ block contentAdmin
                         span= l[0] + ' - ' + l[1]
                     
                     
-        form#suggestForm(method="post",action="/admin/line/preview")
+        form#suggestForm(method="post",action="/"+langUsed+"/admin/line/preview")
             input#departFinal(type="hidden",name="depart")
             input#arriveeFinal(type="hidden",name="arrivee")

@@ -6,7 +6,7 @@ block extraHeadersDriver
 
 block contentDriver
 
-    form.ui.form(method="POST", action="/driver")
+    form.ui.form(method="POST", action="/"+langUsed+"/driver")
         h4.ui.dividing.header= langs.titleSelectLine
         div#zoneContent.required.field
             label= langs.titleSelectLine
@@ -38,4 +38,4 @@ block contentDriver
                         else 
                             td= langs.labelNo
                         td 
-                            a(href="/driver/details/"+trip.id).ui.button= langs.buttonDetails
+                            a(href="/"+langUsed+"/driver/details/"+trip.id).ui.button= langs.buttonDetails

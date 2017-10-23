@@ -18,7 +18,7 @@ function listZones(){
 
 function deleteLine(id){
     $.ajax({
-        url: '/admin/line/delete',
+        url: '/'+langUsed+'/admin/line/delete',
         type: 'POST',
         data: 'idToDel='+id,
         success: function(res) {

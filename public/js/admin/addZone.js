@@ -40,7 +40,7 @@ function loadZone(){
 }
 function deleteZone(id){
     $.ajax({
-        url: '/admin/zone/delete',
+        url: '/'+langUsed+'/admin/zone/delete',
         type: 'POST',
         data: 'idToDel='+id,
         success: (res) => {
@@ -72,7 +72,7 @@ function cancelUpdate(){
 }
 function saveUpdate(){
     $.ajax({
-        url: '/admin/zone/update',
+        url: '/'+langUsed+'/admin/zone/update',
         type: 'POST',
         data: 'idToUpdate='+savedId+"&newName="+document.getElementById('updateName'+savedId).value,
         success: (res) => {

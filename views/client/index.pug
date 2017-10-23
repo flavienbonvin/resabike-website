@@ -8,10 +8,10 @@ block extraHeadersClient
     link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
-    a(class="active item", id="menuHome", href="/admin/login") Login
+    a(class="active item", id="menuHome", href="/"+langUsed+"/admin/login") Login
     h4.ui.dividing.header= langs.titleReservation
     if !listHoraire
-        form#formAdd.ui.form(method="post",action="/book/add")
+        form#formAdd.ui.form(method="post",action="/"+langUsed+"/book/add")
             div.required.field
                 label= langs.labelDateOfReservation
                 div(class="ui calendar" id="calendar")
@@ -84,7 +84,7 @@ block contentClient
                                     i.icon.remove
                                 span.nbPlaceRestant #{trip.nbPlaceRestant}
                                 sapn.idLine #{trip.idLine}
-        form#hiddenForm(action="/book/reserve",method="POST")
+        form#hiddenForm(action="/"+langUsed+"/book/reserve",method="POST")
             input(type="text",name="bookPseudo",value=listHoraire[0]['pseudo'])
             input(type="text",name="bookEmail",value=listHoraire[0]['email'])
             input(type="text",name="bookNumber",value=listHoraire[0]['nbVelo'])

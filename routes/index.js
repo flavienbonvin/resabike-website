@@ -25,15 +25,17 @@ router.post('/book/reserve', function (req, res, next) {
 })
 router.get('/book/cancel/:id', function (req, res, next) {
   bookManagement.findBooking(req.params.id).then((book) => {
-    res.render('client/cancelBooking', {title: 'Express', book: book});
+    res.render('client/cancelBooking', { title: 'Express', book: book });
   }).catch((error) => {
-    res.render('client/cancelBooking', { title: 'Express', error: error});
+    res.render('client/cancelBooking', { title: 'Express', error: error });
   })
 })
-router.post('/book/cancel/:id', function(req, res, next){
-    bookManagement.deleteBooking(req.params.id).then(() => {
-      res.redirect('/'); 
-    })
+router.post('/book/cancel/:id', function (req, res, next) {
+  bookManagement.deleteBooking(req.params.id).then(() => {
+    res.redirect('/');
+  })
 })
+
+
 
 module.exports = router;

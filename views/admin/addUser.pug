@@ -5,7 +5,7 @@ block extraHeadersAdmin
     script(src="/js/admin/addUser.js")
 
 block contentAdmin
-    form.ui.form(method="post",action="/admin/user/add", onsubmit="controlForm(event)")
+    form.ui.form(method="post",action="/"+langUsed+"/admin/user/add", onsubmit="controlForm(event)")
         input(name="idUser", type="hidden", value=user.id)
         h4.ui.dividing.header= langs.titleAddUser
         div.required.field
