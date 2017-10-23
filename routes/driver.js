@@ -4,10 +4,8 @@ const getBooking = require('../modules/driver/getBookingByDate');
 
 
 router.use((req, res, next) => {
-  if (!req.session.isConnected && req.url != '/login') {
+  if (!req.session.isConnected) {
     res.redirect('/admin/login');
-  } else if (req.url != '/login' && req.session.userInfo.idRole == 1) {
-    res.redirect('/driver');
   } else {
     next();
   }
