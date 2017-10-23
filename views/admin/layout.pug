@@ -7,14 +7,22 @@ block extraHeaders
 
 block content
     div.ui.two.column.centered.grid
-        div.column
-            div.ui.top.attached.tabular.menu
+        div.column           
+            div.ui.top.attached.menu 
                 a(class="active item", id="menuHome", href="/admin/")= langs.home
-                a(class="item", id="menuLine", href="/admin/line/add", onclick="test()")= langs.addLineMenu
+                a(class="item", id="menuLine", href="/admin/line/add")= langs.addLineMenu
                 a(class="item", id="menuUser", href="/admin/user/add")= langs.addUserMenu
                 a(class="item", id="menuZone", href="/admin/zone")= langs.manageZoneMenu
                 a(class="item", id="menuUser", href="/admin/users")= langs.manageUserMenu
                 a(class="item", id="menuValidationRemor", href="/admin/remorques")= langs.manageTrailerMenu
-                a(class="item", href="/admin/logout").ui.right.floated= 'Logout'
-            div.ui.bottom.attached.segment  
+                div(class="right menu")
+                    div(class="ui simple dropdown item")= langs.dropDownLanguage
+                        i(class="dropdown icon")
+                        div(class="menu")
+                            a(class="item")= langs.langFrench
+                            a(class="item")= langs.langGerman
+                            a(class="item")= langs.langEnglish
+                    div(class="item")
+                        a(class="ui button", href="/admin/logout") Logout
+            div.ui.attached.segment
                 block contentAdmin

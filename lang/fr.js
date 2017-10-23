@@ -56,11 +56,16 @@ module.exports = {
 
     //Menu title
     home: 'Acceuil',
-    addLineMenu: 'Ajouter une ligne',
-    addUserMenu: 'Ajouter un utilisateur',
-    manageZoneMenu: 'Gestion des zones',
-    manageUserMenu: 'Gestion des utilisateurs',
-    manageTrailerMenu: 'Gestion des remorques',
+    addLineMenu: 'Ajouter ligne',
+    addUserMenu: 'Ajouter user',
+    manageZoneMenu: 'Gérer zones',
+    manageUserMenu: 'Gérer utilisateurs',
+    manageTrailerMenu: 'Gérer remorques',
+    buttonLogout: 'Deconnexion',
+    dropDownLanguage: 'Langue',
+    langFrench: 'Français',
+    langEnglish: 'English',
+    langGerman: 'Deutsch',
 
     /*
         CLIENT

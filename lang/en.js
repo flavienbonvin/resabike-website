@@ -61,7 +61,11 @@ module.exports = {
     manageZoneMenu: 'Manage zones',
     manageUserMenu: 'Manage users',
     manageTrailerMenu: 'Manage trailers',
-
+    buttonLogout: 'Logout',
+    dropDownLanguage: 'Language',
+    langFrench: 'Français',
+    langEnglish: 'English',
+    langGerman: 'Deutsch',
 
     /*
         CLIENT

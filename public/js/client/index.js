@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    initCal();
     $('select.dropdown').dropdown();
+    initCal();
 
 })
 

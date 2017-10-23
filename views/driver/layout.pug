@@ -7,5 +7,16 @@ block extraHeaders
 
 block content
     div.ui.two.column.centered.grid
-        div#centerCol.column
-            block contentDriver
+        div.column  
+            div.ui.top.attached.menu 
+                div(class="right menu")
+                    div(class="ui simple dropdown item")= langs.dropDownLanguage
+                        i(class="dropdown icon")
+                        div(class="menu")
+                            a(class="item")= langs.langFrench
+                            a(class="item")= langs.langGerman
+                            a(class="item")= langs.langEnglish
+                    div(class="item")
+                        a(class="ui button", href="/admin/login")= langs.titleLogin
+            div.ui.attached.segment
+                block contentDriver
