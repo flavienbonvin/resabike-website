@@ -8,6 +8,23 @@ block extraHeadersAdmin
 block contentAdmin
     div
         h4.ui.dividing.header Gestion des remorques
-        div.ui.list
-        each trailer in trailers
-            div.item
+        if trailers.length == 0
+            div Pas de remorques en attente
+        else
+            table.ui.celled.table
+                thead
+                    tr
+                        th Date
+                        th Line
+                        th Nombre de vélos
+                        th Action
+                each trailer in trailers
+                    tbody
+                        tr
+                            td= trailer.startHour
+                            td= trailer.idLine
+                            td= trailer.nbBike
+                            td
+                                a.ui.button Allouer une remorque
+                                a.ui.button.red Ne pas allouer de remorque
+

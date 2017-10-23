@@ -1,5 +1,6 @@
 var User = require('../../objects/User');
 var database = require('../database');
+const sha256 = require('sha256');
 
 
 var self = module.exports = {
@@ -15,7 +16,7 @@ var self = module.exports = {
               resetPass = true;
             }
             
-            var user = new User(body.idUser, body.role, body.username, body.password, body.email, resetPass, body.zoneDropdown);
+            var user = new User(body.idUser, body.role, body.username, sha256(body.password), body.email, resetPass, body.zoneDropdown);
             switch (user.idRole) {
                 //Create bus driver 
                 case '1':

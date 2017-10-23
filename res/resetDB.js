@@ -6,6 +6,7 @@ var Line = require('../objects/Line');
 var User = require('../objects/User');
 var Book = require('../objects/Book');
 var Trip = require('../objects/Trip');
+var sha256 = require('sha256');
 var roles = [];
 var zones = [];
 var users = [];
@@ -25,9 +26,12 @@ zones.push(
     new Zone(2, 'Hérens').convertToSequelize());
 
 users.push(
-    new User(1, 1, 'Flavien', '123456', 'test.test@test.test', 0, 1).convertToSequelize(),
-    new User(2, 2, 'Maxime', 'testPassword', 'test@test.ch', 0, 2).convertToSequelize(),
-    new User(3, 3, 'Hugo', 'passwordHugo', 'hugo@resabike.ch', 0, 1).convertToSequelize())
+    new User(1, 1, 'Flavien', sha256('123456'), 'test.test@test.test', 0, 1).convertToSequelize(),
+    new User(2, 2, 'Maxime', sha256('testPassword'), 'test@test.ch', 0, 2).convertToSequelize(),
+    new User(3, 3, 'Hugo', sha256('passwordHugo'), 'hugo@resabike.ch', 0, 1).convertToSequelize(),
+    new User(4, 3, 'root', sha256('root'), 'hugo@resabike.ch', 0, 1).convertToSequelize()
+)
+
 
 books.push(
     new Book(1, 1, 11, 'Flavien', 'bonvin.flavien@gmail.com', 4, 'token1', true).convertToSequelize(),
