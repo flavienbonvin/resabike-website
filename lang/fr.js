@@ -42,6 +42,10 @@ module.exports = {
 
     //Remorques
     titleTrailerManagement: 'Gestion des remorques',
+    labelNoTrailer: 'Pas de remorques en attente',
+    labelDate: 'Date',
+    labelAllocateTrailer: 'Allouer une remorque',
+    labelDontAllocateTrailer: 'Ne pas allouer de remorque',
     //TODO: finish once the page is finished
 
     //Zone

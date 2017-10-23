@@ -151,7 +151,7 @@ router.post('/login', (req, res, next) => {
   loginManagement.login(req.body,req.session).then(() =>{
     if(req.session.userInfo.idRole == 1){
       res.redirect('/driver');
-    }else if(req.session.userInfo.idRole == 2){
+    }else{
       res.redirect('/admin');
     }
   }).catch(() => {

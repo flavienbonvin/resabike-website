@@ -41,7 +41,11 @@ module.exports = {
     //TODO: CHange text in javascipt
 
     //Remorques
-    titleTrailerManagement: 'Trailer management',
+    titleTrailerManagement: 'Manage trailers',
+    labelNoTrailer: 'No waiting trailer',
+    labelDate: 'Date',
+    labelAllocateTrailer: 'Give a trailer',
+    labelDontAllocateTrailer: 'Don\'t give a trailer',
     //TODO: finish once the page is finished
 
     //Zone
