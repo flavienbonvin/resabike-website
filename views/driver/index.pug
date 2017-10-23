@@ -7,25 +7,25 @@ block extraHeadersDriver
 block contentDriver
 
     form.ui.form(method="POST", action="/driver")
-        h4.ui.dividing.header Selection de la ligne
+        h4.ui.dividing.header= langs.titleSelectLine
         div#zoneContent.required.field
-            label Selectionnez la ligne
+            label= langs.titleSelectLine
             select#lineDropdown.ui.dropdown(name="lineDropdown",onchange="updateSelect(this)")
-                option(value="")= "Ligne"
+                option(value="")= langs.labelLine
         .field
-            button.ui.button Valider
+            button.ui.button= langs.buttonValidate
 
     if listTrips
-        h4.ui.dividing.header Voyages ayant des vélos
+        h4.ui.dividing.header= langs.titleTripsWithBikes
         table.ui.celled.table
             thead
                 tr
-                    th Heure de départ
-                    th Station de départ
-                    th Station d'arrivée
-                    th Nombre de vélos
-                    th Remorques
-                    th Actions
+                    th= langs.tableTitleStartHour
+                    th= langs.tableTitleStartStation
+                    th= langs.tableTitleEndStation
+                    th= langs.labelNumberOfBikes
+                    th= langs.tableTitleTrailer
+                    th= langs.tableTitleAction
             each trip in listTrips
                 tbody
                     tr
@@ -34,8 +34,8 @@ block contentDriver
                         td= trip.line.endStation.name
                         td= trip.nbBike
                         if trip.trailerUsed
-                            td Oui
+                            td= langs.labelYes
                         else 
-                            td Non
+                            td= langs.labelNo
                         td 
-                            a(href="/driver/details/"+trip.id).ui.button Détails
+                            a(href="/driver/details/"+trip.id).ui.button= langs.buttonDetails

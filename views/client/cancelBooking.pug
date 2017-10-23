@@ -7,17 +7,17 @@ block extraHeadersClient
 
 block contentClient
 
-    h4.ui.dividing.header Confirmation de suppression
+    h4.ui.dividing.header= langs.titleConfirmBookCancel
     form(method='POST')
         table.ui.celled.table
             thead
                 tr
-                    th Horaire
-                    th Nom
-                    th Email
-                    th Nombre de vélos
-                    th Station de départ
-                    th Station d'arrivée
+                    th= langs.tableTitleSchedule
+                    th= langs.tableTitleName
+                    th= langs.labelEmail
+                    th= langs.labelNumberOfBikes
+                    th= langs.tableTitleStartStation
+                    th= langs.tableTitleEndStation
                 
             tbody
                 tr
@@ -27,4 +27,4 @@ block contentClient
                     td= book.number
                     td= book.startStationBook.name
                     td= book.endStationBook.name
-        button.ui.button() Confirmer la supprssion
+        button.ui.button()= langs.buttonConfirmDelete

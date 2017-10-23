@@ -7,37 +7,37 @@ block extraHeadersAdmin
 block contentAdmin
     form.ui.form(method="post",action="/admin/user/add", onsubmit="controlForm(event)")
         input(name="idUser", type="hidden", value=user.id)
-        h4.ui.dividing.header Ajout d'un utilisateur
+        h4.ui.dividing.header= langs.titleAddUser
         div.required.field
-            label Role du nouvel utilisateur
+            label= langs.labelRole
             select#role(name="role",onchange="updateSelect(this)").ui.dropdown
-                option(value="") Role
-                option(value="1") Chauffeur de bus
-                option(value="2") Administrateur de zone
-                option(value="3") Administrateur system
+                option(value="")= langs.optionRole
+                option(value="1")= langs.optionBusDriver
+                option(value="2")= langs.optionZoneAdmin
+                option(value="3")= langs.optionSysAdmin
         div.required.field#usernameInput
-            label Nom d'utilisateur
+            label= langs.labelUsername
             class.ui.input
                 input#username(name="username",onkeyup="updateInput(this)", value=user.pseudo)
         div.required.field
-            label Mot de passe
+            label= langs.labelPassword
             class#password1.ui.input
                 input#password(name="password", type="password",onkeyup="updateInput(this)")
         div.required.field
-            label Confirmer le mot de passe
+            label= langs.labelPasswordConfirm
             class#password2.ui.input
                 input#passwordConfirmation(name="passwordConfirmation", type="password", onkeyup="checkChangePass(this)")
         div.field
-            label Email
+            label= langs.labelEmail
             class.ui.input.error
                 input#email(name="email",onkeyup="updateInput(this)", value=user.email)
         div#zoneContent.required.field
-            label Selectionnez la zone 
+            label= langs.labelSelectZone
             select#zoneDropdown.ui.dropdown(name="zoneDropdown",onchange="updateSelect(this)")
                 option(value="")= "Zone"
         div.field        
             class.ui.checkbox
                 input(name="passwordReset", type="checkbox")
-                label Changer de mot de passe lors de la première connexion
+                label= langs.labelResetPassword
         div.field
-            button.ui.button Ajouter
+            button.ui.button= langs.buttonCreate

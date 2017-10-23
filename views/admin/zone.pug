@@ -6,13 +6,13 @@ block extraHeadersAdmin
 
 block contentAdmin
     form.ui.form(method="post", action="/admin/zone")
-        h4.ui.dividing.header Ajout d'une zone
+        h4.ui.dividing.header= titleAddNewZone
         div.required.field
-            label Nom de la zone
+            label= langs.labelZoneName
             class.ui.input
                 input(name="zoneName")
         div.field
-            button.ui.button Ajouter
+            button.ui.button= langs.buttonCreate
     div#modifZone
-        h4.ui.dividing.header Modification des zones
+        h4.ui.dividing.header= langs.titleEditZone
         div#pastModif.ui.bulleted.list

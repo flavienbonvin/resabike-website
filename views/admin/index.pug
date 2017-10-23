@@ -5,7 +5,7 @@ block extraHeadersAdmin
     script(src="/js/admin/index.js")
 
 block contentAdmin
-    h4.ui.dividing.header Liste des zones
+    h4.ui.dividing.header= langs.titleZoneList
     div#listZone
         each zone in listZone
             h5.ui.dividing.header= zone.name
@@ -13,5 +13,7 @@ block contentAdmin
                 each line in zone.lines
                     div.item 
                         div.right.floated.content
-                            div.ui.button(onClick="deleteLine(" + line.id + ")") Delete
-                        div.content Ligne #{line.id} (#{line.startStation.name} - #{line.endStation.name})
+                            div.ui.button(onClick="deleteLine(" + line.id + ")")= langs.buttonDelete
+                        div.content 
+                            span= langs.labelLine + ' '
+                            span #{line.id} (#{line.startStation.name} - #{line.endStation.name})

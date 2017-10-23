@@ -17,7 +17,7 @@ block contentAdmin
                 option(value="")= langs.optionEnd
         if !stops    
             div.field
-                button.ui.button= langs.buttonCreateLine
+                button.ui.button= langs.buttonCreate
     if stops
         div.ui.bulleted.list
             each stop in stops
@@ -38,7 +38,7 @@ block contentAdmin
             each l in lineSuggestions
                 div.item
                     div.right.floated.content
-                        button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= "créer"
+                        button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= langs.buttonCreate
                     div.content
                         span= l[0] + ' - ' + l[1]
                     

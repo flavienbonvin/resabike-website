@@ -6,16 +6,16 @@ block extraHeadersDriver
 
 block contentDriver
 
-    a(href="/driver").ui.button Retour
+    a(href="/driver").ui.button= langs.buttonReturn
 
-    h4.ui.dividing.header Voyages ayant des vélos
+    h4.ui.dividing.header= langs.titleTripsWithBikes
     table.ui.celled.table
         thead
             tr
-                th Station d'entrée
-                th Station de sortie
-                th Nombre de vélos
-                th Pseudo
+                th= langs.tableTitleEnterStation
+                th= langs.tableTitleExitStation 
+                th= langs.labelNumberOfBikes
+                th= langs.tableTitleName
         each info in list
             tbody
                 tr

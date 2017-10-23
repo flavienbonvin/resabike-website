@@ -6,15 +6,15 @@ block extraHeadersAdmin
 
 block contentAdmin
 
-    h4.ui.dividing.header Login
+    h4.ui.dividing.header= langs.titleLogin
     form.ui.form(method="post",action="/login")
         div.required.field
-            label Nom d'utilisateur
+            label= langs.labelUsername
             class.ui.input
                 input(name="pseudo")
         div.required.field
-                label Mot de passe 
+                label= langs.labelPassword 
                 class.ui.input
                     input(name="pseudo")
         .field
-            button.ui.button Connecter
+            button.ui.button= langs.labelConnect

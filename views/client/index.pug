@@ -9,54 +9,62 @@ block extraHeadersClient
 
 block contentClient
     a(class="active item", id="menuHome", href="/admin/login") Login
-    h4.ui.dividing.header Reservation
+    h4.ui.dividing.header= langs.titleReservation
     if !listHoraire
         form#formAdd.ui.form(method="post",action="/book/add")
             div.required.field
-                label Date de la réservation
+                label= langs.labelDateOfReservation
                 div(class="ui calendar" id="calendar")
                         input(type="text" placeholder="Date" name="date")
             div.required.field
-                label Votre nom - prénom
+                label= langs.labelNameForname
                 class.ui.input
                     input(name="pseudo")
             div.required.field
-                label Email
+                label= langs.labelEmail
                 class.ui.input
                     input(name="email")
             div.required.field
-                label Nombre du vélo
+                label= langs.labelNumberOfBikes
                 class.ui.input
                     input(type="number" name="nbVelo")
             div.field
-                label= "Choisissez votre zone"
+                label= langs.labelZoneChoice
                 select(onchange="loadStation()")#zone.ui.search.dropdown(name="zone")
-                    option(value="")= "Choisissez votre zone"
+                    option(value="")= langs.labelZoneChoice
             div.field
-                label= "Choisissez votre départ"
+                label= langs.labelDepartureChoice
                     div(class.="ui input left icon")
                 select#depart.ui.search.dropdown(name="depart")
-                    option(value="")= "Choisissez votre départ"
+                    option(value="")= langs.labelDepartureChoice
             div.field
-                label= "Choisissez votre destination"
+                label= langs.labelDestinationChoice
                 select#destination.ui.search.dropdown(name="destination")
-                    option(value="")= "Choisissez votre destination"
+                    option(value="")= langs.labelDestinationChoice
             .field
-                button.ui.button Valider
+                button.ui.button= langs.buttonValidate
     else
         div.ui.two.column.grid
             div.column
-                div De #{listHoraire[1][0].nameStationDeparture} à #{listHoraire[1][0].nameStationDestination}
-                div Pour #{listHoraire[0]['nbVelo']} vélo(s) reservé par #{listHoraire[0]['pseudo']}
+                div= langs.labelFrom + ' '
+                    span #{listHoraire[1][0].nameStationDeparture} 
+                    span= langs.labelTo + ' '
+                    span #{listHoraire[1][0].nameStationDestination}
+                div= langs.labelFor + ' '
+                    span #{listHoraire[0]['nbVelo']} 
+                    span= langs.labelForBikeNumber + ' '
+                    span #{listHoraire[0]['pseudo']}
             div.column
-                a(href="/").ui.button.right.floated Nouvelle reservation
+                a(href="/").ui.button.right.floated= langs.buttonNewBooking
         div.ui.list
             each horaire in listHoraire[1]
                 div.item
                     .right.floated.content
-                        div(onclick="reservation(this)").ui.button Reserver
+                        div(onclick="reservation(this)").ui.button= langs.buttonBook
                     div.content.infoDepart
-                        div= horaire.departure+' ('+Math.floor(horaire.tripDuration/60)+'min)'
+                        div= horaire.departure+' ('+Math.floor(horaire.tripDuration/60) + ' '
+                            span= langs.minutes
+                            span )
                         each trip in horaire.tripsInfo
                             div.infoTrip 
                                 span #{trip.type} : 
@@ -67,7 +75,7 @@ block contentClient
                                 span.sortie #{trip.sortie}
                                 span (#{trip.finTime})
                                 if trip.nbPlaceRestant - listHoraire[0]['nbVelo'] < 0
-                                    span(data-tooltip = "Confirmation de l'administrateur necessaire", style = "color:red") #{trip.nbPlaceRestant} 
+                                    span(data-tooltip= langs.administratorNeeded, style = "color:red") #{trip.nbPlaceRestant} 
                                 else
                                     span #{trip.nbPlaceRestant} 
                                 if trip.idLine != -1
