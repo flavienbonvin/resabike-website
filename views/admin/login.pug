@@ -7,7 +7,7 @@ block extraHeadersAdmin
 block contentAdmin
 
     h4.ui.dividing.header= langs.titleLogin
-    form.ui.form(method="post",action="/login")
+    form.ui.form(method="post",action="/admin/login")
         div.required.field
             label= langs.labelUsername
             class.ui.input
@@ -15,6 +15,6 @@ block contentAdmin
         div.required.field
                 label= langs.labelPassword 
                 class.ui.input
-                    input(name="pseudo")
+                    input(name="password")
         .field
             button.ui.button= langs.labelConnect

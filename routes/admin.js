@@ -4,18 +4,20 @@ const lineManagement = require('../modules/admin/lineManagement');
 const userManagement = require('../modules/admin/userManagement');
 const zoneManagement = require('../modules/admin/zoneManagement');
 const trailerManagement = require('../modules/admin/trailerManagement');
+const loginManagement = require('../modules/admin/loginManagement');
 
 const User = require('../objects/User');
 
 
 
 router.use((req, res, next) => {
-  /*if(!req.session.isConnected && req.url != '/login'){
+  if(!req.session.isConnected && req.url != '/login'){
     res.redirect('/admin/login');
+  }else if(req.url != '/login' && req.session.userInfo.idRole==1){
+    res.redirect('/driver');
   }else{
     next();
-  }*/
-  next();
+  }
 })
 
 //TODO: page de détail pour lignes
@@ -146,6 +148,14 @@ router.get('/login', (req, res, next) => {
   res.render('admin/login', { title: 'Express' });
 })
 router.post('/login', (req, res, next) => {
-
+  loginManagement.login(req.body,req.session).then(() =>{
+    if(req.session.userInfo.idRole == 1){
+      res.redirect('/driver');
+    }else if(req.session.userInfo.idRole == 2){
+      res.redirect('/admin');
+    }
+  }).catch(() => {
+    res.render('admin/login', {title:"express",error:"wrong password"})
+  })
 })
 module.exports = router;
