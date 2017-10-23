@@ -11,11 +11,11 @@ const User = require('../objects/User');
 
 
 router.use((req, res, next) => {
-  if(!req.session.isConnected && req.url != '/login'){
+  if (!req.session.isConnected && req.url != '/login') {
     res.redirect('/admin/login');
-  }else if(req.url != '/login' && req.session.userInfo.idRole==1){
+  } else if (req.url != '/login' && req.session.userInfo.idRole == 1) {
     res.redirect('/driver');
-  }else{
+  } else {
     next();
   }
 })
@@ -138,9 +138,9 @@ router.post('/zone/update', (req, res, next) => {
 })
 
 
-router.get('/remorques',(req,res,next) =>{
-  trailerManagement.getAllTrailer().then((trailers) =>{
-    res.render('admin/remorques',{title: 'express', trailers: trailers});
+router.get('/remorques', (req, res, next) => {
+  trailerManagement.getAllTrailer().then((trailers) => {
+    res.render('admin/remorques', { title: 'express', trailers: trailers });
   })
 })
 
@@ -148,14 +148,18 @@ router.get('/login', (req, res, next) => {
   res.render('admin/login', { title: 'Express' });
 })
 router.post('/login', (req, res, next) => {
-  loginManagement.login(req.body,req.session).then(() =>{
-    if(req.session.userInfo.idRole == 1){
+  loginManagement.login(req.body, req.session).then(() => {
+    if (req.session.userInfo.idRole == 1) {
       res.redirect('/driver');
-    }else if(req.session.userInfo.idRole == 2){
+    } else {
       res.redirect('/admin');
     }
   }).catch(() => {
-    res.render('admin/login', {title:"express",error:"wrong password"})
+    res.render('admin/login', { title: "express", error: "wrong password" })
   })
+})
+router.get('/logout', (req, res, next) => {
+  loginManagement.logout();
+  res.redirect('/admin');
 })
 module.exports = router;

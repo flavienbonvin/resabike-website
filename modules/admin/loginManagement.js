@@ -4,8 +4,6 @@ const sha256 = require('sha256');
 var self = module.exports = {
     login(body, session) {
         return new Promise((resolve, reject) => {
-
-
             db.User.find({
                 where: {
                     pseudo: body.pseudo,
@@ -21,5 +19,8 @@ var self = module.exports = {
                 }
             })
         })
+    },
+    logout(session){
+        session.isConnected = false;
     }
 }
