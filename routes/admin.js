@@ -29,12 +29,14 @@ router.use((req, res, next) => {
 */
 router.get('/', (req, res, next) => {
   zoneManagement.listWithDetails().then((details) => {
+    res.locals.noOnglet = 0;
     res.render('admin/index', { title: 'Admin index', listZone: details });
   })
 });
 
 router.get('/index*', (req, res, next) => {
   zoneManagement.listWithDetails().then((details) => {
+    res.locals.noOnglet = 0;
     res.render('admin/index', { title: 'Admin index', listZone: details });
   }).catch((error) => {
     console.error(error);
@@ -46,10 +48,12 @@ router.get('/index*', (req, res, next) => {
 */
 /* GET home page. */
 router.get('/line/add', (req, res, next) => {
+  res.locals.noOnglet = 1;
   res.render('admin/addLine', { title: 'Express' });
 });
 
 router.post('/line/preview', (req, res, next) => {
+  res.locals.noOnglet = 1;
   lineManagement.getStopsForLine(req.body.depart, req.body.arrivee).then((stops) => {
     res.render('admin/addLine', { title: 'Express', stops: stops[0] });
   }).catch((error) => {
@@ -62,6 +66,7 @@ router.post('/line/preview', (req, res, next) => {
   })
 });
 router.post('/line/add', (req, res, next) => {
+  res.locals.noOnglet = 1;
   lineManagement.prepareStation(req.body).then((msg) => {
     res.render('admin/addLine', { title: 'Add Line', msg: 'Added' })
   }).catch((error) => {
@@ -69,6 +74,7 @@ router.post('/line/add', (req, res, next) => {
   })
 });
 router.post('/line/delete', (req, res, next) => {
+  res.locals.noOnglet = 0;
   lineManagement.deleteLine(req.body).then(() => {
     res.sendStatus(200);
   })
@@ -78,9 +84,11 @@ router.post('/line/delete', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/user/add', (req, res, next) => {
+  res.locals.noOnglet = 2;
   res.render('admin/addUser', { title: 'Add user', user: new User() });
 });
 router.post('/user/add', (req, res, next) => {
+  res.locals.noOnglet = 2;
   userManagement.createUser(req.body).then(() => {
     res.render('admin/addUser', { title: 'Add user', msg: 'Added', user: new User() });
   }).catch((error) => {
@@ -88,9 +96,11 @@ router.post('/user/add', (req, res, next) => {
   });
 });
 router.get('/users', (req, res, next) => {
+  res.locals.noOnglet = 4;
   res.render('admin/manageUsers');
 })
 router.post('/users/delete', (req, res, next) => {
+  res.locals.noOnglet = 4;
   userManagement.deleteUser(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -98,6 +108,7 @@ router.post('/users/delete', (req, res, next) => {
   })
 })
 router.post('/users/reset', (req, res, next) => {
+  res.locals.noOnglet = 4;
   userManagement.resetPassword(req.body).then(() => {
     res.send();
   }).catch((error) => {
@@ -105,6 +116,7 @@ router.post('/users/reset', (req, res, next) => {
   })
 })
 router.get('/users/edit/:id', (req, res, next) => {
+  res.locals.noOnglet = 4;
   userManagement.getUser(req.params.id).then((user) => {
     res.render('admin/addUser', { title: 'Edit user', user: user });
   })
@@ -114,9 +126,11 @@ router.get('/users/edit/:id', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/zone', (req, res, next) => {
+  res.locals.noOnglet = 3;
   res.render('admin/zone', { title: 'Express' })
 })
 router.post('/zone', (req, res, next) => {
+  res.locals.noOnglet = 3;
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
@@ -124,6 +138,7 @@ router.post('/zone', (req, res, next) => {
   })
 })
 router.post('/zone/delete', (req, res, next) => {
+  res.locals.noOnglet = 3;
   zoneManagement.deleteZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -131,6 +146,7 @@ router.post('/zone/delete', (req, res, next) => {
   })
 })
 router.post('/zone/update', (req, res, next) => {
+  res.locals.noOnglet = 3;
   zoneManagement.updateZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -140,6 +156,7 @@ router.post('/zone/update', (req, res, next) => {
 
 
 router.get('/remorques', (req, res, next) => {
+  res.locals.noOnglet = 5;
   trailerManagement.getAllTrailer().then((trailers) => {
     res.render('admin/remorques', { title: 'express', trailers: trailers });
   })
