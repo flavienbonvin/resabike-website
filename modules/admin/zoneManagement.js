@@ -69,20 +69,29 @@ module.exports = {
     /**
      * List all zones and the line they have
      */
-    listWithDetails() {
+    listWithDetails(userInfo) {
         return new Promise((resolve, reject) => {
+            console.log('info : ' + userInfo.idZone);
+            var where = {}
+            if (userInfo.idZone != null) {
+                where = {
+                    id: userInfo.idZone
+                }
+            }
+            console.log(where);
             database.Zone.findAll({
+                where,
                 include: [
                     {
                         model: database.Line,
                         include: [
                             {
                                 model: database.Station,
-                                as:'startStation'
+                                as: 'startStation'
                             },
                             {
                                 model: database.Station,
-                                as:'endStation'
+                                as: 'endStation'
                             }
                         ]
                     }

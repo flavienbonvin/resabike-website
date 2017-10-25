@@ -23,9 +23,9 @@ var self = module.exports = {
                 r = response;
                 // load all stations because 
                 if (response.data.connections[0].legs.length <= 2) {
-                    from = response.data.connections[0].legs[0].name;
+                    var idLine = response.data.connections[0].legs[0].line;
                     to = response.data.connections[0].legs[0].terminal;
-                    self.correctStation(from,to).then((results)=>{
+                    self.findDeparture(idLine, to).then((results) => {
                         resolve(results);
                     }).catch((error) => {
                         reject(error);
@@ -35,18 +35,36 @@ var self = module.exports = {
                 else {
                     var error = '';
                     var errorArray = [];
-                    for (var i = 0; i < response.data.connections[0].legs.length - 1; i++) {
 
+                    var linePromises = [];
+                    for (var i = 0; i < response.data.connections[0].legs.length - 1; i++) {
                         var type = response.data.connections[0].legs[i].type;
                         if (type == 'bus' || type == 'post') {
-                            error += response.data.connections[0].legs[i].name + ' | '
-                                + response.data.connections[0].legs[i].terminal + '\n';
-                            errorArray.push([response.data.connections[0].legs[i].name, response.data.connections[0].legs[i].terminal]);
-                            //If the line isn't correctly entered, we suggest one based on what the API returns, this is the response[..].name and response[..].terminal fields
+                            var idLine = response.data.connections[0].legs[i].line;
+                            var toTemp = response.data.connections[0].legs[i].terminal;
+                            linePromises.push(self.findDeparture(idLine, toTemp));
                         }
+
+                        // var type = response.data.connections[0].legs[i].type;
+                        // if (type == 'bus' || type == 'post') {
+                        //     error += response.data.connections[0].legs[i].name + ' | '
+                        //         + response.data.connections[0].legs[i].terminal + '\n';
+                        //     errorArray.push([response.data.connections[0].legs[i].name, response.data.connections[0].legs[i].terminal]);
+                        //     //If the line isn't correctly entered, we suggest one based on what the API returns, this is the response[..].name and response[..].terminal fields
+                        // }
                     }
-                    console.log(errorArray)
-                    reject([error, errorArray]);
+
+
+                    Promise.all(linePromises).then((response) => {
+                        for (var i = 0; i < response.length; i++) {
+                            error += response[i][0][0].name + ' | '
+                                + response[i][0][1].name + '\n';
+                            errorArray.push([response[i][0][0].name, response[i][0][response[i][0].length-1].name]);
+                        }
+                        console.log(errorArray)
+                        reject([error, errorArray]);
+                    })
+                    
                 }
             }).catch((error) => {
                 console.log(error);
@@ -56,7 +74,26 @@ var self = module.exports = {
         })
     },
 
-    correctStation(from,to){
+
+    findDeparture(idLine, to) {
+        return new Promise((resolve, reject) => {
+            axios.get("https://timetable.search.ch/api/stationboard.en.json?stop=" + to).then((response) => {
+                var info = response.data.connections;
+                var nameToFind = 0;
+                for (var i = 0; i < info.length; i++) {
+                    if (info[i].line == idLine) {
+                        nameToFind = info[i].terminal.name;
+                        i = info.length;
+                    }
+                }
+                self.correctStation(nameToFind, to).then((response) => {
+                    resolve(response);
+                })
+            })
+        })
+    },
+
+    correctStation(from, to) {
         return new Promise((resolve, reject) => {
             var stops = new Array();
             var idLine;

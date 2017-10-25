@@ -28,14 +28,14 @@ router.use((req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/', (req, res, next) => {
-  zoneManagement.listWithDetails().then((details) => {
+  zoneManagement.listWithDetails(req.session.userInfo).then((details) => {
     res.locals.noOnglet = 0;
     res.render('admin/index', { title: 'Admin index', listZone: details });
   })
 });
 
 router.get('/index*', (req, res, next) => {
-  zoneManagement.listWithDetails().then((details) => {
+  zoneManagement.listWithDetails(req.session.userInfo).then((details) => {
     res.locals.noOnglet = 0;
     res.render('admin/index', { title: 'Admin index', listZone: details });
   }).catch((error) => {

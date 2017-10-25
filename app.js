@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-calendar/dist')));
 
 app.use((req,res,next) => {
-  console.log('url : '+req.url);
   if(req.url=="/"){
     res.redirect("/fr");
     return;
@@ -46,7 +45,6 @@ app.use((req,res,next) => {
   }
   
   req.url = newUrl;
-  console.log(req.url);
   var lang = require('./lang/'+langUrl[1]+'.js');
   res.locals.langs = lang;
   res.locals.langUsed = langUrl[1];

@@ -5,7 +5,7 @@ $(document).ready(() => {
 
 
 function updateMenu(){
-    $('#Adminmenu .item').removeClass("active item");
+    $('#Adminmenu .item').removeClass("active");
     
     document.getElementById('Adminmenu').children[noOnglet].setAttribute('class', 'active item');
 }
