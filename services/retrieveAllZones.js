@@ -6,7 +6,7 @@ module.exports = (body,session) => {
     return new Promise((resolve, reject) => {
         var userInfo = session.userInfo;
         var where = {}
-        if (userInfo.idZone != null) {
+        if (userInfo && userInfo.idZone != null) {
             where = {
                 id: userInfo.idZone
             }

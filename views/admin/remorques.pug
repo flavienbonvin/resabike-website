@@ -1,8 +1,7 @@
 extends layout
 
 block extraHeadersAdmin
-    link(rel="stylesheet", href="/css/admin/manageUsers.css")
-    script(src="/js/admin/manageUsers.js")
+    
 
 
 block contentAdmin
@@ -25,6 +24,6 @@ block contentAdmin
                             td= trailer.idLine
                             td= trailer.nbBike
                             td
-                                a.ui.button= langs.labelAllocateTrailer
-                                a.ui.button.red= langs.labelDontAllocateTrailer
+                                a(href="/"+langUsed+"/admin/remorques/allocate/"+trailer.id).ui.button= langs.labelAllocateTrailer
+                                a(href="/"+langUsed+"/admin/remorques/unallocate/"+trailer.id).ui.button.red= langs.labelDontAllocateTrailer
 

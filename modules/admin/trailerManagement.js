@@ -20,5 +20,22 @@ var self = module.exports = {
                 resolve(trailers)
             })
         })
+    },
+
+    takeTrailer(id){
+        return new Promise((resolve,reject) => {
+            db.Trailer.find({
+                where: {
+                    id : id
+                }
+            }).then((trailer) =>{
+                
+            })
+        })
+    },
+    dontTakeTailer(id){
+        return new Promise((resolve,reject) => {
+
+        })
     }
 }

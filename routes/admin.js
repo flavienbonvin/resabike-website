@@ -134,11 +134,11 @@ router.get('/users/edit/:id', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/zone', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 5;
   res.render('admin/zone', { title: 'Express' })
 })
 router.post('/zone', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 5;
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
@@ -146,7 +146,7 @@ router.post('/zone', (req, res, next) => {
   })
 })
 router.post('/zone/delete', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 5;
   zoneManagement.deleteZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -154,7 +154,7 @@ router.post('/zone/delete', (req, res, next) => {
   })
 })
 router.post('/zone/update', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 5;
   zoneManagement.updateZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -166,11 +166,22 @@ router.post('/zone/update', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/remorques', (req, res, next) => {
-  res.locals.noOnglet = 5;
+  res.locals.noOnglet = 4;
   trailerManagement.getAllTrailer().then((trailers) => {
     res.render('admin/remorques', { title: 'express', trailers: trailers });
   })
 })
+router.get('/remorques/allocate/:id', (req, res, next) => {
+  trailerManagement.takeTrailer(req.params.id).then(() => {
+    res.redirect('/' + res.locals.langUsed + '/admin/remorques')
+  })
+})
+router.get('/remorques/unallocate/:id', (req, res, next) => {
+  trailerManagement.dontTakeTailer(req.params.id).then(() => {
+    res.redirect('/' + res.locals.langUsed + '/admin/remorques')
+  })
+})
+
 
 /*
  *------------------------------------------------------------------------------------------
