@@ -14,6 +14,8 @@ var books = [];
 var trips = [];
 var date = new Date();
 var LineManagement = require('../modules/admin/lineManagement');
+var ConnectionManagement = require('../modules/client/connectionManagement');
+var BookManagement = require('../modules/client/bookManagement');
 
 
 roles.push(
@@ -32,17 +34,6 @@ users.push(
     new User(4, 3, 'root', sha256('root'), 'hugo@resabike.ch', 0, null).convertToSequelize()
 )
 
-
-books.push(
-    new Book(1, 1, 11, 'Flavien', 'bonvin.flavien@gmail.com', 4, 'token1', true).convertToSequelize(),
-    new Book(2, 26, 38, 'Maxime', 'max@gmail.com', 3, 'token2', true).convertToSequelize(),
-    new Book(3, 1, 24, 'Hugo', 'hugo@hugo.com', 8, 'token3', false).convertToSequelize());
-
-trips.push(
-    new Trip(1, date, 451, 1, 1, 11).convertToSequelize(),
-    new Trip(2, date, 381, 2, 26, 38).convertToSequelize(),
-    new Trip(3, date, 451, 3, 1, 11).convertToSequelize(),
-    new Trip(4, date, 453, 3, 11, 24).convertToSequelize());
 
 db.sync().then(() => {
 
@@ -69,7 +60,14 @@ db.sync().then(() => {
                         LineManagement.prepareStation(body).then(() => {
                             db.Book.bulkCreate(books).then(() => {
                                 db.Trips.bulkCreate(trips).then(() => {
-                                    db.close();
+                                    createBook(1, 25, 3).then(() => {
+                                        createBook(26, 34, 3).then(() => {
+                                            createBook(1, 11, 4).then(() => {
+                                                db.close();
+                                            })
+                                        })
+                                    })
+
                                 })
                             })
                         });
@@ -81,3 +79,50 @@ db.sync().then(() => {
     })
 
 });
+
+function createBook(depart, fin, nbBike) {
+    return new Promise((resolve, reject) => {
+        var today = new Date();
+        today.setDate(today.getDate() + 1);
+        //28-10-2017, 19:25
+        var dateTomorrow = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear() + ", " + today.getHours() + ":" + today.getMinutes();
+        var body = {
+            date: dateTomorrow,
+            depart: depart,
+            destination: fin
+        }
+        console.log(body);
+        ConnectionManagement.getConnectionForTrip(body).then((list) => {
+            var horaire = list[1][0];
+            var body2 = {
+                bookPseudo: "max",
+                bookEmail: "maxime.betrisey@jehegt.ch",
+                bookNumber: nbBike,
+                bookIdStartStation: horaire.idStationDeparture,
+                bookIdEndStation: horaire.idStationDestination,
+            }
+            var j = 0;
+            for (var i = 0; i < horaire.tripsInfo.length; i++) {
+                console.log(horaire.tripsInfo[i])
+                if (horaire.tripsInfo[i].idLine != -1) {
+                    body2['depart' + i] = horaire.tripsInfo[i].depart;
+                    body2['departTime' + i] = horaire.tripsInfo[i].departTime;
+                    body2['sortie' + i] = horaire.tripsInfo[i].sortie;
+                    body2['idLine' + i] = horaire.tripsInfo[i].idLine;
+                    body2['nbPlaceRestant' + i] = horaire.tripsInfo[i].nbPlaceRestant;
+                    j++;
+                }
+
+            }
+            body2['nbLine'] = j
+            console.log(body2);
+            if (j > 0) {
+                BookManagement.addBook(body2, 'fr').then(() => {
+                    resolve();
+                })
+            }else{
+                resolve();
+            }
+        })
+    })
+}

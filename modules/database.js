@@ -51,7 +51,7 @@ var Book = sequelize.define('book', {
 Station.hasMany(Book, { as: 'startStationBook', foreignKey: 'idStartStation' });
 Book.belongsTo(Station, { as: 'startStationBook', foreignKey: 'idStartStation' });
 Station.hasMany(Book, { as: 'endStationBook', foreignKey: 'idEndStation' });
-Book.belongsTo(Station, { as: 'endStationBook', foreignKey: 'idStartStation' });
+Book.belongsTo(Station, { as: 'endStationBook', foreignKey: 'idEndStation' });
 
 
 var User = sequelize.define('user', {

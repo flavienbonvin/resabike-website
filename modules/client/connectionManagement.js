@@ -113,6 +113,7 @@ var self = module.exports = {
      */
     isLineinDB(legTemp) {
         return new Promise((resolve, reject) => {
+            console.log(legTemp.idLine+" "+legTemp.depart+" "+legTemp.sortie)
             if (legTemp.idLine == -1) {
                 resolve(legTemp);
                 return;

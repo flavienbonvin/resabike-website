@@ -19,7 +19,7 @@ router.post('/book/add', function (req, res, next) {
   })
 })
 router.post('/book/reserve', function (req, res, next) {
-  bookManagement.addBook(req.body).then((list) => {
+  bookManagement.addBook(req.body,res.locals.langUsed).then((list) => {
     res.render('client/index', { title: 'express', msg: 'reservation ajouté' })
   })
 })

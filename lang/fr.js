@@ -93,6 +93,7 @@ module.exports = {
     tableTitleName: 'Nom',
     tableTitleStartStation: 'Station de départ',
     tableTitleEndStation: 'Station d\'arrivée',
+    tableStatus: 'Status',
     buttonConfirmDelete: 'Confirmer la supprssion',
 
 

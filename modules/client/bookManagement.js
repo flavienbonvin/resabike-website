@@ -10,7 +10,7 @@ const nbMaxVelo = 6;
 
 var self = module.exports = {
 
-    addBook(body) {
+    addBook(body, langUsed) {
         return new Promise((resolve, reject) => {
             var token = sha256('token' + body.bookPseudo + new Date());
             //on crée une reservation avec le status en attente
@@ -46,12 +46,12 @@ var self = module.exports = {
                                             id: book.id
                                         }
                                     }).then(() => {
-                                        self.sendEmailOK(dateAffichage, body, token).then(() => {
+                                        self.sendEmailOK(dateAffichage, body, token, langUsed).then(() => {
                                             resolve();
                                         })
                                     })
                             } else {
-                                self.sendEmailWait(dateAffichage, body, token).then(() => {
+                                self.sendEmailWait(dateAffichage, body, token, langUsed).then(() => {
                                     resolve();
                                 })
                             }
@@ -100,20 +100,20 @@ var self = module.exports = {
         })
     },
 
-    sendEmailOK(dateAffichage, body, token) {
+    sendEmailOK(dateAffichage, body, token, langUsed) {
         return new Promise((resolve, reject) => {
             email.createEmail(body.bookEmail, 'Votre reservation du ' + dateAffichage, `<p>Bonjour,</p>
             <p>Votre r&eacute;servation a bien &eacute;t&eacute; enregistr&eacute;e.</p>
-            <p>Pour annuler votre reservation <a href="http://127.0.0.1:10008/book/cancel/${token}">cliquez ici</a></p>`).then(() => {
+            <p>Pour annuler votre reservation <a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">cliquez ici</a></p>`).then(() => {
                     resolve();
                 })
         })
     },
-    sendEmailWait(dateAffichage, body, token) {
+    sendEmailWait(dateAffichage, body, token, langUsed) {
         return new Promise((resolve, reject) => {
             email.createEmail(body.bookEmail, 'Votre reservation du ' + dateAffichage, `<p>Bonjour,</p>
             <p>Votre r&eacute;servation est en attente. Vous allez recevoir un email de confirmation d'ici peu.</p>
-            <p>Pour annuler votre reservation <a href="http://127.0.0.1:10008/book/cancel/${token}">cliquez ici</a></p>`).then(() => {
+            <p>Pour annuler votre reservation <a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">cliquez ici</a></p>`).then(() => {
                     resolve();
                 })
         })
@@ -188,7 +188,7 @@ var self = module.exports = {
         })
     },
 
-    deleteBooking(id){
+    deleteBooking(id) {
         return new Promise((resolve, reject) => {
             database.Book.destroy({
                 where: {
