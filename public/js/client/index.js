@@ -74,3 +74,7 @@ function reservation(t) {
     $("#nbLine").val(size);
     $("#hiddenForm").submit();
 }
+
+function helpButton(){
+    $('.ui.modal').modal('show')
+}

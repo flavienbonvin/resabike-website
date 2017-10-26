@@ -61,6 +61,7 @@ module.exports = {
     manageZoneMenu: 'Manage zones',
     manageUserMenu: 'Manage users',
     manageTrailerMenu: 'Manage trailers',
+    manageBooking: 'See bookings',
     buttonLogout: 'Logout',
     dropDownLanguage: 'Language',
     langFrench: 'Français',
@@ -71,6 +72,8 @@ module.exports = {
         CLIENT
     */
     //Index
+    titleWelcome: 'Welcome on resabike',
+    resabikeDesc: 'Resabkie is a quick and easy to use system allowing you to book a spot for your bikes ',
     titleReservation: 'Reservation',
     labelDateOfReservation: 'Date of the reservation',
     labelNameForname: 'Your name, forename',
@@ -96,6 +99,17 @@ module.exports = {
     tableTitleEndStation: 'End station',
     buttonConfirmDelete: 'Confirm the removal',
 
+    //Help modal
+    modalTitle: 'Help for the booking',
+    helpDescription1: 'To create a booking you have to enter:',
+    helpDescriptionList1: 'the date of your travel',
+    helpDescriptionList2: 'your name, the bus driver will use this name to know if groups are there',
+    helpDescriptionList3: 'your email, so you can cancel a booking',
+    helpDescriptionList4: 'the number of bikes',
+    helpDescriptionList5: 'the station where you get on the bus',
+    helpDescriptionList6: 'the station where you gou out the bus',
+    helpDescription2: 'UOnce all those infos are entered a list of connections will be displayed and you\'ll be able to book a trip',
+    buttonClose: 'Close the help',
 
     /*
         DRIVER

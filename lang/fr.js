@@ -61,6 +61,7 @@ module.exports = {
     manageZoneMenu: 'Gérer zones',
     manageUserMenu: 'Gérer utilisateurs',
     manageTrailerMenu: 'Gérer remorques',
+    manageBooking: 'Voir les réservation',
     buttonLogout: 'Deconnexion',
     dropDownLanguage: 'Langue',
     langFrench: 'Français',
@@ -71,6 +72,8 @@ module.exports = {
         CLIENT
     */
     //Index
+    titleWelcome: 'Bienvenue sur resabike',
+    resabikeDesc: 'Resabike est un système rapide et facile d\'utilisation vous permettant de réserver une place pour vos vélos',
     titleReservation: 'Reservation',
     labelDateOfReservation: 'Date de la réservation',
     labelNameForname: 'Votre nom - prénom', 
@@ -95,6 +98,17 @@ module.exports = {
     tableTitleEndStation: 'Station d\'arrivée',
     buttonConfirmDelete: 'Confirmer la supprssion',
 
+    //Help modal
+    modalTitle: 'Aide pour la réservation',
+    helpDescription1: 'Afin d\'effectuer une réservation vous devez indiquer:',
+    helpDescriptionList1: 'la date à laquelle vous voulez voyager',
+    helpDescriptionList2: 'votre nom, servant au chauffeur pour vérifier la présence des différents groupes',
+    helpDescriptionList3: 'votre email, vous permettant de supprimer la réservation',
+    helpDescriptionList4: 'le nombre de vélo',
+    helpDescriptionList5: 'l\'arrêt auquel vous prendrez le bus',
+    helpDescriptionList6: 'l\'arrêt auquel vous sortirez du bus',
+    helpDescription2: 'Une fois ces informations indiquées une liste des connextions possibles vous sera présentée',
+    buttonClose: 'Fermer l\'aide',
 
     /*
         DRIVER

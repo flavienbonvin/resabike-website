@@ -16,3 +16,7 @@ body {
 #headerNav{
     margin-bottom: 25px;
 }
+#logoutImage{
+    max-width: 24px;
+    max-height: 24px;
+}

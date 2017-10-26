@@ -8,8 +8,12 @@ block extraHeadersClient
     link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
+    h3.ui.dividing.header= langs.titleWelcome
+    p(align="center")= langs.resabikeDesc
     h4.ui.dividing.header= langs.titleReservation
     if !listHoraire
+        div.ui.hidden.divider
+            button.ui.button.right.floated(onclick="helpButton()") Aide
         form#formAdd.ui.form(method="post",action="/"+langUsed+"/book/add")
             div.required.field
                 label= langs.labelDateOfReservation
@@ -42,6 +46,26 @@ block contentClient
                     option(value="")= langs.labelDestinationChoice
             .field
                 button.ui.button= langs.buttonValidate
+
+        div.ui.modal
+            i.close.icon
+            div.header= langs.modalTitle
+            div.image.content
+                div.ui.image
+                    img(src='/media/help.png')
+                div.description
+                    p= langs.helpDescription1
+                    ul
+                        li= langs.helpDescriptionList1
+                        li= langs.helpDescriptionList2
+                        li= langs.helpDescriptionList3
+                        li= langs.helpDescriptionList4
+                        li= langs.helpDescriptionList5
+                        li= langs.helpDescriptionList6
+                    p= langs.helpDescription2
+            div.actions
+                div.ui.positive.right.labeled.icon.button= langs.buttonClose
+
     else
         div.ui.two.column.grid
             div.column
@@ -90,3 +114,5 @@ block contentClient
             input(type="text",name="bookIdStartStation",value=listHoraire[0]['depart'])
             input(type="text",name="bookIdEndStation",value=listHoraire[0]['destination'])
             input#nbLine(type="text",name="nbLine")
+
+    

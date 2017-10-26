@@ -162,7 +162,9 @@ router.post('/zone/update', (req, res, next) => {
   })
 })
 
-
+/*
+ *------------------------------------------------------------------------------------------
+*/
 router.get('/remorques', (req, res, next) => {
   res.locals.noOnglet = 5;
   trailerManagement.getAllTrailer().then((trailers) => {
@@ -170,6 +172,9 @@ router.get('/remorques', (req, res, next) => {
   })
 })
 
+/*
+ *------------------------------------------------------------------------------------------
+*/
 router.get('/login', (req, res, next) => {
   res.render('admin/login', { title: 'Express' });
 })
@@ -184,6 +189,10 @@ router.post('/login', (req, res, next) => {
     res.render('admin/login', { title: "express", error: "wrong password" })
   })
 })
+
+/*
+ *------------------------------------------------------------------------------------------
+*/
 router.get('/logout', (req, res, next) => {
   console.log(req.session);
   loginManagement.logout(req.session);
@@ -191,7 +200,12 @@ router.get('/logout', (req, res, next) => {
   res.redirect('/' + res.locals.langUsed + '/admin');
 })
 
-
+/*
+ *------------------------------------------------------------------------------------------
+*/
+router.get('/book', (req, res, next) => {
+  res.render('admin/manageBooking', {title: "express"})
+})
 
 
 
