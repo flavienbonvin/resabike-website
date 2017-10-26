@@ -1,8 +1,17 @@
 const database = require('../modules/database');
 
-module.exports = function() {
+module.exports = function(query,session) {
     return new Promise((resolve, reject) => {
+        var userInfo = session.userInfo;
+        var where = {}
+        if (userInfo.idZone != null) {
+            where = {
+                id: userInfo.idZone
+            }
+        }
+        console.log(where);
         database.Zone.findAll({
+            where,
             include: [
                 {
                     model: database.Line,

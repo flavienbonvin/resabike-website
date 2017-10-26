@@ -2,6 +2,9 @@ extends layout
 
 block extraHeadersAdmin
     link(rel="stylesheet", href="/css/admin/addUser.css")
+    script.
+        var userInfoEditRole = "#{user.idRole}"
+        var userInfoEditZone = "#{user.idZone}"
     script(src="/js/admin/addUser.js")
 
 block contentAdmin
@@ -13,8 +16,9 @@ block contentAdmin
             select#role(name="role",onchange="updateSelect(this)").ui.dropdown
                 option(value="")= langs.optionRole
                 option(value="1")= langs.optionBusDriver
-                option(value="2")= langs.optionZoneAdmin
-                option(value="3")= langs.optionSysAdmin
+                if userInformation.idRole == 3
+                    option(value="2")= langs.optionZoneAdmin
+                    option(value="3")= langs.optionSysAdmin
         div.required.field#usernameInput
             label= langs.labelUsername
             class.ui.input

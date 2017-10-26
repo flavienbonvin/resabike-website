@@ -18,7 +18,7 @@ module.exports = (body) => {
             ]
         }).then((lineList) => {
             lineList = JSON.parse(JSON.stringify(lineList));
-            console.log(lineList)
+            //console.log(lineList)
             resolve(lineList);
         }).catch((error) => {
             reject(error);

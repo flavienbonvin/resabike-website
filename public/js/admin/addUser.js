@@ -1,7 +1,7 @@
 $(document).ready(() => {
     $('select.dropdown').dropdown();
     getAllZone();
-
+    setRole();
 })
 function getAllZone() {
     $.ajax({
@@ -15,6 +15,9 @@ function getAllZone() {
             }
             document.getElementById("zoneDropdown").innerHTML = txt;
             $('select.dropdown').dropdown();
+            if (userInfoEditZone != "") {
+                document.getElementById('zoneDropdown').value = Number(userInfoEditZone)
+            }
         }
     })
 }
@@ -29,13 +32,15 @@ function controlForm(e) {
         document.getElementById('username').style.borderColor = 'red';
         validate = false;
     }
-    if (document.getElementById('password').value.length < 6) {
-        document.getElementById('password').style.borderColor = 'red';
-        validate = false;
-    }
-    if (document.getElementById('password').value != document.getElementById('passwordConfirmation').value) {
-        document.getElementById('passwordConfirmation').style.borderColor = 'red';
-        validate = false;
+    if (document.getElementById('idUser').value == "") {
+        if (document.getElementById('password').value.length < 6) {
+            document.getElementById('password').style.borderColor = 'red';
+            validate = false;
+        }
+        if (document.getElementById('password').value != document.getElementById('passwordConfirmation').value) {
+            document.getElementById('passwordConfirmation').style.borderColor = 'red';
+            validate = false;
+        }
     }
     if (document.getElementById('email').value.length > 1) {
         if (document.getElementById('email').value.indexOf('@') == -1 || document.getElementById('email').value.indexOf('.') == -1) {
@@ -43,7 +48,7 @@ function controlForm(e) {
             validate = false;
         }
     }
-    if (document.getElementById('zoneDropdown').value == "" && document.getElementById('role').value!='3') {
+    if (document.getElementById('zoneDropdown').value == "" && document.getElementById('role').value != '3') {
         document.getElementById('zoneDropdown').parentNode.style.borderColor = 'red';
         validate = false;
     }
@@ -55,11 +60,11 @@ function updateInput(t) {
     t.style.borderColor = 'rgba(34, 36, 38, 0.15)';
 }
 function updateSelect(t) {
-    if(t.id=='role'){
-        if(t.value=="3"){
+    if (t.id == 'role') {
+        if (t.value == "3") {
             $("#zoneContent").hide();
-        }else{
-            $("#zoneContent").show();            
+        } else {
+            $("#zoneContent").show();
         }
     }
     t.parentNode.style.borderColor = 'rgba(34, 36, 38, 0.15)';
@@ -70,4 +75,13 @@ function checkChangePass(t) {
     } else {
         t.style.borderColor = 'rgba(34, 36, 38, 0.15)';
     }
+}
+
+function setRole() {
+    setTimeout(function () {
+        if (userInfoEditRole != "") {
+            document.getElementById('role').value = Number(userInfoEditRole);
+        }
+    }, 300)
+
 }

@@ -14,6 +14,8 @@ router.use((req, res, next) => {
   console.log(req.url)
   if (!req.session.isConnected && req.url != '/login') {
     res.redirect('/' + res.locals.langUsed + '/admin/login');
+  }else if(req.url == '/logout'){
+    next()
   } else if (req.url != '/login' && req.session.userInfo.idRole == 1) {
     res.redirect('/' + res.locals.langUsed + '/driver');
   } else {
@@ -89,18 +91,24 @@ router.get('/user/add', (req, res, next) => {
 });
 router.post('/user/add', (req, res, next) => {
   res.locals.noOnglet = 2;
-  userManagement.createUser(req.body).then(() => {
-    res.render('admin/addUser', { title: 'Add user', msg: 'Added', user: new User() });
+  userManagement.createUser(req.body).then((response) => {
+    //TODO: check where we want to redirect page after add / update 
+    //if (response == "update") {
+      res.redirect('/' + res.locals.langUsed + '/admin/users')
+    //} else {
+      //res.render('admin/addUser', { title: 'Add user', msg: response, user: new User() });
+    //}
+
   }).catch((error) => {
     res.render('admin/addUser', { title: 'Add user', error: error, user: new User() });
   });
 });
 router.get('/users', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 3;
   res.render('admin/manageUsers');
 })
 router.post('/users/delete', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 3;
   userManagement.deleteUser(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -108,7 +116,7 @@ router.post('/users/delete', (req, res, next) => {
   })
 })
 router.post('/users/reset', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 3;
   userManagement.resetPassword(req.body).then(() => {
     res.send();
   }).catch((error) => {
@@ -116,7 +124,7 @@ router.post('/users/reset', (req, res, next) => {
   })
 })
 router.get('/users/edit/:id', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 3;
   userManagement.getUser(req.params.id).then((user) => {
     res.render('admin/addUser', { title: 'Edit user', user: user });
   })
@@ -126,11 +134,11 @@ router.get('/users/edit/:id', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/zone', (req, res, next) => {
-  res.locals.noOnglet = 3;
+  res.locals.noOnglet = 4;
   res.render('admin/zone', { title: 'Express' })
 })
 router.post('/zone', (req, res, next) => {
-  res.locals.noOnglet = 3;
+  res.locals.noOnglet = 4;
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
@@ -138,7 +146,7 @@ router.post('/zone', (req, res, next) => {
   })
 })
 router.post('/zone/delete', (req, res, next) => {
-  res.locals.noOnglet = 3;
+  res.locals.noOnglet = 4;
   zoneManagement.deleteZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -146,7 +154,7 @@ router.post('/zone/delete', (req, res, next) => {
   })
 })
 router.post('/zone/update', (req, res, next) => {
-  res.locals.noOnglet = 3;
+  res.locals.noOnglet = 4;
   zoneManagement.updateZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -168,17 +176,19 @@ router.get('/login', (req, res, next) => {
 router.post('/login', (req, res, next) => {
   loginManagement.login(req.body, req.session).then(() => {
     if (req.session.userInfo.idRole == 1) {
-      res.redirect('/'+res.locals.langUsed+'/driver');
+      res.redirect('/' + res.locals.langUsed + '/driver');
     } else {
-      res.redirect('/'+res.locals.langUsed+'/admin');
+      res.redirect('/' + res.locals.langUsed + '/admin');
     }
   }).catch(() => {
     res.render('admin/login', { title: "express", error: "wrong password" })
   })
 })
 router.get('/logout', (req, res, next) => {
+  console.log(req.session);
   loginManagement.logout(req.session);
-  res.redirect('/'+res.locals.langUsed+'/admin');
+  console.log(req.session);  
+  res.redirect('/' + res.locals.langUsed + '/admin');
 })
 
 

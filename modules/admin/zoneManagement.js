@@ -71,14 +71,12 @@ module.exports = {
      */
     listWithDetails(userInfo) {
         return new Promise((resolve, reject) => {
-            console.log('info : ' + userInfo.idZone);
             var where = {}
             if (userInfo.idZone != null) {
                 where = {
                     id: userInfo.idZone
                 }
             }
-            console.log(where);
             database.Zone.findAll({
                 where,
                 include: [

@@ -21,8 +21,8 @@ var self = module.exports = {
                 //Create bus driver 
                 case '1':
                     self.createDriver(user)
-                        .then(() => {
-                            resolve();
+                        .then((response) => {
+                            resolve(response);
                         }).catch((res) => {
                             reject(res);
                         })
@@ -30,8 +30,8 @@ var self = module.exports = {
                 //Create zone admin
                 case '2':
                     self.createZoneAdmin(user)
-                        .then(() => {
-                            resolve();
+                        .then((response) => {
+                            resolve(response);
                         }).catch((res) => {
                             reject(res);
                         })
@@ -39,9 +39,9 @@ var self = module.exports = {
                 //Create system admin
                 case '3':
                     self.createSystemAdmin(user)
-                        .then(() => {
-                            resolve();
-                        }).catch((res) => {zoneDropdown
+                        .then((response) => {
+                            resolve(response);
+                        }).catch((res) => {
                             reject(res);
                         })
                     break;
@@ -56,8 +56,8 @@ var self = module.exports = {
      */
     createDriver(user) {
         return new Promise((resolve, reject) => {
-            self.addUserToSystem(user).then(() => {
-                resolve();
+            self.addUserToSystem(user).then((response) => {
+                resolve(response);
             }).catch((error) => {
                 reject(error);
             });
@@ -71,8 +71,8 @@ var self = module.exports = {
      */
     createZoneAdmin(user) {
         return new Promise((resolve, reject) => {
-            self.addUserToSystem(user).then(() => {
-                resolve();
+            self.addUserToSystem(user).then((response) => {
+                resolve(response);
             }).catch((error) => {
                 reject(error);
             });
@@ -86,8 +86,8 @@ var self = module.exports = {
      */
     createSystemAdmin(user) {
         return new Promise((resolve, reject) => {
-            self.addUserToSystem(user).then(() => {
-                resolve();
+            self.addUserToSystem(user).then((response) => {
+                resolve(response);
             }).catch((error) => {
                 reject(error);
             });
@@ -111,24 +111,35 @@ var self = module.exports = {
                     console.log("Creating a new user");
                     console.log(user);
                     database.User.create(user.convertToSequelize()).then(() => {
-                        resolve();
+                        resolve('create');
                     });
                 } else {
                     console.log("Updating a user");
-                    console.log(user)
-                    database.User.update({
+                    console.log(user);
+                    var infoToUpdate = {
                         pseudo: user.pseudo,
-                        password: user.password,
                         email: user.email,
                         changePass: user.changePass,
                         idZone: user.idZone,
-                        idRole: user.idRole    
-                    }, {
+                        idRole: user.idRole   
+                    }
+                    if(user.password!=""){
+                        infoToUpdate = {
+                            pseudo: user.pseudo,
+                            password: user.password,
+                            email: user.email,
+                            changePass: user.changePass,
+                            idZone: user.idZone,
+                            idRole: user.idRole   
+                        }
+                    }
+                    
+                    database.User.update(infoToUpdate, {
                         where: {
                             id: user.id
                         }
                     }).then(() => {
-                        resolve();
+                        resolve('update');
                     })
                 }
             })

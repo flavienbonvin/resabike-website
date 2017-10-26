@@ -22,32 +22,35 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({secret: 'maCleSecret'}));
+app.use(session({ secret: 'maCleSecret' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-calendar/dist')));
 
-app.use((req,res,next) => {
-  if(req.url=="/"){
+app.use((req, res, next) => {
+  if (req.url == "/") {
     res.redirect("/fr");
     return;
-  }else if(req.url.indexOf("/services")!=-1){
+  } else if (req.url.indexOf("/services") != -1) {
     next();
     return;
   }
   var langUrl = req.url.split('/');
   var newUrl = "/";
-  for(var i = 2;i<langUrl.length;i++){
-    newUrl += langUrl[i]+"/"; 
+  for (var i = 2; i < langUrl.length; i++) {
+    newUrl += langUrl[i] + "/";
   }
-  if(newUrl.length>1){
-    newUrl = newUrl.slice(0,-1);
+  if (newUrl.length > 1) {
+    newUrl = newUrl.slice(0, -1);
   }
-  
+
   req.url = newUrl;
-  var lang = require('./lang/'+langUrl[1]+'.js');
+  var lang = require('./lang/' + langUrl[1] + '.js');
   res.locals.langs = lang;
   res.locals.langUsed = langUrl[1];
+  if (req.session.userInfo) {
+    res.locals.userInformation = req.session.userInfo;
+  }
   next();
 })
 
@@ -58,17 +61,17 @@ app.use('/driver', driver);
 app.use('/services', services);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {}; 
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
