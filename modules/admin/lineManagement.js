@@ -37,34 +37,34 @@ var self = module.exports = {
                     var errorArray = [];
 
                     var linePromises = [];
-                    for (var i = 0; i < response.data.connections[0].legs.length - 1; i++) {
-                        var type = response.data.connections[0].legs[i].type;
-                        if (type == 'bus' || type == 'post') {
-                            var idLine = response.data.connections[0].legs[i].line;
-                            var toTemp = response.data.connections[0].legs[i].terminal;
-                            linePromises.push(self.findDeparture(idLine, toTemp));
+                    var lineToCheck = [];
+                    for (var j = 0; j < response.data.connections.length; j++) {
+                        for (var i = 0; i < response.data.connections[0].legs.length - 1; i++) {
+                            var curLeg = response.data.connections[0].legs[i]
+                            var type = curLeg.type;
+                            if (type == 'bus' || type == 'post') {
+                                if(curLeg.line && lineToCheck.indexOf(curLeg.line)==-1){
+                                    var idLine = curLeg.line;
+                                    var toTemp = curLeg.terminal;
+                                    lineToCheck.push(curLeg.line);
+                                    linePromises.push(self.findDeparture(idLine, toTemp));
+                                }
+                                
+                            }
                         }
-
-                        // var type = response.data.connections[0].legs[i].type;
-                        // if (type == 'bus' || type == 'post') {
-                        //     error += response.data.connections[0].legs[i].name + ' | '
-                        //         + response.data.connections[0].legs[i].terminal + '\n';
-                        //     errorArray.push([response.data.connections[0].legs[i].name, response.data.connections[0].legs[i].terminal]);
-                        //     //If the line isn't correctly entered, we suggest one based on what the API returns, this is the response[..].name and response[..].terminal fields
-                        // }
                     }
 
 
                     Promise.all(linePromises).then((response) => {
                         for (var i = 0; i < response.length; i++) {
                             error += response[i][0][0].name + ' | '
-                                + response[i][0][1].name + '\n';
-                            errorArray.push([response[i][0][0].name, response[i][0][response[i][0].length-1].name]);
+                                + response[i][0][1].name + '('+response[i][1]+')\n';
+                            errorArray.push([response[i][0][0].name, response[i][0][response[i][0].length - 1].name,response[i][1]]);
                         }
                         console.log(errorArray)
                         reject([error, errorArray]);
                     })
-                    
+
                 }
             }).catch((error) => {
                 console.log(error);
@@ -213,7 +213,7 @@ var self = module.exports = {
                 }))
             }
             Promise.all(listProm).then((stopsTemp) => {
-                var line = new Line(idZone+'-'+stopsAndLine[1], stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
+                var line = new Line(idZone + '-' + stopsAndLine[1], stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
                 database.Line.find({
                     where: {
                         id: line.id,

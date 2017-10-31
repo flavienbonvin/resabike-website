@@ -52,7 +52,7 @@ router.get('/index*', (req, res, next) => {
 /* GET home page. */
 router.get('/line/add', (req, res, next) => {
   res.locals.noOnglet = 1;
-  res.render('admin/addLine', { title: 'Express' });
+  res.render('admin/addLine', { title: 'Express', add: true });
 });
 
 router.post('/line/preview', (req, res, next) => {

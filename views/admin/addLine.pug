@@ -6,18 +6,19 @@ block extraHeadersAdmin
 
 block contentAdmin
     form.ui.form(method="post",action="/"+langUsed+"/admin/line/preview")
-        h4.ui.dividing.header= langs.titleAddLine
-        div.field
-            label= langs.labelStart
-            select#depart.ui.search.dropdown(name="depart")
-                option(value="")= langs.optionStart
-        div.field
-            label= langs.labelEnd
-            select#arrivee.ui.search.dropdown(name="arrivee")
-                option(value="")= langs.optionEnd
-        if !stops    
-            div.field
-                button.ui.button= langs.buttonCreate
+        if add
+            div
+                h4.ui.dividing.header= langs.titleAddLine
+                div.field
+                    label= langs.labelStart
+                    select#depart.ui.search.dropdown(name="depart")
+                        option(value="")= langs.optionStart
+                div.field
+                    label= langs.labelEnd
+                    select#arrivee.ui.search.dropdown(name="arrivee")
+                        option(value="")= langs.optionEnd
+                div.field
+                    button.ui.button= langs.buttonCreate
     if stops
         div.ui.bulleted.list
             each stop in stops
@@ -40,7 +41,7 @@ block contentAdmin
                     div.right.floated.content
                         button.ui.button.left(onclick="createBySelection('"+l[0]+"','"+l[1]+"')")= langs.buttonCreate
                     div.content
-                        span= l[0] + ' - ' + l[1]
+                        span= l[0] + ' - ' + l[1] + ' (' + l[2] + ')'
                     
                     
         form#suggestForm(method="post",action="/"+langUsed+"/admin/line/preview")
