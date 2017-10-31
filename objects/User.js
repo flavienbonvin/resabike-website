@@ -6,17 +6,15 @@ var user = class User {
      * @param {Number} idRole 
      * @param {string} pseudo 
      * @param {string} password 
-     * @param {string} email 
-     * @param {boolean} changePass 
+     * @param {string} email
      * @param {Number} idZone 
      */
-    constructor(id, idRole, pseudo, password, email, changePass, idZone) {
+    constructor(id, idRole, pseudo, password, email, idZone) {
         this.id = id;
         this.idRole = idRole;
         this.pseudo = pseudo;
         this.password = password;
         this.email = email;
-        this.changePass = changePass;
         this.idZone = idZone;
     }
 
@@ -27,7 +25,6 @@ var user = class User {
             pseudo: this.pseudo,
             password: this.password,
             email: this.email,
-            changePass: this.changePass,
             idZone: this.idZone
         }
     }

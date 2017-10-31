@@ -39,9 +39,5 @@ block contentAdmin
             label= langs.labelSelectZone
             select#zoneDropdown.ui.dropdown(name="zoneDropdown",onchange="updateSelect(this)")
                 option(value="")= "Zone"
-        div.field        
-            class.ui.checkbox
-                input(name="passwordReset", type="checkbox")
-                label= langs.labelResetPassword
         div.field
             button.ui.button= langs.buttonCreate

@@ -60,8 +60,7 @@ var User = sequelize.define('user', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     pseudo: Sequelize.STRING,
     password: Sequelize.TEXT,
-    email: Sequelize.STRING,
-    changePass: Sequelize.BOOLEAN
+    email: Sequelize.STRING
 })
 Zone.hasMany(User, { foreignKey: 'idZone' })
 Role.hasMany(User, { foreignKey: 'idRole' })

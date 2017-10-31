@@ -73,7 +73,7 @@ module.exports = {
     */
     //Index
     titleWelcome: 'Welcome on resabike',
-    resabikeDesc: 'Resabkie is a quick and easy to use system allowing you to book a spot for your bikes ',
+    resabikeDesc: 'Resabike is a quick and easy to use system allowing you to book a spot for your bikes ',
     titleReservation: 'Reservation',
     labelDateOfReservation: 'Date of the reservation',
     labelNameForname: 'Your name, forename',
@@ -89,7 +89,11 @@ module.exports = {
     buttonBook: 'Book',
     minutes: 'minuts',
     administratorNeeded: 'Administrator confirmation needed',
-
+    duration: 'duration',
+    supportedLine: 'Line supported by the system',
+    unsupportedLine: 'Non supported line',
+    helpButton: 'Help',
+    remainingSeats : 'remaining seats ',
 
     //CancelBooking
     titleConfirmBookCancel: 'Deletion confirmation',
@@ -112,6 +116,11 @@ module.exports = {
     helpDescription2: 'UOnce all those infos are entered a list of connections will be displayed and you\'ll be able to book a trip',
     buttonClose: 'Close the help',
 
+    //About
+    titleAbout: 'About us',
+    about1: 'This project was realized by two students in computer science management at the HES of Sierre:' ,
+    aboutCreator1: 'Flavien Bonvin',
+    aboutCreator2: 'Maxime Bétrisey',
     /*
         DRIVER
     */
