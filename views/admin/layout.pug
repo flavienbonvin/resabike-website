@@ -9,9 +9,10 @@ block extraHeaders
 
 block content
     div.ui.two.column.centered.grid
-        div.column           
+        div.column
             div#Adminmenu.ui.top.attached.menu 
-                a(class="item", id="menuHome", href="/"+langUsed+"/admin/")= langs.home
+                a(class="item", href="/"+langUsed+"/admin/")
+                    img#homeImage(src="/media/home.png")
                 a(class="item", id="menuLine", href="/"+langUsed+"/admin/line/add", onclick="test()")= langs.addLineMenu
                 a(class="item", id="menuUser", href="/"+langUsed+"/admin/user/add")= langs.addUserMenu
                 a(class="item", id="menuUser", href="/"+langUsed+"/admin/users")= langs.manageUserMenu

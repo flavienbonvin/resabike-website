@@ -1,6 +1,8 @@
 body {
+    background-image: url('/media/car_postal.jpg');
     background-size: cover;
     background-position: center center;
+    margin-top: 5%;
 }
 
 #main {
@@ -16,7 +18,7 @@ body {
 #headerNav{
     margin-bottom: 25px;
 }
-#logoutImage{
+#logoutImage, #homeImage{
     max-width: 24px;
     max-height: 24px;
 }

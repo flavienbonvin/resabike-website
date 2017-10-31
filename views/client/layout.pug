@@ -9,7 +9,10 @@ block content
     div.ui.two.column.centered.grid
         div.column  
             div.ui.top.attached.menu 
+                a(class="item", href="/"+langUsed+"/")
+                    img#homeImage(src="/media/home.png")
                 div(class="right menu")
+                    a(class="item", href="/"+langUsed+"/about")= langs.titleAbout
                     div(class="item")
                         select.ui.dropdown(id="languageDropdown" onchange="changeLanguage(this)")
                             option(value="fr")= langs.langFrench

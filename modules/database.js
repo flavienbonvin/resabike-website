@@ -35,7 +35,8 @@ Station.hasOne(Line, { as: 'endStation', foreignKey: 'idEndStation' })
 Line.belongsTo(Station, { as: 'endStation', foreignKey: 'idEndStation' })
 Station.hasOne(Line, { as: 'startStation', foreignKey: 'idStartStation' })
 Line.belongsTo(Station, { as: 'startStation', foreignKey: 'idStartStation' })
-Zone.hasMany(Line, { foreignKey: 'idZone' })
+Zone.hasMany(Line, { foreignKey: 'idZone' , primaryKey: true})
+Line.belongsTo(Zone, { foreignKey: 'idZone' , primaryKey: true})
 Line.belongsTo(Zone, { foreignKey: 'idZone' })
 
 var Book = sequelize.define('book', {

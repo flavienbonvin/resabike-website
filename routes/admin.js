@@ -5,6 +5,7 @@ const userManagement = require('../modules/admin/userManagement');
 const zoneManagement = require('../modules/admin/zoneManagement');
 const trailerManagement = require('../modules/admin/trailerManagement');
 const loginManagement = require('../modules/admin/loginManagement');
+const bookManagement = require('../modules/client/bookManagement');
 
 const User = require('../objects/User');
 
@@ -14,7 +15,7 @@ router.use((req, res, next) => {
   console.log(req.url)
   if (!req.session.isConnected && req.url != '/login') {
     res.redirect('/' + res.locals.langUsed + '/admin/login');
-  }else if(req.url == '/logout'){
+  } else if (req.url == '/logout') {
     next()
   } else if (req.url != '/login' && req.session.userInfo.idRole == 1) {
     res.redirect('/' + res.locals.langUsed + '/driver');
@@ -94,9 +95,9 @@ router.post('/user/add', (req, res, next) => {
   userManagement.createUser(req.body).then((response) => {
     //TODO: check where we want to redirect page after add / update 
     //if (response == "update") {
-      res.redirect('/' + res.locals.langUsed + '/admin/users')
+    res.redirect('/' + res.locals.langUsed + '/admin/users')
     //} else {
-      //res.render('admin/addUser', { title: 'Add user', msg: response, user: new User() });
+    //res.render('admin/addUser', { title: 'Add user', msg: response, user: new User() });
     //}
 
   }).catch((error) => {
@@ -207,7 +208,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res, next) => {
   console.log(req.session);
   loginManagement.logout(req.session);
-  console.log(req.session);  
+  console.log(req.session);
   res.redirect('/' + res.locals.langUsed + '/admin');
 })
 
@@ -215,7 +216,9 @@ router.get('/logout', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/book', (req, res, next) => {
-  res.render('admin/manageBooking', {title: "express"})
+  bookManagement.findAllBooking().then((bookList) => {
+    res.render('admin/manageBooking', { title: "express", bookList: bookList })
+  })
 })
 
 

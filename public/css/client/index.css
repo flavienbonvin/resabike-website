@@ -5,8 +5,14 @@
     padding:.78571429em 1.5em .78571429em
 }
 .infoTrip{
-    font-size: 10px;
-    margin-left:10px;
+    margin-bottom: 1%;
+    margin-left:1%;
+}
+#infoTripType{
+    text-transform: capitalize;
+}
+#tripsList{
+    margin-top: 5%;
 }
 #hiddenForm{
     display: none;

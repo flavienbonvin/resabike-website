@@ -5,3 +5,21 @@ block extraHeadersAdmin
     script(src="/js/admin/manageBooking.js")
 
 block contentAdmin
+    h4.ui.dividing.header Liste des réservations
+    table.ui.celled.table
+        thead
+            th pseudo
+            th email
+            th= langs.labelNumberOfBikes
+            th date
+            th= langs.tableTitleStartStation
+            th= langs.tableTitleEndStation
+        tbody
+            each book in bookList
+                tr    
+                    td= book.pseudo
+                    td= book.email
+                    td= book.number
+                    td= book.trips[0].startHour
+                    td= book.startStationBook.name
+                    td= book.endStationBook.name

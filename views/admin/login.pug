@@ -1,21 +1,25 @@
 extends ../layout
 
 block extraHeaders
-    link(rel="stylesheet", href="/css/admin/index.css")
+    link(rel="stylesheet", href="/css/admin/login.css")
     script(src="/js/admin/index.js")
 
 block content
     div.ui.two.column.centered.grid
         div.column 
-            h4.ui.dividing.header= langs.titleLogin
-            form.ui.form(method="post",action="/"+langUsed+"/admin/login")
-                div.required.field
-                    label= langs.labelUsername
-                    class.ui.input
-                        input(name="pseudo")
-                div.required.field
-                        label= langs.labelPassword 
+            div#Adminmenu.ui.top.attached.menu 
+                a(class="item", href="/"+langUsed+"/")
+                    img#homeImage(src="/media/home.png")
+            div.ui.attached.segment
+                h4.ui.dividing.header= langs.titleLogin
+                form.ui.form(method="post",action="/"+langUsed+"/admin/login")
+                    div.required.field
+                        label= langs.labelUsername
                         class.ui.input
-                            input(name="password")
-                .field
-                    button.ui.button= langs.labelConnect
+                            input(name="pseudo")
+                    div.required.field
+                            label= langs.labelPassword 
+                            class.ui.input
+                                input(name="password")
+                    .field
+                        button.ui.button= langs.labelConnect

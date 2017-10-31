@@ -89,6 +89,9 @@ module.exports = {
     buttonBook: 'Réserver',
     minutes: 'minutes',
     administratorNeeded: 'Confirmation de l\'administrateur necessaire',
+    duration: 'durée',
+    supportedLine: 'Ligne supportée par le système',
+    unsupportedLine: 'Ligne non supportée par le système',
 
     //CancelBooking
     titleConfirmBookCancel: 'Confirmation de suppression',
@@ -110,6 +113,12 @@ module.exports = {
     helpDescriptionList6: 'l\'arrêt auquel vous sortirez du bus',
     helpDescription2: 'Une fois ces informations indiquées une liste des connextions possibles vous sera présentée',
     buttonClose: 'Fermer l\'aide',
+
+    //About
+    titleAbout: 'A propos',
+    about1: 'Ce projet a été réalisé par deux étudiants en informatique de gestion à la HES de Sierre: ',
+    aboutCreator1: 'Flavien Bonvin',
+    aboutCreator2: 'Maxime Bétrisey',
 
     /*
         DRIVER

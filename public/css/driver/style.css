@@ -1,6 +1,8 @@
 body {
+    background-image: url('/media/car_postal.jpg');
     background-size: cover;
     background-position: center center;
+    margin-top: 5%;
 }
 
 #main {

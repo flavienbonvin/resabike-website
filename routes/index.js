@@ -37,5 +37,9 @@ router.post('/book/cancel/:id', function (req, res, next) {
 })
 
 
+router.get('/about', function(req, res, next){
+  res.render('client/about')
+})
+
 
 module.exports = router;

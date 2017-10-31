@@ -8,10 +8,10 @@ block extraHeadersClient
     link(rel="stylesheet", href="/css/client/index.css")
 
 block contentClient
-    h3.ui.dividing.header= langs.titleWelcome
-    p(align="center")= langs.resabikeDesc
     h4.ui.dividing.header= langs.titleReservation
     if !listHoraire
+        h3.ui.dividing.header= langs.titleWelcome
+        p(align="center")= langs.resabikeDesc
         div.ui.hidden.divider
             button.ui.button.right.floated(onclick="helpButton()") Aide
         form#formAdd.ui.form(method="post",action="/"+langUsed+"/book/add")
@@ -70,43 +70,48 @@ block contentClient
         div.ui.two.column.grid
             div.column
                 div= langs.labelFrom + ' '
-                    span #{listHoraire[1][0].nameStationDeparture} 
+                    b #{listHoraire[1][0].nameStationDeparture} 
                     span= langs.labelTo + ' '
-                    span #{listHoraire[1][0].nameStationDestination}
+                    b #{listHoraire[1][0].nameStationDestination}
                 div= langs.labelFor + ' '
                     span #{listHoraire[0]['nbVelo']} 
                     span= langs.labelForBikeNumber + ' '
                     span #{listHoraire[0]['pseudo']}
             div.column
                 a(href="/").ui.button.right.floated= langs.buttonNewBooking
-        div.ui.list
+
+        div#tripsList.ui.middle.aligned.divided.list
             each horaire in listHoraire[1]
                 div.item
-                    .right.floated.content
+                    div.right.floated.content
                         div(onclick="reservation(this)").ui.button= langs.buttonBook
-                    div.content.infoDepart
-                        div= horaire.departure+' ('+Math.floor(horaire.tripDuration/60) + ' '
+                    div.content
+                        p= horaire.departure + ' - '
+                            span= langs.duration + ' '
+                            span= Math.floor(horaire.tripDuration/60) + ' '
                             span= langs.minutes
-                            span )
                         each trip in horaire.tripsInfo
                             div.infoTrip 
-                                span #{trip.type} : 
-                                span.depart #{trip.depart}
+                                span#infoTripType #{trip.type} : 
+                                span.depart #{trip.depart} 
                                 span (
-                                span.departTime #{trip.departTime}
+                                span.departTime= horaire.departure
                                 span ) - 
                                 span.sortie #{trip.sortie}
-                                span (#{trip.finTime})
+                                span  (#{trip.finTime}) : 
+                                span places restantes 
                                 if trip.nbPlaceRestant - listHoraire[0]['nbVelo'] < 0
                                     span(data-tooltip= langs.administratorNeeded, style = "color:red") #{trip.nbPlaceRestant} 
                                 else
                                     span #{trip.nbPlaceRestant} 
                                 if trip.idLine != -1
-                                    i.icon.check
+                                    span(data-tooltip= langs.supportedLine)
+                                        i.icon.check
                                 else
-                                    i.icon.remove
+                                    span(data-tooltip= langs.unsupportedLine, style="color:red")
+                                        i.icon.remove
                                 span.nbPlaceRestant #{trip.nbPlaceRestant}
-                                sapn.idLine #{trip.idLine}
+                                span.idLine #{trip.idLine}
         form#hiddenForm(action="/"+langUsed+"/book/reserve",method="POST")
             input(type="text",name="bookPseudo",value=listHoraire[0]['pseudo'])
             input(type="text",name="bookEmail",value=listHoraire[0]['email'])

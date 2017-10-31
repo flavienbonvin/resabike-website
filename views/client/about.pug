@@ -1,0 +1,15 @@
+extends layout
+
+
+block extraHeadersClient
+    link(rel="stylesheet", href="/css/client/about.css")
+
+block contentClient
+    h4.ui.dividing.header= langs.titleAbout
+    p= langs.about1
+    ul
+        li= langs.aboutCreator1
+        li= langs.aboutCreator2
+    a(class="item", href="https://github.com/flavienbonvin/resabike", target="_blank")
+        center
+            img#gitImage(src="/media/git.png")

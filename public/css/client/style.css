@@ -1,8 +1,12 @@
 body {
+    background-image: url('/media/car_postal.jpg');
     background-size: cover;
     background-position: center center;
+    margin-top: 5%;
 }
-
+div.ui.two.column.centered.grid{
+    opacity: 0.95;
+}
 #main {
     margin-top: 100px;
 }
