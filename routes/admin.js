@@ -135,11 +135,11 @@ router.get('/users/edit/:id', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/zone', (req, res, next) => {
-  res.locals.noOnglet = 5;
+  res.locals.noOnglet = 6;
   res.render('admin/zone', { title: 'Express' })
 })
 router.post('/zone', (req, res, next) => {
-  res.locals.noOnglet = 5;
+  res.locals.noOnglet = 6;
   zoneManagement.createZone(req.body).then(() => {
     res.render('admin/zone', { title: 'Express' })
   }).catch((error) => {
@@ -147,7 +147,7 @@ router.post('/zone', (req, res, next) => {
   })
 })
 router.post('/zone/delete', (req, res, next) => {
-  res.locals.noOnglet = 5;
+  res.locals.noOnglet = 6;
   zoneManagement.deleteZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -155,7 +155,7 @@ router.post('/zone/delete', (req, res, next) => {
   })
 })
 router.post('/zone/update', (req, res, next) => {
-  res.locals.noOnglet = 5;
+  res.locals.noOnglet = 6;
   zoneManagement.updateZone(req.body).then(() => {
     res.send('');
   }).catch((error) => {
@@ -167,17 +167,19 @@ router.post('/zone/update', (req, res, next) => {
  *------------------------------------------------------------------------------------------
 */
 router.get('/remorques', (req, res, next) => {
-  res.locals.noOnglet = 4;
+  res.locals.noOnglet = 5;
   trailerManagement.getAllTrailer().then((trailers) => {
     res.render('admin/remorques', { title: 'express', trailers: trailers });
   })
 })
 router.get('/remorques/allocate/:id', (req, res, next) => {
+  res.locals.noOnglet = 5;
   trailerManagement.takeTrailer(req.params.id).then(() => {
     res.redirect('/' + res.locals.langUsed + '/admin/remorques')
   })
 })
 router.get('/remorques/unallocate/:id', (req, res, next) => {
+  res.locals.noOnglet = 5;
   trailerManagement.dontTakeTailer(req.params.id).then(() => {
     res.redirect('/' + res.locals.langUsed + '/admin/remorques')
   })
@@ -217,6 +219,7 @@ router.get('/logout', (req, res, next) => {
 */
 router.get('/book', (req, res, next) => {
   bookManagement.findAllBooking().then((bookList) => {
+    res.locals.noOnglet = 4;
     res.render('admin/manageBooking', { title: "express", bookList: bookList })
   })
 })

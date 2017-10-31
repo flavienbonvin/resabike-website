@@ -4,6 +4,7 @@ var Trip = require('../../objects/Trip');
 var Trailer = require('../../objects/Trailer');
 var sha256 = require('sha256');
 var email = require('../email');
+var axios = require('axios');
 
 const nbMaxVelo = 6;
 
@@ -12,7 +13,7 @@ var self = module.exports = {
 
     addBook(body, langUsed) {
         return new Promise((resolve, reject) => {
-            var token = sha256('token' + body.bookPseudo + new Date());
+            var token = sha256('token' + body.bookPseudo + new Date() + Math.random());
             //on crée une reservation avec le status en attente
             var book = new Book(null, body.bookIdStartStation, body.bookIdEndStation, body.bookPseudo, body.bookEmail, body.bookNumber, token, false);
             database.Book.create(book.convertToSequelize()).then((book) => {
@@ -26,14 +27,18 @@ var self = module.exports = {
                     dateAffichage = dateAffichage[2] + '.' + dateAffichage[1] + '.' + dateAffichage[0];
 
                     // on crée tous les objets trip pour les ajouter a la db
+                    var trip;
                     for (var i = 0; i < stationsId.length; i++) {
                         if (stationsId[i].nbPlaceRestant - body.bookNumber < 0) {
                             status = false;
+                            trip = new Trip(null, stationsId[i].realDepart, stationsId[i].departTime, stationsId[i].numeroLine, book.id, stationsId[i].idDepart, stationsId[i].idFin, false).convertToSequelize();
+                        }else{
+                            trip = new Trip(null, stationsId[i].realDepart, stationsId[i].departTime, stationsId[i].numeroLine, book.id, stationsId[i].idDepart, stationsId[i].idFin, true).convertToSequelize();                            
                         }
-                        var trailer = new Trailer(null, stationsId[i].departTime, body.bookNumber, false, true, stationsId[i].numeroLine);
-                        trailersPromise.push(self.checkTrailer(trailer));
-                        var trip = new Trip(null, stationsId[i].departTime, stationsId[i].numeroLine, book.id, stationsId[i].idDepart, stationsId[i].idFin).convertToSequelize();
                         trips.push(trip);
+                        var trailer = new Trailer(null, stationsId[i].realDepart, body.bookNumber, false, true, stationsId[i].numeroLine);
+                        trailersPromise.push(self.checkTrailer(trailer));
+                        
                     }
 
                     Promise.all(trailersPromise).then(() => {
@@ -133,22 +138,67 @@ var self = module.exports = {
                         name: body['sortie' + i]
                     }
                 }))
+                stationsPromise.push(self.findRealStartHour(body,i));
             }
             Promise.all(stationsPromise).then((res) => {
                 var list = [];
-                for (var i = 0; i < res.length; i += 2) {
-                    var j = i / 2;
+                for (var i = 0; i < res.length; i +=3) {
+                    var j = i / 3;
                     var temp = {
                         idDepart: res[i].id,
+                        realDepart : res[i+2],
                         departTime: body['departTime' + j],
                         idFin: res[i + 1].id,
-                        numeroLine: Number(body['idLine' + j]),
+                        numeroLine: body['idLine' + j],
                         nbPlaceRestant: Number(body['nbPlaceRestant' + j])
                     }
                     list.push(temp);
 
                 }
                 resolve(list);
+            })
+        })
+    },
+
+    findRealStartHour(body,i){
+        return new Promise((resolve,reject) => {
+            database.Line.find({
+                where:{
+                    id : body['idLine' + i]
+                },
+                include: [
+                    {
+                        model: database.Station,
+                        as: 'startStation'
+                    },
+                    {
+                        model: database.Station,
+                        as: 'endStation'
+                    }
+                ]
+            }).then((line) => {
+                var dateTemp = body['departTime' + i].split(" ");
+                dateTemp[0] = dateTemp[0].split('-');
+                dateTemp[0] = dateTemp[0][2]+'-'+dateTemp[0][1]+'-'+dateTemp[0][0];
+                dateTemp[1] = dateTemp[1].split(':');
+                dateTemp[1] = dateTemp[1][0]+':'+dateTemp[1][1]
+                var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];
+                console.log("Api to get realHour :"+urlApi)
+                axios.get(urlApi).then((response) => {
+                    var connections = response.data.connections;
+                    for(var j = 0;j<connections.length;j++){
+                        var realDep = new Date(connections[j].departure);
+                        var realFin = new Date(connections[j].arrival);
+                        var currentTime = new Date(body['departTime' + i]);
+                        console.log(realDep+" "+currentTime+" "+realFin);
+                        if(connections[j].legs[0].line && connections[j].legs[0].line == line.id.split('-')[1]){
+                            if(currentTime>=realDep && currentTime<=realFin){
+                                resolve(realDep);
+                                return;
+                            }
+                        }
+                    }
+                })
             })
         })
     },

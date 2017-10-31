@@ -1,4 +1,2 @@
-var email = require('./modules/email');
+var db = require('./modules/database');
 
-
-email.createEmail('bonvin.flavien@gmail.com', 'coucou', 'test');

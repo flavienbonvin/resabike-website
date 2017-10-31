@@ -2,7 +2,7 @@ var line = class Line {
 
     /**
      * 
-     * @param {Number} id 
+     * @param {String} id 
      * @param {Number} idStartStation 
      * @param {Number} idEndStation 
      * @param {Number} idZone 

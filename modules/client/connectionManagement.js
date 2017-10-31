@@ -1,6 +1,8 @@
 var axios = require('axios');
 var database = require('../database');
 var Connection = require("../../objects/Connection");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const nbMaxVelo = 6;
 
@@ -120,13 +122,17 @@ var self = module.exports = {
             }
             database.Line.find({
                 where: {
-                    id: legTemp.idLine
+                    id: {
+                        [Op.like]: "%"+legTemp.idLine
+                    }
                 }
             }).then((line) => {
+                console.log(line);
                 if (line == null) {
                     legTemp.idLine = -1;
                     resolve(legTemp);
                 } else {
+                    legTemp.idLine = line.id;
                     self.checkNBVeloOnLine(legTemp).then((legTemp) => {
                         resolve(legTemp)
                     })
@@ -138,17 +144,66 @@ var self = module.exports = {
 
     checkNBVeloOnLine(legTemp) {
         return new Promise((resolve, reject) => {
-
-            database.Trips.sum('number', {
-                where: {
-                    idLine: legTemp.idLine,
-                    startHour: legTemp.departTime
+            
+            self.findRealStartHour(legTemp).then((lineDepart)=>{
+                database.Trips.sum('number', {
+                    where: {
+                        idLine: legTemp.idLine,
+                        lineStartHour: lineDepart
+                    },
+                    include: [{ model: database.Book }]
+                }).then(sum => {
+                    sum = sum || 0;
+                    legTemp.nbPlaceRestant -= sum;
+                    resolve(legTemp)
+                })
+            })
+            
+        })
+    },
+    findRealStartHour(legTemp){
+        return new Promise((resolve,reject) => {
+            database.Line.find({
+                where:{
+                    id : legTemp.idLine
                 },
-                include: [{ model: database.Book }]
-            }).then(sum => {
-                sum = sum || 0;
-                legTemp.nbPlaceRestant -= sum;
-                resolve(legTemp)
+                include: [
+                    {
+                        model: database.Station,
+                        as: 'startStation'
+                    },
+                    {
+                        model: database.Station,
+                        as: 'endStation'
+                    }
+                ]
+            }).then((line) => {
+                var dateTemp = legTemp.departTime.split(" ");
+                console.log(dateTemp);
+                dateTemp[0] = dateTemp[0].split('-');
+                dateTemp[0] = dateTemp[0][2]+'-'+dateTemp[0][1]+'-'+dateTemp[0][0];
+                dateTemp[1] = dateTemp[1].split(':');
+                dateTemp[1] = dateTemp[1][0]+':'+dateTemp[1][1]
+                console.log(dateTemp);
+                var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];
+                console.log("Api to get realHour :"+urlApi)
+                axios.get(urlApi).then((response) => {
+                    var connections = response.data.connections;
+                    console.log(JSON.parse(JSON.stringify(connections)));
+                    for(var j = 0;j<connections.length;j++){
+                        var realDep = new Date(connections[j].departure);
+                        var realFin = new Date(connections[j].arrival);
+                        var currentTime = new Date(legTemp.departTime);
+                        console.log(realDep+" "+currentTime+" "+realFin);
+                        console.log("debug "+connections[j].legs[0].line +"=="+ line.id.split('-')[1])
+                        if(connections[j].legs[0].line && connections[j].legs[0].line == line.id.split('-')[1]){
+                            if(currentTime>=realDep && currentTime<=realFin){
+                                resolve(realDep);
+                                return;
+                            }
+                        }
+                    }
+                })
             })
         })
     }
