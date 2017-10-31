@@ -213,7 +213,7 @@ var self = module.exports = {
                 }))
             }
             Promise.all(listProm).then((stopsTemp) => {
-                var line = new Line(stopsAndLine[1], stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
+                var line = new Line(idZone+'-'+stopsAndLine[1], stopsTemp[0].id, stopsTemp[stopsTemp.length - 1].id, idZone);
                 database.Line.find({
                     where: {
                         id: line.id,

@@ -7,8 +7,9 @@ const sequelize = new Sequelize('dbresabike', 'max', 'pass$1234', {
         min: 0,
         idle: 10000
     },
-    timezone : 'Europe/Zurich'
+    timezone: 'Europe/Zurich'
 });
+
 
 
 var Role = sequelize.define('role', {
@@ -28,7 +29,7 @@ var Zone = sequelize.define('zone', {
 })
 
 var Line = sequelize.define('line', {
-    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }
+    id: { type: Sequelize.STRING, primaryKey: true }
 })
 
 Station.hasOne(Line, { as: 'endStation', foreignKey: 'idEndStation' })
@@ -80,7 +81,9 @@ var Trips = sequelize.define('trips', {
         primaryKey: true,
         autoIncrement: true
     },
-    startHour: Sequelize.DATE
+    startHour: Sequelize.DATE,
+    lineStartHour: Sequelize.DATE,
+    status: Sequelize.BOOLEAN
 })
 
 Line.hasMany(Trips, { foreignKey: 'idLine' })

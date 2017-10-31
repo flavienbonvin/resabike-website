@@ -60,9 +60,9 @@ db.sync().then(() => {
                         LineManagement.prepareStation(body).then(() => {
                             db.Book.bulkCreate(books).then(() => {
                                 db.Trips.bulkCreate(trips).then(() => {
-                                    createBook(1, 25, 3).then(() => {
+                                    createBook(1, 11, 3).then(() => {
                                         createBook(26, 34, 3).then(() => {
-                                            createBook(1, 11, 4).then(() => {
+                                            createBook(1, 25, 4).then(() => {
                                                 db.close();
                                             })
                                         })
@@ -83,7 +83,7 @@ db.sync().then(() => {
 function createBook(depart, fin, nbBike) {
     return new Promise((resolve, reject) => {
         var today = new Date();
-        today.setDate(today.getDate() + 1);
+        today.setDate(today.getDate() + 2);
         //28-10-2017, 19:25
         var dateTomorrow = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear() + ", " + today.getHours() + ":" + today.getMinutes();
         var body = {
@@ -91,7 +91,6 @@ function createBook(depart, fin, nbBike) {
             depart: depart,
             destination: fin
         }
-        console.log(body);
         ConnectionManagement.getConnectionForTrip(body).then((list) => {
             var horaire = list[1][0];
             var body2 = {
@@ -103,7 +102,6 @@ function createBook(depart, fin, nbBike) {
             }
             var j = 0;
             for (var i = 0; i < horaire.tripsInfo.length; i++) {
-                console.log(horaire.tripsInfo[i])
                 if (horaire.tripsInfo[i].idLine != -1) {
                     body2['depart' + i] = horaire.tripsInfo[i].depart;
                     body2['departTime' + i] = horaire.tripsInfo[i].departTime;
@@ -115,7 +113,6 @@ function createBook(depart, fin, nbBike) {
 
             }
             body2['nbLine'] = j
-            console.log(body2);
             if (j > 0) {
                 BookManagement.addBook(body2, 'fr').then(() => {
                     resolve();
