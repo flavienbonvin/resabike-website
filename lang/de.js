@@ -89,7 +89,11 @@ module.exports = {
     buttonBook: 'Buchen',
     minutes: 'Minuten',
     administratorNeeded: 'Bestätigung des notwendigen Administrators',
-
+    duration: 'Dauer',
+    supportedLine: 'Linie, die vom System unterstützt wird',
+    unsupportedLine: 'Nicht unterstützte Leitung',
+    helpButton: 'Hilfe',
+    remainingSeats : 'übrige Plätze ',
 
     //CancelBooking
     titleConfirmBookCancel: 'Stornierungsbestätigung',
@@ -110,6 +114,12 @@ module.exports = {
     helpDescriptionList6: 'die Haltestelle, bei der Sie den Bus verlassen',
     helpDescription2: 'Sobald diese Information angegeben ist, wird eine Liste möglicher Verbindungen angezeigt',
     buttonClose: 'Hilfe schließen',
+
+    //About
+    titleAbout: 'Uber uns',
+    about1: 'Dieses Projekt wurde von zwei Studenten des Informatikmanagements an der HES von Sierre realisiert: ',
+    aboutCreator1: 'Flavien Bonvin',
+    aboutCreator2: 'Maxime Bétrisey',
 
     /*
         DRIVER

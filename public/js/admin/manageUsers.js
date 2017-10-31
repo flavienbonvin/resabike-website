@@ -12,7 +12,6 @@ function loadUsers(){
                 txt += '<div class="item">' + 
                             '<div class="right floated content">' +
                                 '<a class="ui button" href="/'+langUsed+'/admin/users/edit/'+res[i].id+'">Edit</a>' +
-                                '<div class="ui button" onclick="resetPassword('+res[i].id+')">Reset password</div>' +
                                 '<div class="ui button" onclick="deleteUser('+res[i].id+')">Delete</div>' +
                             '</div>' +
                             '<div class="content">' +
@@ -33,16 +32,6 @@ function deleteUser(id){
         data: 'idToDel=' + id,
         success: (res)  => {
             loadUsers();
-        }
-    })
-}
-
-function resetPassword(id){
-    $.ajax({
-        url: '/'+langUsed+'/admin/users/reset',
-        type: 'POST',
-        data: 'idToEdit=' + id,
-        success: (res) => {
         }
     })
 }

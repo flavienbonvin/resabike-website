@@ -21,7 +21,7 @@ block contentAdmin
                     tbody
                         tr
                             td= trailer.startHour
-                            td= trailer.idLine
+                            td= trailer.idLine.split('-')[1]
                             td= trailer.nbBike
                             td
                                 a(href="/"+langUsed+"/admin/remorques/allocate/"+trailer.id).ui.button= langs.labelAllocateTrailer

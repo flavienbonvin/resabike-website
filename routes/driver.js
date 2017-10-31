@@ -12,18 +12,18 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-    res.render('driver/index', { title: 'Express' });
+    res.render('driver/index', { title: 'Resabike | Driver - Index' });
 })
 router.post('/', (req, res, next) => {
     getBooking.getBooking(req.body).then((listTrips) => {
-        res.render('driver/index', { title: 'Express', listTrips: listTrips });
+        res.render('driver/index', { title: 'Resabike | Driver - Index', listTrips: listTrips });
     }).catch((error) => {
-        res.render('driver/index', { title: 'Express', error: error })
+        res.render('driver/index', { title: 'Resabike | Driver - Index', error: error })
     })
 })
 router.get('/details/:id', (req, res, next) => {
     getBooking.getDetailsBooking(req.params).then((list) => {
-        res.render('driver/details', { title: 'Express', list: list });
+        res.render('driver/details', { title: 'Resabike | Driver - Details', list: list });
     })
 
 })

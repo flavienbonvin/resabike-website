@@ -92,6 +92,8 @@ module.exports = {
     duration: 'durée',
     supportedLine: 'Ligne supportée par le système',
     unsupportedLine: 'Ligne non supportée par le système',
+    helpButton: 'Aide',
+    remainingSeats : 'places restates ',
 
     //CancelBooking
     titleConfirmBookCancel: 'Confirmation de suppression',

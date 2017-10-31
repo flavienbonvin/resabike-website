@@ -16,4 +16,5 @@ block contentAdmin
                             div.ui.button(onClick="deleteLine(" + line.id + ")")= langs.buttonDelete
                         div.content 
                             span= langs.labelLine + ' '
-                            span #{line.id} (#{line.startStation.name} - #{line.endStation.name})
+                            span #{line.id.split('-')[1]} 
+                            span (#{line.startStation.name} - #{line.endStation.name})

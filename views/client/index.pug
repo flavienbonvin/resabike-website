@@ -13,7 +13,7 @@ block contentClient
         h3.ui.dividing.header= langs.titleWelcome
         p(align="center")= langs.resabikeDesc
         div.ui.hidden.divider
-            button.ui.button.right.floated(onclick="helpButton()") Aide
+            button.ui.button.right.floated(onclick="helpButton()")= langs.helpButton
         form#formAdd.ui.form(method="post",action="/"+langUsed+"/book/add")
             div.required.field
                 label= langs.labelDateOfReservation
@@ -99,7 +99,7 @@ block contentClient
                                 span ) - 
                                 span.sortie #{trip.sortie}
                                 span  (#{trip.finTime}) : 
-                                span places restantes 
+                                span= langs.remainingSeats 
                                 if trip.nbPlaceRestant - listHoraire[0]['nbVelo'] < 0
                                     span(data-tooltip= langs.administratorNeeded, style = "color:red") #{trip.nbPlaceRestant} 
                                 else

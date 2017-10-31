@@ -162,21 +162,6 @@ var self = module.exports = {
             })
         })
     },
-    resetPassword(body) {
-        return new Promise((resolve, reset) => {
-            database.User.update( {
-                changePass: 1
-            }, {
-                where: {
-                    id: body.idToEdit
-                }
-            }).then((userTemp) => {
-                resolve();
-            }).catch((error) => {
-                reject(error);
-            })
-        })
-    },
     getUser(idSearch){
         return new Promise((resolve, reset) => {
             database.User.findById(idSearch).then((userTemp) => {
