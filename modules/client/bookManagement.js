@@ -178,6 +178,8 @@ var self = module.exports = {
                 ]
             }).then((line) => {
                 var dateTemp = body['departTime' + i].split(" ");
+                var dateCurrent = dateTemp[0].split('.');
+                dateCurrent = dateCurrent[2]+'-'+dateCurrent[1]+'-'+dateCurrent[0];
                 dateTemp[1] = dateTemp[1].split(':');
                 dateTemp[1] = dateTemp[1][0]+':'+dateTemp[1][1]
                 var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];
@@ -188,7 +190,7 @@ var self = module.exports = {
                     for(var j = 0;j<connections.length;j++){
                         var realDep = new Date(connections[j].departure);
                         var realFin = new Date(connections[j].arrival);
-                        var currentTime = new Date(body['departTime' + i]);
+                        var currentTime = new Date(dateCurrent+' '+dateTemp[1]+':00');
                         console.log(realDep+" "+currentTime+" "+realFin);
                         if(connections[j].legs[0].line && connections[j].legs[0].line == line.id.split('-')[1]){
                             if(currentTime>=realDep && currentTime<=realFin){
