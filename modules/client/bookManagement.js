@@ -23,8 +23,6 @@ var self = module.exports = {
                     var trailersPromise = [];
                     var status = true;
                     var dateAffichage = stationsId[0].departTime.split(' ')[0];
-                    dateAffichage = dateAffichage.split('-');
-                    dateAffichage = dateAffichage[2] + '.' + dateAffichage[1] + '.' + dateAffichage[0];
 
                     // on crée tous les objets trip pour les ajouter a la db
                     var trip;
@@ -144,10 +142,16 @@ var self = module.exports = {
                 var list = [];
                 for (var i = 0; i < res.length; i += 3) {
                     var j = i / 3;
+
+                    var dateTemp = body['departTime' + j].split(" ");
+
+                    var dateCurrent = dateTemp[0].split('.');
+                    dateCurrent = dateCurrent[2] + '-' + dateCurrent[1] + '-' + dateCurrent[0];
+
                     var temp = {
                         idDepart: res[i].id,
                         realDepart: res[i + 2],
-                        departTime: body['departTime' + j],
+                        departTime: dateCurrent + ' ' + dateTemp[1],
                         idFin: res[i + 1].id,
                         numeroLine: body['idLine' + j],
                         nbPlaceRestant: Number(body['nbPlaceRestant' + j])
@@ -178,6 +182,8 @@ var self = module.exports = {
                 ]
             }).then((line) => {
                 var dateTemp = body['departTime' + i].split(" ");
+                var dateCurrent = dateTemp[0].split('.');
+                dateCurrent = dateCurrent[2] + '-' + dateCurrent[1] + '-' + dateCurrent[0];
                 dateTemp[1] = dateTemp[1].split(':');
                 dateTemp[1] = dateTemp[1][0] + ':' + dateTemp[1][1]
                 var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];
@@ -188,7 +194,7 @@ var self = module.exports = {
                     for (var j = 0; j < connections.length; j++) {
                         var realDep = new Date(connections[j].departure);
                         var realFin = new Date(connections[j].arrival);
-                        var currentTime = new Date(body['departTime' + i]);
+                        var currentTime = new Date(dateCurrent + ' ' + dateTemp[1] + ':00');
                         console.log(realDep + " " + currentTime + " " + realFin);
                         if (connections[j].legs[0].line && connections[j].legs[0].line == line.id.split('-')[1]) {
                             if (currentTime >= realDep && currentTime <= realFin) {
