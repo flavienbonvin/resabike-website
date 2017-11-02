@@ -186,6 +186,7 @@ var self = module.exports = {
                 console.log("Api to get realHour :"+urlApi)
                 axios.get(urlApi).then((response) => {
                     var connections = response.data.connections;
+                    console.log(response.data)
                     for(var j = 0;j<connections.length;j++){
                         var realDep = new Date(connections[j].departure);
                         var realFin = new Date(connections[j].arrival);

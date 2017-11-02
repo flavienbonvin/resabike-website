@@ -31,11 +31,7 @@ function loadTranslate(){
         url: '/services/traduction?lang='+lang,
         type: 'GET',
         success: function (res) {
-<<<<<<< HEAD
-            return res
-=======
             translate = res;
->>>>>>> 1bcdfe05a6dba7cddc2fa28376bf854a49d0b0a2
         }
     })
 }

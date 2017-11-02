@@ -250,6 +250,12 @@ var self = module.exports = {
  */
     deleteLine(body) {
         return new Promise((resolve, reject) => {
+            var idLine = body.idToDel;
+            database.Trailer.destroy({
+                where: {
+                    idLine: body.idToDel
+                }
+            })
             database.Line.destroy({
                 where: {
                     id: body.idToDel

@@ -13,7 +13,7 @@ block contentAdmin
                 each line in zone.lines
                     div.item 
                         div.right.floated.content
-                            div.ui.button(onClick="deleteLine(" + line.id + ")")= langs.buttonDelete
+                            div.ui.button(onClick="deleteLine('" + line.id + "')")= langs.buttonDelete
                         div.content 
                             span= langs.labelLine + ' '
                             span #{line.id.split('-')[1]} 
