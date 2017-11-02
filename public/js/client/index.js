@@ -44,7 +44,7 @@ function loadStation() {
         type: 'POST',
         data: 'zoneId=' + document.getElementById('zone').value,
         success: (res) => {
-            var txt = '<option value="">Choisissez votre zone</option>';
+            var txt = '<option value=""></option>';
             for (var i = 0; i < res.length; i++) {
                 txt += '<option value="' + res[i].id + '">' + res[i].name + '</option>';
             }
