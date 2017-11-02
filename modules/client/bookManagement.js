@@ -23,8 +23,6 @@ var self = module.exports = {
                     var trailersPromise = [];
                     var status = true;
                     var dateAffichage = stationsId[0].departTime.split(' ')[0];
-                    dateAffichage = dateAffichage.split('-');
-                    dateAffichage = dateAffichage[2] + '.' + dateAffichage[1] + '.' + dateAffichage[0];
 
                     // on crée tous les objets trip pour les ajouter a la db
                     var trip;
