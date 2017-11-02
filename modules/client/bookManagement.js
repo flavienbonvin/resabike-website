@@ -178,8 +178,6 @@ var self = module.exports = {
                 ]
             }).then((line) => {
                 var dateTemp = body['departTime' + i].split(" ");
-                dateTemp[0] = dateTemp[0].split('-');
-                dateTemp[0] = dateTemp[0][2]+'-'+dateTemp[0][1]+'-'+dateTemp[0][0];
                 dateTemp[1] = dateTemp[1].split(':');
                 dateTemp[1] = dateTemp[1][0]+':'+dateTemp[1][1]
                 var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];

@@ -43,13 +43,13 @@ var self = module.exports = {
                             var curLeg = response.data.connections[0].legs[i]
                             var type = curLeg.type;
                             if (type == 'bus' || type == 'post') {
-                                if(curLeg.line && lineToCheck.indexOf(curLeg.line)==-1){
+                                if (curLeg.line && lineToCheck.indexOf(curLeg.line) == -1) {
                                     var idLine = curLeg.line;
                                     var toTemp = curLeg.terminal;
                                     lineToCheck.push(curLeg.line);
                                     linePromises.push(self.findDeparture(idLine, toTemp));
                                 }
-                                
+
                             }
                         }
                     }
@@ -58,8 +58,8 @@ var self = module.exports = {
                     Promise.all(linePromises).then((response) => {
                         for (var i = 0; i < response.length; i++) {
                             error += response[i][0][0].name + ' | '
-                                + response[i][0][1].name + '('+response[i][1]+')\n';
-                            errorArray.push([response[i][0][0].name, response[i][0][response[i][0].length - 1].name,response[i][1]]);
+                                + response[i][0][1].name + '(' + response[i][1] + ')\n';
+                            errorArray.push([response[i][0][0].name, response[i][0][response[i][0].length - 1].name, response[i][1]]);
                         }
                         console.log(errorArray)
                         reject([error, errorArray]);
@@ -245,25 +245,71 @@ var self = module.exports = {
     },
 
     /**
- * Delete a zone
- * @param {string} body 
- */
+     * Delete a line
+     * @param {string} body 
+    */
     deleteLine(body) {
+        var idToDel = body.idToDel;
         return new Promise((resolve, reject) => {
             var idLine = body.idToDel;
+            //suppression du trailer
             database.Trailer.destroy({
                 where: {
-                    idLine: body.idToDel
+                    idLine: idToDel
                 }
-            })
-            database.Line.destroy({
-                where: {
-                    id: body.idToDel
-                }
-            }).then((zoneTemp) => {
-                resolve();
-            }).catch((error) => {
-                reject(error);
+            }).then(() => {
+                // on trouve tt les trips par line
+                database.Trips.findAll({
+                    where: {
+                        idLine: idToDel
+                    }
+                }).then((trips) => {
+                    var promises = []
+                    // on trouve tt les books
+                    for (var i = 0; i < trips.length; i++) {
+                        var tmp = database.Book.find({
+                            where: {
+                                id: trips[i].idBook
+                            }
+                        })
+                        promises.push(tmp);
+                    }
+                    Promise.all(promises).then((books) => {
+                        var promises2 = [];
+                        // on supprime tt les trips et les reservations
+                        for (var i = 0; i < books.length; i++) {
+                            var tmp = database.Trips.destroy({
+                                where: {
+                                    idBook: books[i].id
+                                }
+                            })
+                            promises2.push(tmp);
+                            tmp = database.Book.destroy({
+                                where: {
+                                    id: books[i].id
+                                }
+                            })
+                            promises2.push(tmp);
+                        }
+                        //on supprime les lineStations
+                        Promise.all(promises2).then(() => {
+                            database.LineStation.destroy({
+                                where: {
+                                    idLine: idToDel
+                                }
+                            }).then(() => {
+                                // on supprime la ligne
+                                database.Line.destroy({
+                                    where: {
+                                        id: idToDel
+                                    }
+                                }).then((zoneTemp) => {
+                                    resolve();
+                                })
+                            })
+                        })
+                    })
+                })
             })
         })
     },
