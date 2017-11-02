@@ -127,11 +127,25 @@ var self = module.exports = {
                                         id: idBook
                                     }
                                 }).then(() => {
-                                    self.sendEmailOk(book.email).then(() => {
-                                        resolve();
+                                    db.Trips.find({
+                                        where: {
+                                            idBook: idBook,
+                                            idStartStation: book.idStartStation
+                                        },
+                                        include: [
+                                            {
+                                                model: db.Station,
+                                                as: 'startStationTrip'
+                                            }
+                                        ]
+                                    }).then((trip) => {
+                                        self.sendEmailOk(book.email, trip.startHour, trip.startStationTrip.name).then(() => {
+                                            resolve();
+                                        })
                                     })
+
                                 })
-                        }else{
+                        } else {
                             resolve();
                         }
                     })
@@ -153,17 +167,29 @@ var self = module.exports = {
                         id: idBook
                     }
                 }).then((book) => {
-                    self.sendEmailKo(book.email).then(() => {
-                        db.Book.destroy({
-                            where: {
-                                id: idBook
+                    db.Trips.find({
+                        where: {
+                            idBook: idBook,
+                            idStartStation: book.idStartStation
+                        },
+                        include: [
+                            {
+                                model: db.Station,
+                                as: 'startStationTrip'
                             }
-                        }).then(() => {
-                            console.log('Max')
-                            resolve(-1);
+                        ]
+                    }).then((trip) => {
+                        self.sendEmailKo(book.email, trip.startHour, trip.startStationTrip.name).then(() => {
+                            db.Book.destroy({
+                                where: {
+                                    id: idBook
+                                }
+                            }).then(() => {
+                                console.log('Max')
+                                resolve(-1);
+                            })
                         })
                     })
-
                 })
             })
         })
@@ -194,16 +220,16 @@ var self = module.exports = {
         })
     },
 
-    sendEmailOk(mail) {
+    sendEmailOk(mail, heure, stationStart) {
         return new Promise((resolve, reject) => {
-            email.createEmail(mail, "Confirmation de reservation", "Votre reservation a été confirmée").then(() => {
+            email.createEmail(mail, "Booking confirmation", `Votre reservation du ${heure} au départ de ${stationStart} a été confirmée`).then(() => {
                 resolve();
             })
         })
     },
-    sendEmailKo(mail) {
+    sendEmailKo(mail, heure, stationStart) {
         return new Promise((resolve, reject) => {
-            email.createEmail(mail, "Annulation de reservation", "Votre reservation a été annulée").then(() => {
+            email.createEmail(mail, "Booking cancel", "Votre reservation du ${heure} au départ de ${stationStart} a été annulée").then(() => {
                 resolve();
             })
         })

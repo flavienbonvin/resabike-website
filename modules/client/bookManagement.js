@@ -5,6 +5,7 @@ var Trailer = require('../../objects/Trailer');
 var sha256 = require('sha256');
 var email = require('../email');
 var axios = require('axios');
+var tranlsate = require('../../lang/fr');
 
 const nbMaxVelo = 6;
 
@@ -12,6 +13,7 @@ const nbMaxVelo = 6;
 var self = module.exports = {
 
     addBook(body, langUsed) {
+        tranlsate = require('../../lang/'+langUsed)
         return new Promise((resolve, reject) => {
             var token = sha256('token' + body.bookPseudo + new Date() + Math.random());
             //on crée une reservation avec le status en attente
@@ -105,18 +107,14 @@ var self = module.exports = {
 
     sendEmailOK(dateAffichage, body, token, langUsed) {
         return new Promise((resolve, reject) => {
-            email.createEmail(body.bookEmail, 'Votre reservation du ' + dateAffichage, `<p>Bonjour,</p>
-            <p>Votre r&eacute;servation a bien &eacute;t&eacute; enregistr&eacute;e.</p>
-            <p>Pour annuler votre reservation <a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">cliquez ici</a></p>`).then(() => {
+            email.createEmail(body.bookEmail, tranlsate.titreEmailReservation + dateAffichage, tranlsate.emailReservation+`<a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">${tranlsate.emailCickHere}</a></p>`).then(() => {
                     resolve();
                 })
         })
     },
     sendEmailWait(dateAffichage, body, token, langUsed) {
         return new Promise((resolve, reject) => {
-            email.createEmail(body.bookEmail, 'Votre reservation du ' + dateAffichage, `<p>Bonjour,</p>
-            <p>Votre r&eacute;servation est en attente. Vous allez recevoir un email de confirmation d'ici peu.</p>
-            <p>Pour annuler votre reservation <a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">cliquez ici</a></p>`).then(() => {
+            email.createEmail(body.bookEmail, tranlsate.titreEmailReservation + dateAffichage, tranlsate.emailReservationAttente+`<a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">${tranlsate.emailCickHere}</a></p>`).then(() => {
                     resolve();
                 })
         })
