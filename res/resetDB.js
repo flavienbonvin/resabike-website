@@ -62,8 +62,10 @@ db.sync().then(() => {
                                 db.Trips.bulkCreate(trips).then(() => {
                                     createBook(1, 11, 3).then(() => {
                                         createBook(26, 34, 3).then(() => {
-                                            createBook(1, 25, 4).then(() => {
-                                                db.close();
+                                            createBook(2, 25, 10).then(() => {
+                                                createBook(3, 23, 4).then(() => {
+                                                    db.close();
+                                                })
                                             })
                                         })
                                     })
@@ -117,7 +119,7 @@ function createBook(depart, fin, nbBike) {
                 BookManagement.addBook(body2, 'fr').then(() => {
                     resolve();
                 })
-            }else{
+            } else {
                 resolve();
             }
         })
