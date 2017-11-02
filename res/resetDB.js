@@ -85,7 +85,7 @@ function createBook(depart, fin, nbBike) {
         var today = new Date();
         today.setDate(today.getDate() + 2);
         //28-10-2017, 19:25
-        var dateTomorrow = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear() + ", " + today.getHours() + ":" + today.getMinutes();
+        var dateTomorrow = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear() + ", " + today.getHours() + ":" + today.getMinutes();
         var body = {
             date: dateTomorrow,
             depart: depart,

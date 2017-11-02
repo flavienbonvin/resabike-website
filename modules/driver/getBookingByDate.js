@@ -53,7 +53,7 @@ module.exports = {
                 database.Trips.findAll({
                     where: {
                         idLine : trailer.idLine,
-                        startHour : trailer.startHour
+                        lineStartHour : trailer.startHour
                     },
                     include : [
                         {
