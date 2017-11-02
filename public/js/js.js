@@ -28,7 +28,6 @@ function getTxt(value) {
         url: '/services/traduction?label=' + value+'&lang='+lang,
         type: 'GET',
         success: function (res) {
-            console.log(res);
             return res
         }
     })

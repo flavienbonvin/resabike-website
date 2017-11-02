@@ -35,6 +35,7 @@ module.exports = {
     //Login
     titleLogin: 'Connexion',
     labelConnect: 'Connecter',
+    buttonEdit: 'Editer',
 
     //UserManagement
     titleUserManagement: 'Gestion des utilisateurs',

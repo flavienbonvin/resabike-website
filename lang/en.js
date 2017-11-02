@@ -31,6 +31,8 @@ module.exports = {
     titleZoneList: 'List of zones',
     buttonDelete: 'Delete',
     labelLine: 'Line',
+    labelLine: 'Line',
+    buttonEdit: 'Edit',
 
     //Login
     titleLogin: 'Login',

@@ -11,8 +11,8 @@ function loadUsers(){
             for (var i in res){
                 txt += '<div class="item">' + 
                             '<div class="right floated content">' +
-                                '<a class="ui button" href="/'+langUsed+'/admin/users/edit/'+res[i].id+'">Edit</a>' +
-                                '<div class="ui button" onclick="deleteUser('+res[i].id+')">Delete</div>' +
+                                '<a class="ui button" href="/'+langUsed+'/admin/users/edit/'+res[i].id+'">'+ translate['buttonEdit'] +'</a>' +
+                                '<div class="ui button" onclick="deleteUser('+res[i].id+')"> ' + translate['buttonDelete'] +'</div>' +
                             '</div>' +
                             '<div class="content">' +
                                 res[i].pseudo +
