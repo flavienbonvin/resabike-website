@@ -1,3 +1,6 @@
+var translate = [];
+
+
 $(document).ready(function () {
     if ($("#errorBox").length > 0) {
         $('#errorBox').modal('show')
@@ -6,6 +9,7 @@ $(document).ready(function () {
         $('#msgBox').modal('show')
     }
     $('#languageDropdown').val(langUsed);
+    loadTranslate();
 })
 
 $('#langSwitch').click(function (v) {
@@ -20,16 +24,16 @@ function changeLanguage(lang) {
     window.location = loc;
 }
 
-function getTxt(value) {
+function loadTranslate(){
     var lang = window.location.href.split('/');
     lang = lang[3];
-    console.log(lang);
     $.ajax({
-        url: '/services/traduction?label=' + value+'&lang='+lang,
+        url: '/services/traduction?lang='+lang,
         type: 'GET',
         success: function (res) {
-            console.log(res);
-            return res
+            translate = res;
         }
     })
 }
+
+
