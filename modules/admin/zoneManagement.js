@@ -2,6 +2,7 @@ var Zone = require('../../objects/Zone');
 
 var database = require('../database');
 var renderAddon = require('../../modules/renderAddon');
+var lineManagement = require('./lineManagement');
 
 module.exports = {
 
@@ -38,18 +39,33 @@ module.exports = {
      */
     deleteZone(body) {
         return new Promise((resolve, reject) => {
-            database.Zone.destroy({
+            database.Line.findAll({
                 where: {
-                    id: body.idToDel
+                    idZone: body.idToDel
                 }
-            }).then((zoneTemp) => {
-                resolve();
-            }).catch((error) => {
-                reject(error);
+            }).then((list) => {
+                var promises = []
+                for (var i = 0; i < list.length; i++) {
+                    var body = {
+                        idToDel: list[i].id
+                    }
+                    promises.push(lineManagement.deleteLine(body))
+                }
+                Promise.all(promises).then(() => {
+                    database.Zone.destroy({
+                        where: {
+                            id: body.idToDel
+                        }
+                    }).then((zoneTemp) => {
+                        resolve();
+                    }).catch((error) => {
+                        reject(error);
+                    })
+                })
             })
         })
     },
-    
+
     /**
      * Update a given zone
      * 

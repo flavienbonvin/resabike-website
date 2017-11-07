@@ -30,6 +30,7 @@
   "devDependencies": {
     "fs-sync": "^1.0.4",
     "opn": "^5.1.0",
+    "recursive-copy": "^2.0.7",
     "rimraf": "^2.6.2"
   }
 }
