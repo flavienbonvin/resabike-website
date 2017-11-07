@@ -38,12 +38,15 @@ var self = module.exports = {
                             promiseTemp.push(self.checkIsBookIsOk(trips[i].idBook))
                         } else {
                             //remove book
+                            nbVelo -= Number(trips[i].book.number);
                             promiseTemp.push(self.destroyBook(trips[i].idBook));
                         }
 
                     }
                     Promise.all(promiseTemp).then(() => {
-                        resolve();
+                        self.updateAllTrailer().then(() => {
+                            resolve();
+                        })
                     })
                 })
 
@@ -97,6 +100,72 @@ var self = module.exports = {
                         resolve(trips);
                     })
                 })
+        })
+    },
+
+    updateBikeNumber(id, nbrVelo) {
+        return new Promise((resolve, reject) => {
+            db.Trailer.update({
+                nbBike: nbrVelo
+            },
+                {
+                    where: {
+                        id: id
+                    }
+                }).then(() => {
+                    resolve();
+                })
+
+        })
+    },
+    updateAllTrailer() {
+        return new Promise((resolve, reject) => {
+            db.Trailer.findAll({
+            }).then((trailers) => {
+                var promises = [];
+                for (var i in trailers) {
+                    var temp = db.Trips.sum('number', {
+                        where: {
+                            idLine: trailers[i].idLine,
+                            lineStartHour: trailers[i].startHour
+                        },
+                        include: [{ model: db.Book }]
+                    })
+                    promises.push(temp);
+                }
+                Promise.all(promises).then((sum) => {
+                    var promisesTrailer = []
+                    console.log(sum)
+                    for (var i in sum) {
+                        sum[i] = sum[i] || 0;
+
+                        var temp = [];
+
+                        if (sum[i] == 0) {
+                            temp = db.Trailer.destroy({
+                                where: {
+                                    id: trailers[i].id
+                                }
+                            })
+                        }
+                        else {
+                            temp = db.Trailer.update({
+                                nbBike: sum[i]
+                            },
+                                {
+                                    where: {
+                                        id: trailers[i].id
+                                    }
+                                })
+                        }
+
+                        promises.push(temp);
+                    }
+                    Promise.all(promisesTrailer).then(() => {
+                        resolve();
+                    })
+                })
+            })
         })
     },
 
@@ -157,29 +226,29 @@ var self = module.exports = {
     },
     destroyBook(idBook) {
         return new Promise((resolve, reject) => {
-            db.Trips.destroy({
+            db.Book.find({
                 where: {
-                    idBook: idBook
+                    id: idBook
                 }
-            }).then(() => {
-                db.Book.find({
+            }).then((book) => {
+                db.Trips.find({
                     where: {
-                        id: idBook
-                    }
-                }).then((book) => {
-                    db.Trips.find({
-                        where: {
-                            idBook: idBook,
-                            idStartStation: book.idStartStation
-                        },
-                        include: [
-                            {
-                                model: db.Station,
-                                as: 'startStationTrip'
+                        idBook: idBook,
+                        idStartStation: book.idStartStation
+                    },
+                    include: [
+                        {
+                            model: db.Station,
+                            as: 'startStationTrip'
+                        }
+                    ]
+                }).then((trip) => {
+                    self.sendEmailKo(book.email, trip.startHour, trip.startStationTrip.name).then(() => {
+                        db.Trips.destroy({
+                            where: {
+                                idBook: idBook
                             }
-                        ]
-                    }).then((trip) => {
-                        self.sendEmailKo(book.email, trip.startHour, trip.startStationTrip.name).then(() => {
+                        }).then(() => {
                             db.Book.destroy({
                                 where: {
                                     id: idBook
@@ -208,12 +277,15 @@ var self = module.exports = {
                             promiseTemp.push(self.checkIsBookIsOk(trips[i].idBook))
                         } else {
                             //remove book
+                            nbVelo -= Number(trips[i].book.number);
                             promiseTemp.push(self.destroyBook(trips[i].idBook));
                         }
 
                     }
                     Promise.all(promiseTemp).then(() => {
-                        resolve();
+                        self.updateAllTrailer().then(() => {
+                            resolve();
+                        })
                     })
                 })
             })

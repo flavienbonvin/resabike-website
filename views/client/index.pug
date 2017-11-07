@@ -30,7 +30,7 @@ block contentClient
             div.required.field
                 label= langs.labelNumberOfBikes
                 class.ui.input
-                    input(type="number" name="nbVelo")
+                    input(type="number" name="nbVelo" min=1 max=20)
             div.field
                 label= langs.labelZoneChoice
                 select(onchange="loadStation()")#zone.ui.search.dropdown(name="zone")
@@ -100,7 +100,9 @@ block contentClient
                                 span.sortie #{trip.sortie}
                                 span  (#{trip.finTime}) : 
                                 span= langs.remainingSeats 
-                                if trip.nbPlaceRestant - listHoraire[0]['nbVelo'] < 0
+                                if trip.nbPlaceRestant < 0
+                                    span(data-tooltip= langs.administratorNeeded, style = "color:red") 0
+                                else if trip.nbPlaceRestant - listHoraire[0]['nbVelo'] < 0
                                     span(data-tooltip= langs.administratorNeeded, style = "color:red") #{trip.nbPlaceRestant} 
                                 else
                                     span #{trip.nbPlaceRestant} 
