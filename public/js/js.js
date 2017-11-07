@@ -25,15 +25,7 @@ function changeLanguage(lang) {
 }
 
 function loadTranslate(){
-    var lang = window.location.href.split('/');
-    lang = lang[3];
-    $.ajax({
-        url: '/services/traduction?lang='+lang,
-        type: 'GET',
-        success: function (res) {
-            translate = res;
-        }
-    })
+    translate = JSON.parse(translate.replace(/&quot;/g,'"'));
 }
 
 

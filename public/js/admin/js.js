@@ -4,8 +4,21 @@ $(document).ready(() => {
 })
 
 
-function updateMenu(){
+function updateMenu() {
     $('#Adminmenu .item').removeClass("active");
-    
-    document.getElementById('Adminmenu').children[noOnglet].setAttribute('class', 'active item');
+    if (document.getElementById('Adminmenu').children[noOnglet].attributes['class'].value.indexOf('fixedSize')) {
+        if (document.getElementById('Adminmenu').children[noOnglet].attributes['class'].value.indexOf('dropdownContain')) {
+            document.getElementById('Adminmenu').children[noOnglet].setAttribute('class', 'active item fixedSize dropdownContain');
+        } else {
+            document.getElementById('Adminmenu').children[noOnglet].setAttribute('class', 'active item fixedSize');
+        }
+    } else {
+        if (document.getElementById('Adminmenu').children[noOnglet].attributes['class'].value.indexOf('dropdownContain')) {
+            document.getElementById('Adminmenu').children[noOnglet].setAttribute('class', 'active item dropdownContain');
+        } else {
+            document.getElementById('Adminmenu').children[noOnglet].setAttribute('class', 'active item');
+        }
+
+    }
+
 }

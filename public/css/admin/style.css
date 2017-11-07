@@ -22,3 +22,28 @@ body {
     max-width: 24px;
     max-height: 24px;
 }
+
+#Adminmenu .fixedSize{
+    width:calc((100% - 112px) / 7);
+}
+#Adminmenu .fixedSize:not(.dropdownContain){
+    overflow: hidden;
+}
+#Adminmenu .ui.dropdown.selection{
+    min-width: auto;
+    width:100%;
+}
+#Adminmenu .ui.dropdown.selection .text{
+    width: 100%;
+    word-wrap: initial;
+    overflow: hidden;
+}
+#Adminmenu .ui.dropdown.selection .menu{
+    width: auto!important;
+}
+#Adminmenu .iconItem{
+    width : 56px;
+}
+#Adminmenu .iconItem img{
+    max-width: 100%;
+}

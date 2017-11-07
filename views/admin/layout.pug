@@ -11,23 +11,21 @@ block content
     div.ui.two.column.centered.grid
         div.column
             div#Adminmenu.ui.top.attached.menu 
-                a(class="item", href="/"+langUsed+"/admin/")
+                a(class="item iconItem", href="/"+langUsed+"/admin/")
                     img#homeImage(src="/media/home.png")
-                a(class="item", id="menuLine", href="/"+langUsed+"/admin/line/add", onclick="test()")= langs.addLineMenu
-                a(class="item", id="menuUser", href="/"+langUsed+"/admin/user/add")= langs.addUserMenu
-                a(class="item", id="menuUser", href="/"+langUsed+"/admin/users")= langs.manageUserMenu
-                a(class="item", id="menuBook", href="/"+langUsed+"/admin/book")= langs.manageBooking
-                a(class="item", id="menuValidationRemor", href="/"+langUsed+"/admin/remorques")= langs.manageTrailerMenu
+                a(class="item fixedSize", id="menuLine", href="/"+langUsed+"/admin/line/add", onclick="test()")= langs.addLineMenu
+                a(class="item fixedSize", id="menuUser", href="/"+langUsed+"/admin/user/add")= langs.addUserMenu
+                a(class="item fixedSize", id="menuUser", href="/"+langUsed+"/admin/users")= langs.manageUserMenu
+                a(class="item fixedSize", id="menuBook", href="/"+langUsed+"/admin/book")= langs.manageBooking
+                a(class="item fixedSize", id="menuValidationRemor", href="/"+langUsed+"/admin/remorques")= langs.manageTrailerMenu
                 if userInformation.idRole == 3
-                    a(class="item", id="menuZone", href="/"+langUsed+"/admin/zone")= langs.manageZoneMenu
-                div(class="right menu")
-                    div(class="item")
-                        select.ui.dropdown(id="languageDropdown" onchange="changeLanguage(this)")
-                            option(value="fr")= langs.langFrench
-                            option(value="de")= langs.langGerman
-                            option(value="en")= langs.langEnglish
-                    div(class="item")
-                        a(class="ui icon button", href="/" + langUsed + "/admin/logout")
-                            img#logoutImage(src="/media/exit.png")
+                    a(class="item fixedSize", id="menuZone", href="/"+langUsed+"/admin/zone")= langs.manageZoneMenu
+                div(class="item fixedSize dropdownContain")
+                    select.ui.dropdown(id="languageDropdown" onchange="changeLanguage(this)")
+                        option(value="fr")= langs.langFrench
+                        option(value="de")= langs.langGerman
+                        option(value="en")= langs.langEnglish
+                a(class="item iconItem")
+                    img#logoutImage(src="/media/exit.png", href="/" + langUsed + "/admin/logout")
             div.ui.attached.segment
                 block contentAdmin
