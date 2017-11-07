@@ -12,12 +12,7 @@ var self = module.exports = {
     */
     createUser(body) {
         return new Promise((resolve, reject) => {
-            var resetPass = false;
-            if (body.passwordReset) {
-              resetPass = true;
-            }
-            
-            var user = new User(body.idUser, body.role, body.username, sha256(body.password), body.email, resetPass, body.zoneDropdown);
+            var user = new User(body.idUser, body.role, body.username, sha256(body.password), body.email, body.zoneDropdown);
             switch (user.idRole) {
                 //Create bus driver 
                 case '1':
