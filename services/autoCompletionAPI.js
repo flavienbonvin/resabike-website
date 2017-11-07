@@ -1,8 +1,9 @@
 const axios = require('axios');
 
 /**
+ * Return the text of the autocompletion of the API
  * 
- * @param {string} part 
+ * @param {string} getData 
  */
 module.exports = function (getData) {
     return new Promise((resolve,reject) =>{

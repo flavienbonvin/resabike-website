@@ -14,6 +14,9 @@ var station = class Station {
         this.posY = posY;
     }
 
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize() {
         return {
             id: this.id,

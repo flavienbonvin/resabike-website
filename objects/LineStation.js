@@ -14,6 +14,9 @@ var lineStation = class LineStation {
         this.nbrOnLine = nbrOnLine;
     }
 
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize(){
         return {
             id: this.id,

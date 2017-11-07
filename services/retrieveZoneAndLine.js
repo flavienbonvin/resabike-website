@@ -1,5 +1,8 @@
 const database = require('../modules/database');
 
+/**
+ * Get all zone and line
+ */
 module.exports = function(query,session) {
     return new Promise((resolve, reject) => {
         var userInfo = session.userInfo;

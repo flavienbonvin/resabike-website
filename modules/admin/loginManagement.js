@@ -2,6 +2,13 @@ const db = require('../database');
 const sha256 = require('sha256');
 
 var self = module.exports = {
+
+    /**
+     * Logs a user 
+     * 
+     * @param {Object} body 
+     * @param {String} session 
+     */
     login(body, session) {
         return new Promise((resolve, reject) => {
             db.User.find({

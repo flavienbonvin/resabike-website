@@ -74,7 +74,12 @@ var self = module.exports = {
         })
     },
 
-
+    /**
+     * Find the departure from a given staton (to)
+     * 
+     * @param {Number} idLine 
+     * @param {String} to 
+     */
     findDeparture(idLine, to) {
         return new Promise((resolve, reject) => {
             axios.get("https://timetable.search.ch/api/stationboard.en.json?stop=" + to).then((response) => {
@@ -93,6 +98,12 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * check of the line the user wants to add is a correct line (check if this is really the start and the end of the line)
+     * 
+     * @param {String} from 
+     * @param {String} to 
+     */
     correctStation(from, to) {
         return new Promise((resolve, reject) => {
             var stops = new Array();
@@ -133,6 +144,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Prepare and insert all the station for a given line in the body
+     * 
+     * @param {Object} body 
+     */
     prepareStation(body) {
         return new Promise((resolve, reject) => {
             self.getStopsForLine(body.departFinal, body.arriveeFinal).then((stops) => {
@@ -246,7 +262,7 @@ var self = module.exports = {
 
     /**
      * Delete a line
-     * @param {string} body 
+     * @param {Object} body 
     */
     deleteLine(body) {
         var idToDel = body.idToDel;

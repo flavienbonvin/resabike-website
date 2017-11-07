@@ -1,4 +1,5 @@
 const database = require('../modules/database')
+
 /**
  * Get list of all the zones
  */

@@ -12,6 +12,12 @@ const nbMaxVelo = 6;
 
 var self = module.exports = {
 
+    /**
+     * Create a new booking 
+     * 
+     * @param {Object} body 
+     * @param {String} langUsed 
+     */
     addBook(body, langUsed) {
         tranlsate = require('../../lang/'+langUsed)
         return new Promise((resolve, reject) => {
@@ -70,7 +76,9 @@ var self = module.exports = {
             })
         })
     },
+
     /**
+     * Check if there is a trailer for a given trip 
      * 
      * @param {Trailer} trailer 
      */
@@ -108,6 +116,14 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Send a email to confirm the booking
+     * 
+     * @param {String} dateAffichage 
+     * @param {Object} body 
+     * @param {String} token 
+     * @param {String} langUsed 
+     */
     sendEmailOK(dateAffichage, body, token, langUsed) {
         return new Promise((resolve, reject) => {
             email.createEmail(body.bookEmail, tranlsate.titreEmailReservation + dateAffichage, tranlsate.emailReservation+`<a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">${tranlsate.emailCickHere}</a></p>`).then(() => {
@@ -115,6 +131,15 @@ var self = module.exports = {
                 })
         })
     },
+
+    /**
+     * Send a email to tell the custoper to wait for the admin confirmation
+     * 
+     * @param {String} dateAffichage 
+     * @param {Object} body 
+     * @param {String} token 
+     * @param {String} langUsed 
+     */
     sendEmailWait(dateAffichage, body, token, langUsed) {
         return new Promise((resolve, reject) => {
             email.createEmail(body.bookEmail, tranlsate.titreEmailReservation + dateAffichage, tranlsate.emailReservationAttente+`<a href="http://127.0.0.1:10008/${langUsed}/book/cancel/${token}">${tranlsate.emailCickHere}</a></p>`).then(() => {
@@ -123,6 +148,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Get all station having a given name
+     * 
+     * @param {Object} body 
+     */
     getAllStationId(body) {
         return new Promise((resolve, reject) => {
             var stationsPromise = [];
@@ -160,6 +190,12 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Get the start hour of a line instead of the hour where a bus come to a station (used to check trailers availability)
+     * 
+     * @param {Object} body 
+     * @param {Number} i 
+     */
     findRealStartHour(body, i) {
         return new Promise((resolve, reject) => {
             database.Line.find({
@@ -204,6 +240,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Find the booking for a given ID, format the hour to be displayed
+     * 
+     * @param {Number} id 
+     */
     findBooking(id) {
         return new Promise((resolve, reject) => {
             database.Book.find({
@@ -239,6 +280,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Delete the booking
+     * 
+     * @param {Number} id
+     */
     deleteBooking(id) {
         return new Promise((resolve, reject) => {
             database.Book.destroy({
@@ -253,6 +299,9 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Find all booking in the database
+     */
     findAllBooking() {
         return new Promise((resolve, reject) => {
             database.Book.findAll({

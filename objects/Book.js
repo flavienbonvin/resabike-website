@@ -22,6 +22,9 @@ var book = class Book {
         this.status = status;
     }
 
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize() {
         return {
             id: this.id,

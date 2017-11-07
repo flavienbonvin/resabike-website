@@ -10,24 +10,35 @@ const sequelize = new Sequelize('dbresabike', 'max', 'pass$1234', {
     timezone: 'Europe/Zurich'
 });
 
-
-
+/**
+ * Role table
+ */
 var Role = sequelize.define('role', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     name: Sequelize.STRING
 })
 
+/**
+ * Station table
+ */
 var Station = sequelize.define('station', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     name: Sequelize.STRING,
     posX: Sequelize.INTEGER,
     posY: Sequelize.INTEGER
 })
+
+/**
+ * Zone table
+ */
 var Zone = sequelize.define('zone', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     name: Sequelize.STRING
 })
 
+/**
+ * Line table
+ */
 var Line = sequelize.define('line', {
     id: { type: Sequelize.STRING, primaryKey: true }
 })
@@ -40,6 +51,9 @@ Zone.hasMany(Line, { foreignKey: 'idZone' , primaryKey: true})
 Line.belongsTo(Zone, { foreignKey: 'idZone' , primaryKey: true})
 Line.belongsTo(Zone, { foreignKey: 'idZone' })
 
+/**
+ * Book table
+ */
 var Book = sequelize.define('book', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     pseudo: Sequelize.STRING,
@@ -56,6 +70,9 @@ Station.hasMany(Book, { as: 'endStationBook', foreignKey: 'idEndStation' });
 Book.belongsTo(Station, { as: 'endStationBook', foreignKey: 'idEndStation' });
 
 
+/**
+ * User table
+ */
 var User = sequelize.define('user', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     pseudo: Sequelize.STRING,
@@ -65,6 +82,9 @@ var User = sequelize.define('user', {
 Zone.hasMany(User, { foreignKey: 'idZone' })
 Role.hasMany(User, { foreignKey: 'idRole' })
 
+/**
+ * Line Station table
+ */
 var LineStation = sequelize.define('linestation', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     nbrOnLine: Sequelize.INTEGER
@@ -75,6 +95,9 @@ LineStation.belongsTo(Line, { foreignKey: 'idLine' })
 Station.hasMany(LineStation, { foreignKey: 'idStation' })
 LineStation.belongsTo(Station, { foreignKey: 'idStation' })
 
+/**
+ * Trips table
+ */
 var Trips = sequelize.define('trips', {
     idTrips: {
         type: Sequelize.INTEGER,
@@ -95,7 +118,9 @@ Trips.belongsTo(Station, { as: 'startStationTrip', foreignKey: 'idStartStation' 
 Station.hasMany(Trips, { as: 'endStationTrip', foreignKey: 'idEndStation' })
 Trips.belongsTo(Station, { as: 'endStationTrip', foreignKey: 'idEndStation' })
 
-
+/**
+ * Trailer table
+ */
 var Trailer = sequelize.define('trailer', {
     id: {
         type: Sequelize.INTEGER,
@@ -110,6 +135,7 @@ var Trailer = sequelize.define('trailer', {
 
 Line.hasMany(Trailer, { foreignKey: 'idLine' })
 Trailer.belongsTo(Line, { foreignKey: 'idLine' })
+
 
 
 module.exports = {

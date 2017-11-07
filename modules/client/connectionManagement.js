@@ -8,6 +8,11 @@ const nbMaxVelo = 6;
 
 var self = module.exports = {
 
+    /**
+     * Get all the connection for a given trip
+     * 
+     * @param {Object} body 
+     */
     getConnectionForTrip(body) {
         return new Promise((resolve, reject) => {
 
@@ -39,6 +44,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Compare the date entered with the day, the user can't book after 17h for the next day 
+     * 
+     * @param {String[]} date 
+     */
     compareDate(date) {
         date = date.split(',');
         var dateTemp = date[0].split('-');
@@ -51,6 +61,11 @@ var self = module.exports = {
 
     },
 
+    /**
+     * Send a request to the timetable API
+     * 
+     * @param {Object} body 
+     */
     requestAPI(body) {
         return new Promise((resolve, reject) => {
             database.Station.findById(body.depart).then((stationDepart) => {
@@ -73,9 +88,10 @@ var self = module.exports = {
     },
 
     /**
-     * retourne un tableau de trips
-     * @param {*} connection 
-     * @returns {Promise<[]>}
+     * Retun a tab of trips
+     * 
+     * @param {String[]} connection 
+     * @param {Object} body 
      */
     resolveHoraire(connection, body) {
         return new Promise((resolve, reject) => {
@@ -111,7 +127,8 @@ var self = module.exports = {
     },
     /**
      * Prend un parametre un trip et retourne un trip
-     * @param {*} legTemp 
+     * 
+     * @param {Line} legTemp 
      */
     isLineinDB(legTemp) {
         return new Promise((resolve, reject) => {
@@ -142,6 +159,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * check the total number of bikes in the db for a given leg
+     * 
+     * @param {Line} legTemp 
+     */
     checkNBVeloOnLine(legTemp) {
         return new Promise((resolve, reject) => {
             
@@ -161,6 +183,12 @@ var self = module.exports = {
             
         })
     },
+
+    /**
+     * Get the starting hour of a line, not the hour the bus pass by the station
+     * 
+     * @param {Line} legTemp 
+     */
     findRealStartHour(legTemp){
         return new Promise((resolve,reject) => {
             database.Line.find({
