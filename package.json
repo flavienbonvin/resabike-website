@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "resetDB": "node ./res/resetDB.js",
-    "killPort": "node ./res/killPort.js"
+    "killPort": "node ./res/killPort.js",
+    "export": "node ./res/export.js"
   },
   "dependencies": {
     "axios": "^0.16.2",

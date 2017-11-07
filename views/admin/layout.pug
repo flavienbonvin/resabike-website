@@ -25,7 +25,7 @@ block content
                         option(value="fr")= langs.langFrench
                         option(value="de")= langs.langGerman
                         option(value="en")= langs.langEnglish
-                a(class="item iconItem")
-                    img#logoutImage(src="/media/exit.png", href="/" + langUsed + "/admin/logout")
+                a(class="item iconItem", href="/" + langUsed + "/admin/logout")
+                    img#logoutImage(src="/media/exit.png")
             div.ui.attached.segment
                 block contentAdmin
