@@ -6,7 +6,8 @@ const sha256 = require('sha256');
 var self = module.exports = {
 
     /**
-    * 
+    * Create a new user 
+    *
     * @param {User} user 
     */
     createUser(body) {
@@ -145,9 +146,10 @@ var self = module.exports = {
             })
         })
     },
-        /**
+    
+    /**
      * Delete a zone
-     * @param {string} body 
+     * @param {Object} body 
      */
     deleteUser(body) {
         return new Promise((resolve, reject) => {
@@ -162,6 +164,12 @@ var self = module.exports = {
             })
         })
     },
+
+    /**
+     * Get a user by it's id (idSearch)
+     * 
+     * @param {Number} idSearch 
+     */
     getUser(idSearch){
         return new Promise((resolve, reset) => {
             database.User.findById(idSearch).then((userTemp) => {

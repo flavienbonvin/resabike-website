@@ -18,6 +18,9 @@ var trailer = class Trailer {
         this.idLine = idLine;
     }
 
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize() {
         return {
             id: this.id,

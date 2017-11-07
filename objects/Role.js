@@ -10,6 +10,9 @@ var role = class Role {
         this.name = name;
     }
 
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize() {
         return {
             id: this.id,

@@ -10,6 +10,9 @@ var zone = class Zone {
         this.name = name;
     }
     
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize() {
         return {
             id: this.id,

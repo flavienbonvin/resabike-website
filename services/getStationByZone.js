@@ -1,6 +1,9 @@
 const database = require('../modules/database')
+
 /**
- * Get list of all the station by an id zone
+ * Get all stations in a zone
+ * 
+ * @param {Object} body
  */
 module.exports = (body) => {
     return new Promise((resolve, reject) => {

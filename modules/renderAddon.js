@@ -1,4 +1,10 @@
 var self = module.exports = {
+
+    /**
+     * Display a nice error message
+     * 
+     * @param {String} data 
+     */
     readableObject(data) {
         var html = '<ul>';
         for(var label in data){

@@ -3,6 +3,10 @@ var email = require('../email');
 const maxBikeWithTrailer = 20;
 
 var self = module.exports = {
+
+    /**
+     * Get all trailers from the database that have a 0 status (meaning they have to be managed) 
+     */
     getAllTrailer() {
         return new Promise((resolve, reject) => {
             db.Trailer.findAll({
@@ -24,6 +28,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Handle action if zone admin or system admin allow the use of a trailer in a given line at a given time
+     * 
+     * @param {Number} id 
+     */
     takeTrailer(id) {
         return new Promise((resolve, reject) => {
             self.updateTrailerAndReturn(id, 1).then((trailer) => {
@@ -54,6 +63,12 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Change the status of a given trailer (trailerUsed) to 1 (1=handled, 0=to handle)
+     * 
+     * @param {Number} id 
+     * @param {Number} trailerUsed 
+     */
     updateTrailerAndReturn(id, trailerUsed) {
         return new Promise((resolve, reject) => {
             db.Trailer.update({
@@ -76,6 +91,12 @@ var self = module.exports = {
 
         })
     },
+
+    /**
+     * Update the trip where the trailer was given, puts the status of the trip to true 
+     * 
+     * @param {Trailer} trailer 
+     */
     updateTripsAndReturn(trailer) {
         return new Promise((resolve, reject) => {
             db.Trips.update({
@@ -103,6 +124,12 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Update the number of bike of a trailer tu the number of bikes given in parameters
+     * 
+     * @param {Number} id 
+     * @param {Number} nbrVelo 
+     */
     updateBikeNumber(id, nbrVelo) {
         return new Promise((resolve, reject) => {
             db.Trailer.update({
@@ -118,6 +145,10 @@ var self = module.exports = {
 
         })
     },
+
+    /**
+     * Update all bike number of all the trailers in the db, if there is no bikes, the trailer is deleted
+     */
     updateAllTrailer() {
         return new Promise((resolve, reject) => {
             db.Trailer.findAll({
@@ -169,6 +200,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Check if books are ok, if they are, send a OK email
+     * 
+     * @param {Number} idBook 
+     */
     checkIsBookIsOk(idBook) {
         return new Promise((resolve, reject) => {
             db.Trips.findAll({
@@ -224,6 +260,12 @@ var self = module.exports = {
             })
         })
     },
+
+    /**
+     * Destroy trips and when a trailer isn't givent to a given line, send a ko email
+     * 
+     * @param {Number} idBook 
+     */
     destroyBook(idBook) {
         return new Promise((resolve, reject) => {
             db.Book.find({
@@ -264,6 +306,11 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Handle action if zone admin or system admin don't allow the use of a trailer in a given line at a given time
+     * 
+     * @param {Number} id 
+     */
     dontTakeTailer(id) {
         return new Promise((resolve, reject) => {
             self.updateTrailerAndReturn(id, 0).then((trailer) => {
@@ -292,16 +339,31 @@ var self = module.exports = {
         })
     },
 
+    /**
+     * Send a email to the mail adress to confirm the booking
+     * 
+     * @param {String} mail 
+     * @param {String} heure 
+     * @param {String} stationStart 
+     */
     sendEmailOk(mail, heure, stationStart) {
         return new Promise((resolve, reject) => {
-            email.createEmail(mail, "Booking confirmation", `Votre reservation du ${heure} au départ de ${stationStart} a été confirmée`).then(() => {
+            email.createEmail(mail, "Booking confirmation", `Your reservation of the ${heure} going from ${stationStart} is confirmed`).then(() => {
                 resolve();
             })
         })
-    },
+    },    
+    
+    /**
+     * Send a email to the mail adress to say that the booking isn't OK
+     * 
+     * @param {String} mail 
+     * @param {String} heure 
+     * @param {String} stationStart 
+     */
     sendEmailKo(mail, heure, stationStart) {
         return new Promise((resolve, reject) => {
-            email.createEmail(mail, "Booking cancel", "Votre reservation du ${heure} au départ de ${stationStart} a été annulée").then(() => {
+            email.createEmail(mail, "Booking cancel", `Your reservation of the ${heure} going from ${stationStart} is cancelled`).then(() => {
                 resolve();
             })
         })

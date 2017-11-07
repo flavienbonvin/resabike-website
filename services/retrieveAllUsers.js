@@ -1,5 +1,9 @@
 const database = require('../modules/database');
 
+/**
+ * Get all users 
+ * 
+ */
 module.exports = (query,session) => {
     return new Promise((resolve, reject) => {
         var userInfo = session.userInfo;

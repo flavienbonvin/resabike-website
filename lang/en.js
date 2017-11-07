@@ -1,4 +1,7 @@
 module.exports = {
+    /**
+     * English translation
+     */
     /*
         ADMIN
     */

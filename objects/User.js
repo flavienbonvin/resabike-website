@@ -18,6 +18,9 @@ var user = class User {
         this.idZone = idZone;
     }
 
+    /**
+     * Return an object usable by sequelize
+     */
     convertToSequelize() {
         return {
             id: this.id,

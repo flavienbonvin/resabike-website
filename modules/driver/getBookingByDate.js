@@ -2,6 +2,11 @@ var database = require('../database');
 
 module.exports = {
 
+    /**
+     * Get all the book for a given line
+     * 
+     * @param {Object} body 
+     */
     getBooking(body) {
         return new Promise((resolve, reject) => {
             var date = new Date();
@@ -43,6 +48,12 @@ module.exports = {
             })
         })
     },
+
+    /**
+     * Find the detail of a given Trailer
+     * 
+     * @param {Object} body 
+     */
     getDetailsBooking(body){
         return new Promise((resolve,reject) => {
             database.Trailer.findOne({

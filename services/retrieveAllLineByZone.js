@@ -1,5 +1,10 @@
 const database = require('../modules/database')
 
+/**
+ * Retrive all line by zone
+ * 
+ * @param {Object} body
+ */
 module.exports = (body) => {
     return new Promise((resolve, reject) => {
         database.Line.findAll({

@@ -7,7 +7,8 @@ module.exports = {
 
     /**
      * Create a new zone
-     * @param {string} body 
+     * 
+     * @param {Object} body 
      */
     createZone(body) {
         return new Promise((resolve, reject) => {
@@ -32,7 +33,8 @@ module.exports = {
 
     /**
      * Delete a zone
-     * @param {string} body 
+     * 
+     * @param {Object} body 
      */
     deleteZone(body) {
         return new Promise((resolve, reject) => {
@@ -47,9 +49,11 @@ module.exports = {
             })
         })
     },
+    
     /**
      * Update a given zone
-     * @param {string} body 
+     * 
+     * @param {Object} body 
      */
     updateZone(body) {
         return new Promise((resolve, reject) => {
@@ -66,6 +70,7 @@ module.exports = {
                 })
         })
     },
+
     /**
      * List all zones and the line they have
      */

@@ -1,5 +1,15 @@
 var connection = class Connection {
 
+    /**
+     * 
+     * @param {String} nameStationDeparture 
+     * @param {Number} idStationDeparture 
+     * @param {String} nameStationDestination 
+     * @param {Number} idStationDestination 
+     * @param {String[]} departure 
+     * @param {Number} tripDuration 
+     * @param {String} tripsInfo 
+     */
     constructor(nameStationDeparture,idStationDeparture,nameStationDestination, idStationDestination, departure, tripDuration, tripsInfo){
         this.nameStationDeparture = nameStationDeparture;
         this.idStationDeparture = idStationDeparture;
