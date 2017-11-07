@@ -24,7 +24,10 @@ var self = module.exports = {
                     var trips = [];
                     var trailersPromise = [];
                     var status = true;
-                    var dateAffichage = stationsId[0].departTime.split(' ')[0];
+                    console.log('----------------------');
+                    console.log(stationsId[0].departTime)
+                    var dateAffichage = stationsId[0].departTime.split(' ')[0].split('-');
+                    dateAffichage = dateAffichage[2]+'.'+dateAffichage[1]+'.'+dateAffichage[0];
 
                     // on crée tous les objets trip pour les ajouter a la db
                     var trip;
@@ -141,15 +144,10 @@ var self = module.exports = {
                 for (var i = 0; i < res.length; i += 3) {
                     var j = i / 3;
 
-                    var dateTemp = body['departTime' + j].split(" ");
-
-                    var dateCurrent = dateTemp[0].split('.');
-                    dateCurrent = dateCurrent[2] + '-' + dateCurrent[1] + '-' + dateCurrent[0];
-
                     var temp = {
                         idDepart: res[i].id,
                         realDepart: res[i + 2],
-                        departTime: dateCurrent + ' ' + dateTemp[1],
+                        departTime: body['departTime' + j],
                         idFin: res[i + 1].id,
                         numeroLine: body['idLine' + j],
                         nbPlaceRestant: Number(body['nbPlaceRestant' + j])
