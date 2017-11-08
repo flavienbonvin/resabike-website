@@ -23,7 +23,7 @@ var self = module.exports = {
         return new Promise((resolve, reject) => {
             var token = sha256('token' + body.bookPseudo + new Date() + Math.random());
             //on crée une reservation avec le status en attente
-            var book = new Book(null, body.bookIdStartStation, body.bookIdEndStation, body.bookPseudo, body.bookEmail, body.bookNumber, token, false);
+            var book = new Book(null, body.bookIdStartStation, body.bookIdEndStation, body.bookPseudo, body.bookEmail, body.bookNumber, token, false, body.bookIdZone);
             database.Book.create(book.convertToSequelize()).then((book) => {
                 // on recupère la reservation et on demande toutes les lignes dans la reservation
                 self.getAllStationId(body).then((stationsId) => {
@@ -293,43 +293,6 @@ var self = module.exports = {
                 }
             }).then((bookTemp) => {
                 resolve();
-            }).catch((error) => {
-                reject(error);
-            })
-        })
-    },
-
-    /**
-     * Find all booking in the database
-     */
-    findAllBooking() {
-        return new Promise((resolve, reject) => {
-            database.Book.findAll({
-                include: [
-                    {
-                        model: database.Station,
-                        as: 'startStationBook'
-                    },
-                    {
-                        model: database.Station,
-                        as: 'endStationBook'
-                    },
-                    {
-                        model: database.Trips
-                    }
-                ]
-            }).then((book) => {
-                book = JSON.parse(JSON.stringify(book));
-                for (var i in book) {
-                    console.log(book[i].trips)
-                    var dateTimeTemp = new Date(book[i].trips[0].startHour).toLocaleString().split(' ');
-                    var date = dateTimeTemp[0].split('-');
-                    date = date[2] + '.' + date[1] + '.' + date[0];
-                    var time = dateTimeTemp[1].split(':');
-                    time = time[0] + ':' + time[1];
-                    book[i].trips[0].startHour = date + ' - ' + time;
-                }
-                resolve(book);
             }).catch((error) => {
                 reject(error);
             })

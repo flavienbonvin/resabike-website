@@ -9,9 +9,10 @@ var book = class Book {
      * @param {Number} number 
      * @param {string} token 
      * @param {string} status
+     * @param {int} idZone
      */
 
-    constructor(id, idStartStation, idEndStation, pseudo, email, number, token, status) {
+    constructor(id, idStartStation, idEndStation, pseudo, email, number, token, status, idZone) {
         this.id = id;
         this.idStartStation = idStartStation;
         this.idEndStation = idEndStation;
@@ -20,6 +21,7 @@ var book = class Book {
         this.number = number;
         this.token = token;
         this.status = status;
+        this.idZone = idZone;
     }
 
     /**
@@ -34,7 +36,8 @@ var book = class Book {
             email: this.email,
             number: this.number,
             token: this.token,
-            status : this.status
+            status : this.status,
+            idZone : this.idZone
         }
     }
 }

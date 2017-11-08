@@ -5,7 +5,7 @@ const userManagement = require('../modules/admin/userManagement');
 const zoneManagement = require('../modules/admin/zoneManagement');
 const trailerManagement = require('../modules/admin/trailerManagement');
 const loginManagement = require('../modules/admin/loginManagement');
-const bookManagement = require('../modules/client/bookManagement');
+const bookManagement = require('../modules/admin/bookManagement');
 
 const User = require('../objects/User');
 
@@ -226,7 +226,7 @@ router.get('/logout', (req, res, next) => {
 */
 //BOOK PAGE
 router.get('/book', (req, res, next) => {
-  bookManagement.findAllBooking().then((bookList) => {
+  bookManagement.findAllBooking(req.session.userInfo).then((bookList) => {
     res.locals.noOnglet = 4;
     res.render('admin/manageBooking', { title: "Resabike | Admin - Book", bookList: bookList })
   })

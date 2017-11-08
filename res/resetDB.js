@@ -60,10 +60,10 @@ db.sync().then(() => {
                         LineManagement.prepareStation(body).then(() => {
                             db.Book.bulkCreate(books).then(() => {
                                 db.Trips.bulkCreate(trips).then(() => {
-                                    createBook(1, 11, 3).then(() => {
-                                        createBook(26, 34, 3).then(() => {
-                                            createBook(2, 25, 10).then(() => {
-                                                createBook(3, 23, 4).then(() => {
+                                    createBook(1, 11, 3, 1).then(() => {
+                                        createBook(26, 34, 3, 2).then(() => {
+                                            createBook(2, 25, 10, 1).then(() => {
+                                                createBook(3, 23, 4, 1).then(() => {
                                                     db.close();
                                                 })
                                             })
@@ -82,7 +82,7 @@ db.sync().then(() => {
 
 });
 
-function createBook(depart, fin, nbBike) {
+function createBook(depart, fin, nbBike, zone) {
     return new Promise((resolve, reject) => {
         var today = new Date();
         today.setDate(today.getDate() + 2);
@@ -91,7 +91,8 @@ function createBook(depart, fin, nbBike) {
         var body = {
             date: dateTomorrow,
             depart: depart,
-            destination: fin
+            destination: fin,
+            zone: zone
         }
         ConnectionManagement.getConnectionForTrip(body).then((list) => {
             var horaire = list[1][0];
@@ -101,6 +102,7 @@ function createBook(depart, fin, nbBike) {
                 bookNumber: nbBike,
                 bookIdStartStation: horaire.idStationDeparture,
                 bookIdEndStation: horaire.idStationDestination,
+                bookIdZone : zone
             }
             var j = 0;
             for (var i = 0; i < horaire.tripsInfo.length; i++) {

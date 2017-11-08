@@ -68,6 +68,8 @@ Station.hasMany(Book, { as: 'startStationBook', foreignKey: 'idStartStation' });
 Book.belongsTo(Station, { as: 'startStationBook', foreignKey: 'idStartStation' });
 Station.hasMany(Book, { as: 'endStationBook', foreignKey: 'idEndStation' });
 Book.belongsTo(Station, { as: 'endStationBook', foreignKey: 'idEndStation' });
+Zone.hasMany(Book, {foreignKey: 'idZone' });
+Book.belongsTo(Zone, {foreignKey: 'idZone' });
 
 
 /**
