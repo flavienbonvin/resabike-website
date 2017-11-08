@@ -30,8 +30,8 @@ var self = module.exports = {
                     var trips = [];
                     var trailersPromise = [];
                     var status = true;
-                    console.log('----------------------');
-                    console.log(stationsId[0].departTime)
+                    
+                    
                     var dateAffichage = stationsId[0].departTime.split(' ')[0].split('-');
                     dateAffichage = dateAffichage[2]+'.'+dateAffichage[1]+'.'+dateAffichage[0];
 
@@ -49,8 +49,9 @@ var self = module.exports = {
                         trailersPromise.push(self.checkTrailer(trailer));
 
                     }
-
+                    
                     Promise.all(trailersPromise).then(() => {
+                        
                         database.Trips.bulkCreate(trips).then(() => {
                             if (status) {
                                 database.Book.update({
@@ -213,21 +214,21 @@ var self = module.exports = {
                     }
                 ]
             }).then((line) => {
+                
                 var dateTemp = body['departTime' + i].split(" ");
                 var dateCurrent = dateTemp[0].split('.');
                 dateCurrent = dateCurrent[2] + '-' + dateCurrent[1] + '-' + dateCurrent[0];
                 dateTemp[1] = dateTemp[1].split(':');
                 dateTemp[1] = dateTemp[1][0] + ':' + dateTemp[1][1]
                 var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];
-                console.log("Api to get realHour :" + urlApi)
+                
                 axios.get(urlApi).then((response) => {
                     var connections = response.data.connections;
-                    console.log(response.data)
+                    
                     for (var j = 0; j < connections.length; j++) {
                         var realDep = new Date(connections[j].departure);
                         var realFin = new Date(connections[j].arrival);
                         var currentTime = new Date(dateCurrent + ' ' + dateTemp[1] + ':00');
-                        console.log(realDep + " " + currentTime + " " + realFin);
                         if (connections[j].legs[0].line && connections[j].legs[0].line == line.id.split('-')[1]) {
                             if (currentTime >= realDep && currentTime <= realFin) {
                                 resolve(realDep);
@@ -265,7 +266,7 @@ var self = module.exports = {
                     }
                 ]
             }).then((book) => {
-                console.log(book)
+                
                 book = JSON.parse(JSON.stringify(book));
                 var dateTimeTemp = new Date(book.trips[0].startHour).toLocaleString().split(' ');
                 var date = dateTimeTemp[0].split('-');

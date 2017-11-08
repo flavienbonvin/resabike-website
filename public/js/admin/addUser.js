@@ -9,7 +9,7 @@ function getAllZone() {
         type: 'GET',
         success: (res) => {
             var txt = '<option value="">Zone</option>';
-            console.log(res)
+            
             for (var i in res) {
                 txt += '<option value="' + res[i].id + '">' + res[i].name + '</option>';
             }

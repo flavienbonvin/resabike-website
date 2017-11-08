@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize('dbresabike', 'max', 'pass$1234', {
     host: 'localhost',
     dialect: 'mysql',
+    logging: false,
     pool: {
         max: 5,
         min: 0,

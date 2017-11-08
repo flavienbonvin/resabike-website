@@ -12,16 +12,16 @@ var files = [
 
 if (fs.existsSync(exportDirectory)) {
     rimraf(exportDirectory, function () {
-        console.log('salut')
+        
         fs.mkdirSync("../export");
         copyfolder(0).then(() =>{
-            console.log('fini');
+            
         })
     })
 }else{
     fs.mkdirSync("../export");
     copyfolder(0).then(() =>{
-        console.log('fini');
+        
     })
 }
 

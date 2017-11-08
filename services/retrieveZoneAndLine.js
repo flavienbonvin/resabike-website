@@ -12,7 +12,7 @@ module.exports = function(query,session) {
                 id: userInfo.idZone
             }
         }
-        console.log(where);
+        
         database.Zone.findAll({
             where,
             include: [

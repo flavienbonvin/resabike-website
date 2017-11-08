@@ -30,7 +30,7 @@ var self = module.exports = {
             }).then((book) => {
                 book = JSON.parse(JSON.stringify(book));
                 for (var i in book) {
-                    console.log(book[i].trips)
+                    
                     var dateTimeTemp = new Date(book[i].trips[0].startHour).toLocaleString().split(' ');
                     var date = dateTimeTemp[0].split('-');
                     date = date[2] + '.' + date[1] + '.' + date[0];

@@ -32,7 +32,7 @@ function readDir(path) {
     var pathToCopy = baseExport + path.replace('..', '');
     for (var i = 0; i < list.length; i++) {
         for (var j = 0; j < toIgnore.length; j++) {
-            console.log(list[i] + ' : ' + toIgnore[j]);
+            
             var isIgnore = false;
             if (list[i].indexOf(toIgnore[j]) != -1) {
                 isIgnore = true;
@@ -41,18 +41,18 @@ function readDir(path) {
         }
         if (!isIgnore) {
             if (fs.lstatSync(path + list[i]).isDirectory()) {
-                console.log('mkdir de ' + list[i]);
+                
                 fs.mkdir(pathToCopy + list[i]);
                 readDir(path+list[i]+'/');
             } else {
-                console.log('copie de ' + path + list[i] + ' vers ' + pathToCopy + list[i]);
+                
                 fs.createReadStream(path + list[i]).pipe(fs.createWriteStream(pathToCopy + list[i]));
             }
         }
     }
 }
 
-//console.log(list);
+//
 if (fs.existsSync(baseExport)) {
     rmdirAll(baseExport);
 }

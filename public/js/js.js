@@ -13,7 +13,7 @@ $(document).ready(function () {
 })
 
 $('#langSwitch').click(function (v) {
-    console.log(v.target.value);
+    
 })
 
 function changeLanguage(lang) {

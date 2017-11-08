@@ -11,7 +11,7 @@ function getAllLines() {
         data: 'zoneId=' + 1,
         success: function(res) {
             var txt = '<option value="">Zone</option>';
-            console.log(res)
+            
             for (var i in res){
                 txt += '<option value="' + res[i].id + '">' + res[i].id + ' ' + res[i].startStation.name + ' - ' + res[i].endStation.name + '</option>';
             }

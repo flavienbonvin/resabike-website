@@ -18,7 +18,7 @@ execute('netstat -a -o -n', function (res) {
                 var idProcess = t2[t2.length-1];
                 i = t.length;
                 execute('taskkill /F /PID '+idProcess,function(res){
-                    console.log(res);
+                    
                 });
             }
 

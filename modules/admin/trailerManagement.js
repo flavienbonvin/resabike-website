@@ -40,7 +40,7 @@ var self = module.exports = {
                     var promiseTemp = [];
                     var nbVelo = 0;
                     for (var i = 0; i < trips.length; i++) {
-                        console.log(trips[i]);
+                        
                         nbVelo += Number(trips[i].book.number);
                         if (nbVelo <= 20) {
                             // check if book is ok
@@ -166,7 +166,7 @@ var self = module.exports = {
                 }
                 Promise.all(promises).then((sum) => {
                     var promisesTrailer = []
-                    console.log(sum)
+                    
                     for (var i in sum) {
                         sum[i] = sum[i] || 0;
 
@@ -244,7 +244,7 @@ var self = module.exports = {
                                             }
                                         ]
                                     }).then((trip) => {
-                                        self.sendEmailOk(book.email, trip.startHour, trip.startStationTrip.name).then(() => {
+                                        self.sendEmailOk(book.email, trip.startHour, trip.startStationTrip.name, book.pseudo).then(() => {
                                             resolve();
                                         })
                                     })
@@ -285,7 +285,7 @@ var self = module.exports = {
                         }
                     ]
                 }).then((trip) => {
-                    self.sendEmailKo(book.email, trip.startHour, trip.startStationTrip.name).then(() => {
+                    self.sendEmailKo(book.email, trip.startHour, trip.startStationTrip.name, book.pseudo).then(() => {
                         db.Trips.destroy({
                             where: {
                                 idBook: idBook
@@ -296,7 +296,7 @@ var self = module.exports = {
                                     id: idBook
                                 }
                             }).then(() => {
-                                console.log('Max')
+                                
                                 resolve(-1);
                             })
                         })
@@ -346,9 +346,9 @@ var self = module.exports = {
      * @param {String} heure 
      * @param {String} stationStart 
      */
-    sendEmailOk(mail, heure, stationStart) {
+    sendEmailOk(mail, heure, stationStart, name) {
         return new Promise((resolve, reject) => {
-            email.createEmail(mail, "Booking confirmation", `Your reservation of the ${heure} going from ${stationStart} is confirmed`).then(() => {
+            email.createEmail(mail, "Booking confirmation", `${name}, Your reservation of the ${self.transformDate(heure)} going from ${stationStart} is confirmed`).then(() => {
                 resolve();
             })
         })
@@ -361,11 +361,18 @@ var self = module.exports = {
      * @param {String} heure 
      * @param {String} stationStart 
      */
-    sendEmailKo(mail, heure, stationStart) {
+    sendEmailKo(mail, heure, stationStart, name) {
         return new Promise((resolve, reject) => {
-            email.createEmail(mail, "Booking cancel", `Your reservation of the ${heure} going from ${stationStart} is cancelled`).then(() => {
+            email.createEmail(mail, "Booking cancel", `${name}, Your reservation of the ${self.transformDate(heure)} going from ${stationStart} is cancelled`).then(() => {
                 resolve();
             })
         })
+    },
+    /**
+     * Transform date to readable date
+     * @param {Date} heure 
+     */
+    transformDate(heure){
+        return heure.getDate()+'.'+heure.getMonth()+'.'+heure.getFullYear()+" "+heure.getHours()+":"+heure.getMinutes();
     }
 }

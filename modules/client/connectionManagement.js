@@ -132,7 +132,7 @@ var self = module.exports = {
      */
     isLineinDB(legTemp) {
         return new Promise((resolve, reject) => {
-            console.log(legTemp.idLine+" "+legTemp.depart+" "+legTemp.sortie)
+            
             if (legTemp.idLine == -1) {
                 resolve(legTemp);
                 return;
@@ -144,7 +144,7 @@ var self = module.exports = {
                     }
                 }
             }).then((line) => {
-                console.log(line);
+                
                 if (line == null) {
                     legTemp.idLine = -1;
                     resolve(legTemp);
@@ -207,23 +207,21 @@ var self = module.exports = {
                 ]
             }).then((line) => {
                 var dateTemp = legTemp.departTime.split(" ");
-                console.log(dateTemp);
+                
                 dateTemp[0] = dateTemp[0].split('-');
                 dateTemp[0] = dateTemp[0][2]+'-'+dateTemp[0][1]+'-'+dateTemp[0][0];
                 dateTemp[1] = dateTemp[1].split(':');
                 dateTemp[1] = dateTemp[1][0]+':'+dateTemp[1][1]
-                console.log(dateTemp);
+                
                 var urlApi = "https://timetable.search.ch/api/route.en.json?from=" + line.startStation.name + "&to=" + line.endStation.name + "&date=" + dateTemp[0] + "&time=" + dateTemp[1];
-                console.log("Api to get realHour :"+urlApi)
+                
                 axios.get(urlApi).then((response) => {
                     var connections = response.data.connections;
-                    console.log(JSON.parse(JSON.stringify(connections)));
                     for(var j = 0;j<connections.length;j++){
                         var realDep = new Date(connections[j].departure);
                         var realFin = new Date(connections[j].arrival);
                         var currentTime = new Date(legTemp.departTime);
-                        console.log(realDep+" "+currentTime+" "+realFin);
-                        console.log("debug "+connections[j].legs[0].line +"=="+ line.id.split('-')[1])
+
                         if(connections[j].legs[0].line && connections[j].legs[0].line == line.id.split('-')[1]){
                             if(currentTime>=realDep && currentTime<=realFin){
                                 resolve(realDep);

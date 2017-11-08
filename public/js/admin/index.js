@@ -33,7 +33,7 @@ function refreshZoneWithDetails(){
         type: 'GET',
         success: function(res) {
             var txt = '';
-            console.log(res);
+            
             for (var i in res) {
                 var zone = res[i];
                 txt += '<div id="listZone">' + 

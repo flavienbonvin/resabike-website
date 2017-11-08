@@ -12,7 +12,7 @@ const User = require('../objects/User');
 
 
 router.use((req, res, next) => {
-  console.log(req.url)
+  
   if (!req.session.isConnected && req.url != '/login') {
     res.redirect('/' + res.locals.langUsed + '/admin/login');
   } else if (req.url == '/logout') {
@@ -215,9 +215,9 @@ router.post('/login', (req, res, next) => {
 */
 //LOGOUT PAGE
 router.get('/logout', (req, res, next) => {
-  console.log(req.session);
+  
   loginManagement.logout(req.session);
-  console.log(req.session);
+  
   res.redirect('/' + res.locals.langUsed + '/admin');
 });
 

@@ -18,7 +18,7 @@ function autoComplete(t, id) {
         url: '/services/autoCompletionAPI?part=' + t.value,
         type: 'GET',
         success: function (res) {
-            console.log(res);
+            
             var txt = '';
             for (var i = 0; i < res.length; i++) {
                 txt += '<option value="' + res[i] + '">' + res[i] + '</option>';

@@ -18,7 +18,7 @@ router.post('/*', function (req, res, next) {
     temp(req.body, req.session).then((response) => {
         res.send(response)
     }).catch((error) => {
-        console.log(error)
+        
     })
 });
 

@@ -17,7 +17,7 @@ var self = module.exports = {
     getStopsForLine(from, to) {
         return new Promise((resolve, reject) => {
             var r = null;
-            console.log("API QUERRY: https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to)
+            
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
                 //Check if there is more thant one leg, a leg is a change of bus (and change of line), if there is a change, the line is wrong
                 r = response;
@@ -61,13 +61,15 @@ var self = module.exports = {
                                 + response[i][0][1].name + '(' + response[i][1] + ')\n';
                             errorArray.push([response[i][0][0].name, response[i][0][response[i][0].length - 1].name, response[i][1]]);
                         }
-                        console.log(errorArray)
+                        
                         reject([error, errorArray]);
+                    }).catch((err) => {
+                        reject("The API returns " + err);
                     })
 
                 }
             }).catch((error) => {
-                console.log(error);
+                
                 var readableObj = renderAddon.readableObject(r.data)
                 reject("The API returns " + readableObj);
             })
@@ -93,6 +95,8 @@ var self = module.exports = {
                 }
                 self.correctStation(nameToFind, to).then((response) => {
                     resolve(response);
+                }).catch((error) => {
+                    reject(error);
                 })
             })
         })
@@ -108,7 +112,7 @@ var self = module.exports = {
         return new Promise((resolve, reject) => {
             var stops = new Array();
             var idLine;
-            console.log("API QUERRY2: https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to)
+            console.log("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to);
             axios.get("https://timetable.search.ch/api/route.en.json?from=" + from + "&to=" + to).then((response) => {
 
                 var type = response.data.connections[0].legs[0].type;
@@ -190,7 +194,7 @@ var self = module.exports = {
                     if (stopTemp == null) {
                         var stop = stops[i].convertToSequelize();
                         toAdd.push(stop);
-                        console.log('Inserting in DB ' + stop.name);
+                        
                     }
                     else
                         console.error('Alredy in DB ' + stopTemp.name);
@@ -239,7 +243,7 @@ var self = module.exports = {
                 }).then((lineTemp) => {
                     if (lineTemp == null) {
                         database.Line.create(line.convertToSequelize()).then((line) => {
-                            console.log('Inserting linestation in DB')
+                            
                             var lineStationsToAdd = [];
                             //We have to save the order of the stops on the line, that's why we create this array of Station to add
                             for (var i = 0; i < stopsTemp.length; i++) {

@@ -104,14 +104,14 @@ var self = module.exports = {
                 }
             }).then((userTemp) => {
                 if (userTemp == null) {
-                    console.log("Creating a new user");
-                    console.log(user);
+                    
+                    
                     database.User.create(user.convertToSequelize()).then(() => {
                         resolve('create');
                     });
                 } else {
-                    console.log("Updating a user");
-                    console.log(user);
+                    
+                    
                     var infoToUpdate = {
                         pseudo: user.pseudo,
                         email: user.email,

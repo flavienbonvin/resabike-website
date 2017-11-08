@@ -27,7 +27,7 @@ var server = http.createServer(app);
  */
 
 server.listen(port,function(){
-  console.log('listening on *:'+port);
+  
   opn('http://127.0.0.1:'+port)
 });
 server.on('error', onError);

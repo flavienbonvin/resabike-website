@@ -14,8 +14,8 @@ module.exports = (query,session) => {
                 idZone : userInfo.idZone
             }
         }
-        console.log(userInfo);
-        console.log(where);
+        
+        
         database.User.findAll({where}).then((userList) => {
             resolve(userList);
         })
