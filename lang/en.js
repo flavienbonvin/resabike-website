@@ -144,4 +144,10 @@ module.exports = {
     titleTripsWithBikes: 'Trips with bikes',
     tableTitleEnterStation: 'Enter station',
     tableTitleExitStation: 'Exit station',
+
+    //Email
+    titreEmailReservation : 'Your booking of the ',
+    emailReservation : `<p>Hello,</p><p>Your booking has been saved.</p><p>To cancel your booking `,
+    emailReservationAttente : `<p>Hello,</p><p>Your booking is in stand-by. You'll get news soon.</p><p>To cancel your booking `,
+    emailCickHere : `click here`
 }
